@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 
-import 'Views/add_receipt.dart';
-import 'Views/home_screen.dart';
+import 'Views/NewReceipt/add_receipt.dart';
+import 'Views/Home/home_screen.dart';
 import 'Views/loading.dart';
+import 'Views/test_view.dart';
 
 void main() {
   runApp(RootPage());
@@ -18,7 +19,8 @@ class RootPage extends StatelessWidget {
       routes: {
         '/': (context) => Loading(),
         '/home': (context) => HomeScreen(),
-        '/addReceipt': (context) => AddReceipt(),
+        '/newReceipt': (context) => AddReceipt(),
+        '/testView': (context) => TestWidget(),
       },
     );
   }
