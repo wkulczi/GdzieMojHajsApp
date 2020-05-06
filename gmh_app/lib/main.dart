@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/screenutil.dart';
 
 import 'Views/NewReceipt/add_receipt.dart';
 import 'Views/Home/home_screen.dart';
+import 'Views/PhotoSzit/main.dart';
 import 'Views/loading.dart';
+import 'Views/take_photo.dart';
 import 'Views/test_view.dart';
 
 void main() {
@@ -20,6 +21,7 @@ class RootPage extends StatelessWidget {
         '/': (context) => Loading(),
         '/home': (context) => HomeScreen(),
         '/newReceipt': (context) => AddReceipt(),
+        '/camera': (context) => MyApp(),
         '/testView': (context) => TestWidget(),
       },
     );

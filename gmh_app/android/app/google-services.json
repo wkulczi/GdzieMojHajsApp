@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "106384138087",
+    "firebase_url": "https://gmhapp-2fa7f.firebaseio.com",
+    "project_id": "gmhapp-2fa7f",
+    "storage_bucket": "gmhapp-2fa7f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106384138087:android:da4cf775dd02188655d9c2",
+        "android_client_info": {
+          "package_name": "gmh.com.gmh_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106384138087-o75m8udpj39kdhidta6kgj39783smcj2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX6dLuRPBGB5ZwbAZDv4x8-S8PBtIKOrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106384138087-o75m8udpj39kdhidta6kgj39783smcj2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

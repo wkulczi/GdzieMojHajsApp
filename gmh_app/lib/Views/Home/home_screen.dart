@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gmh_app/Constants/colors.dart';
 import 'package:gmh_app/Controllers/product_controller.dart';
@@ -17,9 +19,64 @@ class HomeScreen extends StatefulWidget {
 //todo import new font, prolly roboto or ubuntu
 
 class _HomeScreenState extends State<HomeScreen> {
+  ScrollController scrollController;
+  bool dialVisible = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  ReceiptController receiptController = ReceiptController();
-  ProductController productController = ProductController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController = ScrollController()
+      ..addListener(() {
+        setDialVisible(scrollController.position.userScrollDirection ==
+            ScrollDirection.forward);
+      });
+  }
+
+  void setDialVisible(bool value) {
+    setState(() {
+      dialVisible = value;
+    });
+  }
+
+  Widget buildBody() {
+    return ListView.builder(
+      controller: scrollController,
+      itemCount: 30,
+      itemBuilder: (ctx, i) => ListTile(title: Text('Item $i')),
+    );
+  }
+
+  SpeedDial buildSpeedDial() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22.0),
+      // child: Icon(Icons.add),
+      onOpen: () => print('OPENING DIAL'),
+      onClose: () => print('DIAL CLOSED'),
+      visible: dialVisible,
+      curve: Curves.bounceIn,
+      children: [
+        SpeedDialChild(
+          child: Icon(Icons.add, color: Colors.white),
+          backgroundColor: Colors.deepOrange,
+          onTap: () => print('Czemu'),
+          label: 'Add receipt',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelBackgroundColor: Colors.deepOrangeAccent,
+        ),
+        SpeedDialChild(
+          child: Icon(Icons.camera, color: Colors.white),
+          backgroundColor: Colors.green,
+          onTap: () => Navigator.pushNamed(context, "/camera"),
+          label: 'Take a photo',
+          labelStyle: TextStyle(fontWeight: FontWeight.w500),
+          labelBackgroundColor: Colors.green,
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,15 +134,17 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('pressed');
-//          receiptController.getReceipt(1);
-            Navigator.pushNamed(context, "/newReceipt");
-//          Navigator.of(context).pushNamed('/addReceipt');
-        },
-        child: Icon(Icons.add),
-      ),
+      floatingActionButton:buildSpeedDial()
+
+//      FloatingActionButton(
+//        onPressed: () {
+//          print('pressed');
+////          receiptController.getReceipt(1);
+//            Navigator.pushNamed(context, "/newReceipt");
+////          Navigator.of(context).pushNamed('/addReceipt');
+//        },
+//        child: Icon(Icons.add),
+//      ),
     );
   }
 
