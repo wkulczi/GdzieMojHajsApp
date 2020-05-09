@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class ProductController {
   Future<http.Response> sendReceipt({ReceiptModel receipt}) async {
-    final http.Response response = await http.post('http://192.168.1.79:5000/receipt',
+    final http.Response response = await http.post('http://192.168.137.1:5000/receipt',
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

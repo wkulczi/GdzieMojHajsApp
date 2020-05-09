@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gmh_app/Constants/colors.dart';
 import 'package:gmh_app/Controllers/product_controller.dart';
 import 'package:gmh_app/Models/product_model.dart';
@@ -79,7 +80,6 @@ class _AddReceiptState extends State<AddReceipt> {
                                               {
 
                                                 showSuccessFlushbar(context),
-                                                print("halo?"),
                                                 Navigator.popUntil(context, ModalRoute.withName('/home')),
                                               }
                                             else
@@ -120,8 +120,16 @@ class _AddReceiptState extends State<AddReceipt> {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
+            Align(alignment: Alignment.centerRight,
+              child: InkWell(
+                onTap: (){_receipt.products.removeAt(index); setState(() {});}, child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(8), horizontal: ScreenUtil().setWidth(20)),
+                  child: Icon(Icons.delete_outline, size: ScreenUtil().setHeight(30),),
+                ),
+              ),
+            ),
             formFieldWidget(
-                "Name", (input) => {print(input), _receipt.products[index].name = input}, TextInputType.text),
+                "Name", (input) => {_receipt.products[index].name = input}, TextInputType.text),
             formFieldWidget("Price", (input) => {_receipt.products[index].price = double.parse(input), setState(() {})},
                 TextInputType.number),
             formFieldWidget("Qty", (input) => {_receipt.products[index].quantity = int.parse(input), setState(() {})},
