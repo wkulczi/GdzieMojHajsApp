@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/user/logics/user_logic.dart';
-import '../logics/user_layouts.dart';
+import 'package:gdziemojhajsapp/user/logic/user_logic.dart';
+import '../logic/user_layouts.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   static String tag = 'forget-password-page';

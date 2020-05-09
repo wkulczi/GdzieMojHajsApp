@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/user/logics/user_layouts.dart';
-import 'package:gdziemojhajsapp/user/logics/user_logic.dart';
+import '../logic/user_layouts.dart';
+import 'package:gdziemojhajsapp/user/logic/user_logic.dart';
 import 'package:gdziemojhajsapp/user/pages/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/user/pages/change_password_page.dart';
 import 'package:gdziemojhajsapp/user/pages/change_question_answer_page.dart';

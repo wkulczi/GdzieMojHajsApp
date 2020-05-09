@@ -9,7 +9,7 @@ import 'package:gdziemojhajsapp/user/pages/login_page.dart';
 import '../../main.dart';
 import 'package:http/http.dart' as http;
 
-import '../../main_page.dart';
+import '../../home_page.dart';
 
 class UserValidators {
   static String validatePassword(String value) {
@@ -112,7 +112,7 @@ void actionLogin(var context, Map data) async {
 
     userShowDialog(context, "Sucessfully logged in!", barrierDismissible: false,
         func: () {
-      Navigator.of(context).pushNamed(MainPage.tag);
+      Navigator.of(context).popAndPushNamed(HomePage.tag);
     });
   } else {
     userShowDialog(context, "Invalid login or password!",

@@ -45,13 +45,14 @@ class LayoutTemplates {
       ));
 }
 
-class UserBar extends StatelessWidget implements PreferredSizeWidget {
+class UserAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size preferredSize = Size.fromHeight(60.0);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
         title: Text(
           "GdzieMójHaj\$",
           style: TextStyle(color: Colors.white),
@@ -103,7 +104,7 @@ class UserDefaultInputFrom extends StatelessWidget {
             hintText: this.hint,
             contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
           ),
         ));
   }
@@ -197,9 +198,8 @@ class UserDefaultBackLabel extends StatelessWidget {
 }
 
 class UserDialog extends StatelessWidget {
-
   final String text;
-  final bool barrierDismissible=true;
+  final bool barrierDismissible = true;
 
   const UserDialog({
     @required this.text,
@@ -213,8 +213,7 @@ class UserDialog extends StatelessWidget {
         barrierDismissible: barrierDismissible,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text(this.text,
-                textAlign: TextAlign.center),
+            content: Text(this.text, textAlign: TextAlign.center),
           );
         });
   }
