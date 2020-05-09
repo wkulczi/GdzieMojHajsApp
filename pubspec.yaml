@@ -16,15 +16,27 @@ dependencies:
   json_annotation: ^3.0.0
   flushbar: ^1.10.0
   http: ^0.12.0+4
-
+  fab_circular_menu: ^1.0.0
+  pie_chart: ^3.1.1
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^1.0.0
+  image_test_utils: ^1.0.0
 
 
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - images/jedzenie.jpg
+    - images/sprzet.jpg
+    - images/transport.jpg
+    - images/relaks.jpg
+    - images/mieszkanie.jpg
+    - images/higiena.jpg
+    - images/odziez.jpg
+    - images/rachunki.jpg

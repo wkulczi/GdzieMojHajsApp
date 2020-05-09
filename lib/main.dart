@@ -9,6 +9,8 @@ import 'user/pages/forget_password_page.dart';
 import 'home_page.dart';
 import 'user/pages/change_password_page.dart';
 import 'user/pages/change_question_answer_page.dart';
+import 'package:gdziemojhajsapp/pages/categoryPage.dart';
+import 'package:gdziemojhajsapp/pages/categories.dart';
 
 void main() => runApp(MyApp());
 
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
     AdminModifyUserPage.tag: (context) => AdminModifyUserPage(),
     HomeScreen.tag: (context) => HomeScreen(),
     AddReceipt.tag: (context) => AddReceipt(),
+    CategoryPage.tag: (context) => CategoryPage(),
+    Categories.tag: (context) => Categories()
   };
 
   static final String serverAddress = 'http://192.168.1.23:2137';
