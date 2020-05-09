@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gdziemojhajsapp/main.dart';
-import 'package:gdziemojhajsapp/user/pages/settings_page.dart';
+import 'package:gdziemojhajsapp/pages/settings_page.dart';
 
 class LayoutTemplates {
   static final insideColumnSeparator = SizedBox(height: 20);

@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/user/pages/forget_password_page.dart';
-import 'package:gdziemojhajsapp/user/pages/login_page.dart';
+import 'package:gdziemojhajsapp/pages/forget_password_page.dart';
+import 'package:gdziemojhajsapp/pages/login_page.dart';
 
-import '../../main.dart';
+import '../main.dart';
 import 'package:http/http.dart' as http;
 
-import '../../home_page.dart';
+import '../home_page.dart';
 
 class UserValidators {
   static String validatePassword(String value) {

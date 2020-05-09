@@ -1,11 +1,13 @@
+
+
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/Constants/colors.dart';
-import 'package:gdziemojhajsapp/Controllers/product_controller.dart';
-import 'package:gdziemojhajsapp/Models/product_model.dart';
-import 'package:gdziemojhajsapp/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/Views/Home/Widgets/default_gradient_decoration.dart';
+import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
+import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
+import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
+import 'package:gdziemojhajsapp/pages/Home/Widgets/default_gradient_decoration.dart';
 
 class AddReceipt extends StatefulWidget {
   static var tag = "/newReceipt";

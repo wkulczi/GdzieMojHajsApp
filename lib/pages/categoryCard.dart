@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/Category.dart';
+import 'package:gdziemojhajsapp/pages/Category.dart';
 
 
 class CategoryCard extends StatelessWidget {

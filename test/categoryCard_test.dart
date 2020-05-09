@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image_test_utils/image_test_utils.dart';
-import 'package:gdziemojhajsapp/categoryCard.dart';
-import 'package:gdziemojhajsapp/Category.dart';
+import 'package:gdziemojhajsapp/pages/categoryCard.dart';
+import 'package:gdziemojhajsapp/pages/Category.dart';
 
 void main() {
    Category category = Category(name: "Jedzenie",

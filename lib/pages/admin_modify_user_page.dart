@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gdziemojhajsapp/main.dart';
-import 'package:gdziemojhajsapp/user/logic/user_logic.dart';
-import '../logic/user_layouts.dart';
+import 'package:gdziemojhajsapp/logic/user_logic.dart';
+import 'UserLayouts/user_layouts.dart';
 
 class AdminModifyUserPage extends StatefulWidget {
   static String tag = 'admin-modify-user-page';

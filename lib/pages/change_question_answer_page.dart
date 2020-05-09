@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../logic/user_layouts.dart';
+import 'UserLayouts/user_layouts.dart';
 import 'package:gdziemojhajsapp/main.dart';
-import 'package:gdziemojhajsapp/user/logic/user_logic.dart';
+import 'package:gdziemojhajsapp/logic/user_logic.dart';
 
 class ChangeQuestionAnswerPage extends StatefulWidget {
   static String tag = 'change-question-answer-page';

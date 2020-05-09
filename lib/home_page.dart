@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/receipt/logic/receipt_layouts.dart';
-import 'package:gdziemojhajsapp/user/logic/user_layouts.dart';
+import 'package:gdziemojhajsapp/pages/UserLayouts/receipt_layouts.dart';
+import 'package:gdziemojhajsapp/pages/UserLayouts/user_layouts.dart';
 
 class HomePage extends StatefulWidget {
   static String tag = 'main-page';

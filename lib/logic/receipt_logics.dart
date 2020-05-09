@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../main.dart';
+import '../main.dart';
 import 'package:http/http.dart' as http;
 
 Future<Map> getUsersReceipts() async {

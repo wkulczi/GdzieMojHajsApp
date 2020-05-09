@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../logic/user_layouts.dart';
-import 'package:gdziemojhajsapp/user/logic/user_logic.dart';
-import 'package:gdziemojhajsapp/user/pages/admin_modify_user_page.dart';
-import 'package:gdziemojhajsapp/user/pages/change_password_page.dart';
-import 'package:gdziemojhajsapp/user/pages/change_question_answer_page.dart';
+import 'UserLayouts/user_layouts.dart';
+import 'package:gdziemojhajsapp/logic/user_logic.dart';
+import 'package:gdziemojhajsapp/pages/admin_modify_user_page.dart';
+import 'package:gdziemojhajsapp/pages/change_password_page.dart';
+import 'package:gdziemojhajsapp/pages/change_question_answer_page.dart';
 import 'package:gdziemojhajsapp/main.dart';
 
 class UserSettingsPage extends StatefulWidget {

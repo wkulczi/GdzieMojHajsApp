@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/user/pages/admin_modify_user_page.dart';
-import 'package:gdziemojhajsapp/user/pages/settings_page.dart';
-import 'Views/Home/home_screen.dart';
-import 'Views/NewReceipt/add_receipt.dart';
-import 'user/pages/login_page.dart';
-import 'user/pages/register_page.dart';
-import 'user/pages/forget_password_page.dart';
+import 'package:gdziemojhajsapp/pages/admin_modify_user_page.dart';
+import 'package:gdziemojhajsapp/pages/settings_page.dart';
+import 'pages/Home/home_screen.dart';
+import 'pages/NewReceipt/add_receipt.dart';
+import 'pages/login_page.dart';
+import 'pages/register_page.dart';
+import 'pages/forget_password_page.dart';
 import 'home_page.dart';
-import 'user/pages/change_password_page.dart';
-import 'user/pages/change_question_answer_page.dart';
+import 'pages/change_password_page.dart';
+import 'pages/change_question_answer_page.dart';
 import 'package:gdziemojhajsapp/pages/categoryPage.dart';
 import 'package:gdziemojhajsapp/pages/categories.dart';
 

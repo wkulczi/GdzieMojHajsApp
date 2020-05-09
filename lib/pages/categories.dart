@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/Category.dart';
-import 'package:gdziemojhajsapp/categoryCard.dart';
+import 'package:gdziemojhajsapp/pages/Category.dart';
+import 'package:gdziemojhajsapp/pages/categoryCard.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 

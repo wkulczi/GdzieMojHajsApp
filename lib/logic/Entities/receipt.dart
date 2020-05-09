@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/Models/product_model.dart';
+import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 
 class Receipt extends Equatable {
   String id;

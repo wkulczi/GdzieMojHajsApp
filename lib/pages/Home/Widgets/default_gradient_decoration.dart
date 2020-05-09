@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gdziemojhajsapp/Constants/colors.dart';
+import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 
 defaultGradientDecoration() {
   return BoxDecoration(

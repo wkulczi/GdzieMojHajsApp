@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:gdziemojhajsapp/Entities/receipt.dart';
-import 'package:gdziemojhajsapp/Models/product_model.dart';
+import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
+import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'receipt_model.g.dart';

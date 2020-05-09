@@ -196,7 +196,7 @@ packages:
       name: flushbar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.10.2"
+    version: "1.9.1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -375,6 +375,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.9.3"
+  package_resolver:
+    dependency: transitive
+    description:
+      name: package_resolver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.10"
   path:
     dependency: transitive
     description:
@@ -444,7 +451,7 @@ packages:
       name: shelf_packages_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.0.4"
   shelf_static:
     dependency: transitive
     description:
@@ -477,7 +484,7 @@ packages:
       name: source_map_stack_trace
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "1.1.5"
   source_maps:
     dependency: transitive
     description:
@@ -533,21 +540,21 @@ packages:
       name: test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.14.3"
+    version: "1.9.4"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.15"
+    version: "0.2.11"
   test_core:
     dependency: transitive
     description:
       name: test_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.4"
+    version: "0.2.15"
   timing:
     dependency: transitive
     description:
@@ -575,7 +582,7 @@ packages:
       name: vm_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.3"
+    version: "2.3.1"
   watcher:
     dependency: transitive
     description:
@@ -590,13 +597,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
-  webkit_inspection_protocol:
-    dependency: transitive
-    description:
-      name: webkit_inspection_protocol
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.3"
   xml:
     dependency: transitive
     description:
@@ -612,5 +612,5 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
-  dart: ">=2.7.2 <3.0.0"
+  dart: ">=2.7.0 <3.0.0"
   flutter: ">=1.5.0 <2.0.0"
