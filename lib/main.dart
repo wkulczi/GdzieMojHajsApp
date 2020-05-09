@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/user/pages/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/user/pages/settings_page.dart';
+import 'Views/Home/home_screen.dart';
+import 'Views/NewReceipt/add_receipt.dart';
 import 'user/pages/login_page.dart';
 import 'user/pages/register_page.dart';
 import 'user/pages/forget_password_page.dart';
@@ -22,6 +24,8 @@ class MyApp extends StatelessWidget {
     ChangePasswordPage.tag: (context) => ChangePasswordPage(),
     ChangeQuestionAnswerPage.tag: (context) => ChangeQuestionAnswerPage(),
     AdminModifyUserPage.tag: (context) => AdminModifyUserPage(),
+    HomeScreen.tag: (context) => HomeScreen(),
+    AddReceipt.tag: (context) => AddReceipt(),
   };
 
   static final String serverAddress = 'http://192.168.1.23:2137';
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.lightBlue,
         fontFamily: 'Nunito',
       ),
-      home: LoginPage(),
+      home: HomeScreen(),
       routes: routes,
     );
   }
