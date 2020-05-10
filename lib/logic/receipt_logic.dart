@@ -29,7 +29,7 @@ Future<List<Map>> getUserReceiptsOverview() async {
   }
 
   for (var receipt in receiptsMap["receipts"]) {
-    String companyName = receipt["company"]["name"];
+    String companyName = receipt["company"]["company_name"];
     double sum = 0;
 
     for (var receipt_product in receipt["receipt_product"]) {

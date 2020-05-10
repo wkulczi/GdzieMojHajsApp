@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/logic/receipt_logics.dart';
+import 'package:gdziemojhajsapp/logic/receipt_logic.dart';
 
 class ReceiptLayout extends StatelessWidget {
   String companyName;

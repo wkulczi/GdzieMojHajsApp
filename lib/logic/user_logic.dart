@@ -145,7 +145,7 @@ void actionRegister(var context, Map data) async {
 Future<String> actionRemindPassword(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(MyApp.serverAddress + '/user/remind_password',
+  var response = await http.post(MyApp.serverAddress + '/account/remind_password',
       body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
@@ -163,7 +163,7 @@ Future<String> actionRemindPassword(var context, Map data) async {
 Future<String> actionRemindPasswordSendAnswer(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(MyApp.serverAddress + '/user/remind_password',
+  var response = await http.post(MyApp.serverAddress + '/account/remind_password',
       body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
@@ -182,7 +182,7 @@ actionChangeQuestionAnswer(var context, Map data) async {
   checkServerAvailability(context);
 
   var response = await http.put(
-      MyApp.serverAddress + '/user/change_question_answer',
+      MyApp.serverAddress + '/account/change_question_answer',
       body: json.encode(data),
       encoding: Encoding.getByName('utf-8'));
 
@@ -203,7 +203,7 @@ actionChangeQuestionAnswer(var context, Map data) async {
 actionChangePassword(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(MyApp.serverAddress + '/user/change_password',
+  var response = await http.put(MyApp.serverAddress + '/account/change_password',
       body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
@@ -222,7 +222,7 @@ actionChangePassword(var context, Map data) async {
 actionAdminModifyUser(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(MyApp.serverAddress + '/user/admin/modify_user',
+  var response = await http.put(MyApp.serverAddress + '/account/admin/modify_user',
       body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
