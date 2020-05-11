@@ -3,13 +3,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gdziemojhajsapp/pages/Home/home_screen.dart';
 import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
 
 import '../../main.dart';
 import 'package:http/http.dart' as http;
 
-import '../../pages/home_page.dart';
+import '../pages/home_page.dart';
 
 class UserValidators {
   static String validatePassword(String value) {
@@ -248,7 +249,7 @@ actionAdminModifyUser(var context, Map data) async {
 
 actionLogout(var context) {
   MyApp.activeUser = new Map();
-  
+
   Navigator.of(context)
       .pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
 }
