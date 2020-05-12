@@ -21,7 +21,7 @@ class ReceiptController {
     }
   }
 
-  static Future<Map> getAllAccountsReceipts() async {
+  static Future<List<Map>> getAllAccountsReceipts() async {
     var response = await http.get(MyApp.serverAddress +
         "/receipts?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}");
 
@@ -33,14 +33,12 @@ class ReceiptController {
       throw Exception("Get users receipts error!");
     }
 
-    print(ReceiptModel.fromJson(json.decode(response.body)));
+    List<Map> mappedList = receiptsListMapping(receiptsMap);
 
-
-    return receiptsMap;
+    return mappedList;
   }
 
-  static Future<List<Map>> getUserReceiptsOverview() async {
-    var receiptsMap = await getAllAccountsReceipts();
+  static List<Map> receiptsListMapping(Map receiptsMap) {
     List<Map> result = [];
 
     print(receiptsMap);
@@ -51,12 +49,12 @@ class ReceiptController {
 
     for (var receipt in receiptsMap["receipts"]) {
       String companyName = receipt["company"]["company_name"];
-      double sum = 0;
+      double sum = receipt["sum"];
 
-      for (var receipt_product in receipt["receipt_product"]) {
-        sum +=
-            receipt_product["quantity"] * receipt_product["product"]["price"];
-      }
+//      for (var receipt_product in receipt["receipt_product"]) {
+//        sum +=
+//            receipt_product["quantity"] * receipt_product["product"]["price"];
+//      }
 
       result.add({"companyName": companyName, "sum": sum.toStringAsFixed(2)});
     }

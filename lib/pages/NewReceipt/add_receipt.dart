@@ -19,7 +19,7 @@ class AddReceipt extends StatefulWidget {
 class _AddReceiptState extends State<AddReceipt> {
   ProductController _productController = ProductController();
   final _formKey = GlobalKey<FormState>();
-  ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], shopName: null);
+  ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
 
   @override
   Widget build(BuildContext context) {

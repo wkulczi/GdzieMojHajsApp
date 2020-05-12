@@ -6,7 +6,7 @@ import 'pages/NewReceipt/add_receipt.dart';
 import 'pages/Account/login_page.dart';
 import 'pages/Account/register_page.dart';
 import 'pages/Account/forget_password_page.dart';
-import 'home_page.dart';
+import 'pages/home_page.dart';
 import 'pages/AccountSettings/change_password_page.dart';
 import 'pages/AccountSettings/change_question_answer_page.dart';
 import 'package:gdziemojhajsapp/pages/categoryPage.dart';

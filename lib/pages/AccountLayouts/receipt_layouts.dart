@@ -27,7 +27,7 @@ class ReceiptsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map>>(
-      future: ReceiptController.getUserReceiptsOverview(),
+      future: ReceiptController.getAllAccountsReceipts(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Map> data = snapshot.data;

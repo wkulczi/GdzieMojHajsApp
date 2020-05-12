@@ -12,6 +12,7 @@ class Receipt extends Equatable {
 
   Receipt({@required this.id, @required this.companyName, @required this.categoryName, @required this.sum, @required this.products});
 
+
   @override
   List<Object> get props => [id, companyName, categoryName, products, sum];
 }

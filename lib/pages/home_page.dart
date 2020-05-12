@@ -10,10 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List receiptsList = [
-    {"companyName": "biedra", "sum": 20},
-    {"companyName": "biedra", "sum": 23},
-  ];
 
   @override
   Widget build(BuildContext context) {
