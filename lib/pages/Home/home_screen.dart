@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
+import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
+import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
+import 'package:gdziemojhajsapp/pages/UserLayouts/receipt_layouts.dart';
 
 import 'Widgets/default_gradient_decoration.dart';
 
@@ -108,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   Widget newdashboard(BuildContext context) {
+    ProductController _productController = ProductController();
     return AnimatedPositioned(
       duration: duration,
       top: 0,
@@ -133,7 +139,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           children: [
                             InkWell(
                               child: Padding(
-                                padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(20), horizontal: ScreenUtil().setWidth(5)),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: ScreenUtil().setHeight(20), horizontal: ScreenUtil().setWidth(5)),
                                 child: Icon(
                                   Icons.menu,
                                   color: Colors.black,

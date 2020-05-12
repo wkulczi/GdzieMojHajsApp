@@ -1,5 +1,3 @@
-
-
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,6 @@ class AddReceipt extends StatefulWidget {
 }
 
 class _AddReceiptState extends State<AddReceipt> {
-  ProductController _productController = ProductController();
   final _formKey = GlobalKey<FormState>();
   ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
 
@@ -75,24 +72,23 @@ class _AddReceiptState extends State<AddReceipt> {
                               sumWidget(),
                               FlatButton(
                                 onPressed: () => {
-                                  if (_formKey.currentState.validate())
-                                    {
-                                      print("oi good job mate, sending now"),
-                                      _productController.sendReceipt(receipt: _receipt).then((value) => {
-                                            if (value.statusCode == 200)
-                                              {
-
-                                                showSuccessFlushbar(context),
-                                                print("halo?"),
-                                                Navigator.popUntil(context, ModalRoute.withName('/home')),
-                                              }
-                                            else
-                                              {
-                                                showFailureFlushbar(context),
-                                              },
-                                          }),
-                                    },
-                                  print(_receipt.showModel())
+//                                  if (_formKey.currentState.validate())
+//                                    {
+//                                      print("oi good job mate, sending now"),
+//                                      _productController.sendReceipt(receipt: _receipt).then((value) => {
+//                                            if (value.statusCode == 200)
+//                                              {
+//                                                showSuccessFlushbar(context),
+//                                                print("halo?"),
+//                                                Navigator.popUntil(context, ModalRoute.withName('/home')),
+//                                              }
+//                                            else
+//                                              {
+//                                                showFailureFlushbar(context),
+//                                              },
+//                                          }),
+//                                    },
+//                                  print(_receipt.showModel())
                                 },
                                 child: Text("Save receipt"),
                               ),
