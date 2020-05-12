@@ -8,8 +8,8 @@ part 'receipt_model.g.dart';
 
 @JsonSerializable()
 class ReceiptModel extends Receipt {
-  ReceiptModel({String id, @required String shopName, @required String categoryName, @required List<ProductModel> products, @required double sum})
-      : super(id: id, shopName: shopName, categoryName: categoryName, products: products, sum: sum);
+  ReceiptModel({String id, @required String companyName, @required String categoryName, @required List<ProductModel> products, @required double sum})
+      : super(id: id, companyName: companyName, categoryName: categoryName, products: products, sum: sum);
 
   factory ReceiptModel.fromJson(Map<String, dynamic> json) => _$ReceiptModelFromJson(json);
 
@@ -21,6 +21,6 @@ class ReceiptModel extends Receipt {
     for (var product in products) {
       _productsListToString += product.showProduct();
     }
-    return "Shop name: $shopName, Category name: $categoryName, products: $_productsListToString, sum: $sum>";
+    return "Shop name: $companyName, Category name: $categoryName, products: $_productsListToString, sum: $sum>";
   }
 }

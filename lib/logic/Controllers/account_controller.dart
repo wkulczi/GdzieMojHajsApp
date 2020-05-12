@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/pages/forget_password_page.dart';
-import 'package:gdziemojhajsapp/pages/login_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
 
-import '../main.dart';
+import '../../main.dart';
 import 'package:http/http.dart' as http;
 
-import '../home_page.dart';
+import '../../pages/home_page.dart';
 
 class UserValidators {
   static String validatePassword(String value) {
@@ -145,8 +145,10 @@ void actionRegister(var context, Map data) async {
 Future<String> actionRemindPassword(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(MyApp.serverAddress + '/account/remind_password',
-      body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+  var response = await http.post(
+      MyApp.serverAddress + '/account/remind_password',
+      body: json.encode(data),
+      encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     Navigator.of(context).pushNamed(ForgetPasswordQuestionPage.tag);
@@ -163,8 +165,10 @@ Future<String> actionRemindPassword(var context, Map data) async {
 Future<String> actionRemindPasswordSendAnswer(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(MyApp.serverAddress + '/account/remind_password',
-      body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+  var response = await http.post(
+      MyApp.serverAddress + '/account/remind_password',
+      body: json.encode(data),
+      encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     Navigator.of(context).pushNamed(ForgetPasswordSuccessPage.tag);
@@ -203,8 +207,10 @@ actionChangeQuestionAnswer(var context, Map data) async {
 actionChangePassword(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(MyApp.serverAddress + '/account/change_password',
-      body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+  var response = await http.put(
+      MyApp.serverAddress + '/account/change_password',
+      body: json.encode(data),
+      encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     userShowDialog(context, "Sucessfully changed password!",
@@ -222,8 +228,10 @@ actionChangePassword(var context, Map data) async {
 actionAdminModifyUser(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(MyApp.serverAddress + '/account/admin/modify_user',
-      body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+  var response = await http.put(
+      MyApp.serverAddress + '/account/admin/modify_user',
+      body: json.encode(data),
+      encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     userShowDialog(context, "Succesfully modified user!",
@@ -240,8 +248,7 @@ actionAdminModifyUser(var context, Map data) async {
 
 actionLogout(var context) {
   MyApp.activeUser = new Map();
-  Navigator.of(context).pushNamed(LoginPage.tag);
-  //Navigator.of(context).popUntil(ModalRoute.withName('login-page'));
-  //Navigator.of(context)
-  //        .pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+  
+  Navigator.of(context)
+      .pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
 }
