@@ -56,7 +56,7 @@ class _AddReceiptState extends State<AddReceipt> {
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
                             children: <Widget>[
-                              formFieldWidget("Shop name", (input) => _receipt.shopName = input, TextInputType.text),
+                              formFieldWidget("Shop name", (input) => _receipt.companyName = input, TextInputType.text),
                               formFieldWidget("Category", (input) => _receipt.categoryName = input, TextInputType.text),
                               ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),

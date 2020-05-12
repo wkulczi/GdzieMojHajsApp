@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/pages/forget_password_page.dart';
-import 'UserLayouts/user_layouts.dart';
-import 'package:gdziemojhajsapp/pages/register_page.dart';
-import 'package:gdziemojhajsapp/logic/user_logic.dart';
+import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
+import '../AccountLayouts/account_layouts.dart';
+import 'package:gdziemojhajsapp/pages/Account/register_page.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';

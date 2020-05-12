@@ -5,13 +5,13 @@ import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 
 class Receipt extends Equatable {
   String id;
-  String shopName;
+  String companyName;
   String categoryName;
   List<ProductModel> products;
   double sum;
 
-  Receipt({@required this.id, @required this.shopName, @required this.categoryName, @required this.sum, @required this.products});
+  Receipt({@required this.id, @required this.companyName, @required this.categoryName, @required this.sum, @required this.products});
 
   @override
-  List<Object> get props => [id, shopName, categoryName, products, sum];
+  List<Object> get props => [id, companyName, categoryName, products, sum];
 }

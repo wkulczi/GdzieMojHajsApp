@@ -22,7 +22,7 @@ ReceiptModel _$ReceiptModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$ReceiptModelToJson(ReceiptModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'shopName': instance.shopName,
+      'shopName': instance.companyName,
       'categoryName': instance.categoryName,
       'products': instance.products,
       'sum': instance.sum,

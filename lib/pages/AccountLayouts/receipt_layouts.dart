@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/logic/receipt_logic.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 
 class ReceiptLayout extends StatelessWidget {
   String companyName;
@@ -27,7 +27,7 @@ class ReceiptsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map>>(
-      future: getUserReceiptsOverview(),
+      future: ReceiptController.getUserReceiptsOverview(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Map> data = snapshot.data;
