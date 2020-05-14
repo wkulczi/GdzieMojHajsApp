@@ -4,20 +4,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/pages/AccountLayouts/receipt_layouts.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/change_password_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/change_question_answer_page.dart';
-import 'package:pull_to_reveal/pull_to_reveal.dart';
 
 import '../../main.dart';
-import 'Widgets/default_gradient_decoration.dart';
+import 'Widgets/dashboard_menu.dart';
+import 'Widgets/main_menu.dart';
+import 'Widgets/receipt_widgets.dart';
+import 'Widgets/setting_button.dart';
 
 class HomeScreen extends StatefulWidget {
   static var tag = "/home";
@@ -30,7 +29,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  double screenWidth, screenHeight;
+  double _screenWidth;
   final Duration duration = const Duration(milliseconds: 300);
   bool isCollapsed = true;
   AnimationController _controller;
@@ -55,9 +54,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    screenWidth = size.width;
-    screenHeight = size.height;
+    Size size = MediaQuery
+        .of(context)
+        .size;
+    _screenWidth = size.width;
     ScreenUtil.init(context, width: 960, height: 1600, allowFontScaling: true);
     FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
@@ -67,373 +67,27 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: Stack(
         children: <Widget>[
           //            dashboard(context),
-          menu(context),
-          newdashboard(context)
+          menu(context: context,
+              menuScaleAnimation: _menuScaleAnimation,
+              screenWidth: _screenWidth,
+              slideAnimation: _slideAnimation),
+          dashboard(context: context,
+              screenWidth: _screenWidth,
+              duration: duration,
+              isCollapsed: isCollapsed,
+              scaleAnimation: _scaleAnimation,
+              notifyParent:refresh)
         ],
       ),
     );
   }
 
-  Widget menu(BuildContext context) {
-    return SlideTransition(
-      position: _slideAnimation,
-      child: ScaleTransition(
-        scale: _menuScaleAnimation,
-        child: Padding(
-          padding: EdgeInsets.only(left: ScreenUtil().setWidth(16)),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              width: 0.5 * screenWidth,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(100)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text("Hello"),
-                        Text(
-                          MyApp.activeUser["login"],
-                          style: TextStyle(fontSize: ScreenUtil().setSp(50)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  settingButtonWidget(
-                    icon: Icons.lock_outline,
-                    settingTitle: "Change password",
-                    onTap: (){
-                      Navigator.of(context).pushNamed(ChangePasswordPage.tag);
-                    }
-                  ),
-                  settingButtonWidget(
-                      icon: Icons.settings,
-                      settingTitle: "Edit security question",
-                      onTap: () {
-                        Navigator.of(context).pushNamed(ChangeQuestionAnswerPage.tag);
-                      }),
-                  settingButtonWidget(
-                      icon: Icons.lock_open,
-                      settingTitle: "Logout",
-                      onTap: () {
-                        actionLogout(context);
-                      }),
-                  Visibility(
-                      visible: MyApp.activeUser["role"] == 'admin',
-                      child: settingButtonWidget(
-                          icon: Icons.person_outline,
-                          settingTitle: "Administration tools",
-                          onTap: () {
-                            Navigator.of(context).pushNamed(AdminModifyUserPage.tag);
-                          })),
-                  Container(
-                    height: 300,
-                  ) //im a hacker
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+  void refresh() {
+    setState(() {
+      isCollapsed ? _controller.forward() : _controller.reverse();
+      isCollapsed = !isCollapsed;
+    });
   }
 
-  Widget settingButtonWidget({icon, settingTitle, onTap}) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(12)),
-      child: InkWell(
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
-              child: Icon(
-                icon,
-                size: 18,
-              ),
-            ),
-            Text(
-              settingTitle,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
-        onTap: onTap,
-      ),
-    );
-  }
 
-  Widget newdashboard(BuildContext context) {
-    ProductController _productController = ProductController();
-    return AnimatedPositioned(
-      duration: duration,
-      top: 0,
-      bottom: 0,
-      left: isCollapsed ? 0 : 0.45 * screenWidth,
-      right: isCollapsed ? 0 : -0.55 * screenWidth,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Material(
-          color: Colors.white,
-          elevation: 8,
-          child: SafeArea(
-            child: Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            InkWell(
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: ScreenUtil().setHeight(20), horizontal: ScreenUtil().setWidth(5)),
-                                child: Icon(
-                                  Icons.menu,
-                                  color: Colors.black,
-                                  size: 30,
-                                ),
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  isCollapsed ? _controller.forward() : _controller.reverse();
-                                  isCollapsed = !isCollapsed;
-                                });
-                              },
-                            ),
-                            //todo import font
-                            Text(
-                              "Twoje Paragony",
-                              style: TextStyle(fontSize: ScreenUtil().setSp(45), fontWeight: FontWeight.w400),
-                            ),
-                            Container(
-                              color: Colors.transparent,
-                              child: Icon(
-                                Icons.check_box_outline_blank,
-                                color: Colors.transparent, //hax
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Stack(
-                        children: [
-                          Container(
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: <Widget>[Text("Spód")],
-                                )
-                              ],
-                            ),
-                            color: Colors.white,
-                          ),
-                          receiptList(),
-                          Container(
-                            alignment: Alignment(0.9, 0.9),
-                            child: FloatingActionButton(
-                                child: Icon(Icons.print),
-                                onPressed: () {
-                                  _productController.sendReceipt(
-                                      receipt: ReceiptModel(
-                                          sum: 20.0,
-                                          companyName: "Biedronka",
-                                          categoryName: "Rozrywka",
-                                          products: [
-                                        ProductModel(quantity: 1, name: "Pywo", price: 3.30),
-                                        ProductModel(quantity: 1, name: "inne Pywo", price: 2.30)
-                                      ]));
-                                }),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget dashboard(context) {
-    return AnimatedPositioned(
-      duration: duration,
-      top: 0,
-      bottom: 0,
-      left: isCollapsed ? 0 : 0.3 * screenWidth,
-      right: isCollapsed ? 0 : -0.2 * screenWidth,
-      child: ScaleTransition(
-        scale: _scaleAnimation,
-        child: Material(
-          elevation: 8,
-          child: Container(
-            decoration: defaultGradientDecoration(),
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                  ScreenUtil().setWidth(30), //left
-                  0,
-                  ScreenUtil().setWidth(30), //right
-                  ScreenUtil().setWidth(20),
-                ),
-                child: Container(
-                  width: double.infinity,
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                          flex: 2,
-                          child: Container(
-                            child: Row(
-                              children: [
-                                InkWell(
-                                  child: Icon(
-                                    Icons.dashboard,
-                                    color: Colors.white,
-                                  ),
-                                  onTap: () {
-                                    setState(() {
-                                      isCollapsed ? _controller.forward() : _controller.reverse();
-                                      isCollapsed = !isCollapsed;
-                                    });
-                                  },
-                                ),
-                                Text(
-                                  "Hello User",
-                                  style: TextStyle(color: Colors.white, fontSize: 40),
-                                ),
-                              ],
-                            ),
-                          )),
-                      Expanded(
-                        flex: 6,
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: ColorStyles.hexToColor("#FEFEFE"),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
-                            ),
-                          ),
-                          child: SingleChildScrollView(
-//                        child: FutureBuilder(
-//                          future: ,
-//                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {},),
-                            child: Text("Here stuff"),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-//  floatingActionButton: FloatingActionButton(
-//  onPressed: () {
-//  print('pressed');
-////          receiptController.getReceipt(1);
-//  Navigator.pushNamed(context, "/newReceipt");
-////          Navigator.of(context).pushNamed('/addReceipt');
-//  },
-//  child: Icon(Icons.add),
-//  ),
-  }
-}
-
-Widget receiptList() {
-  return FutureBuilder(
-      future: ReceiptController.getAllAccountsReceipts(),
-      builder: (context, snapshot) {
-        return DraggableScrollableSheet(
-            expand: true,
-            initialChildSize: 1,
-            minChildSize: 0.7,
-            builder: (context, scrollController) {
-              if (snapshot.hasError) {
-                return receiptErrorWidget(snapshot: snapshot, scrollController: scrollController);
-              } else if (ConnectionState.waiting == snapshot.connectionState) {
-                return loadingWidget(scrollController: scrollController);
-              } else if (ConnectionState.done == snapshot.connectionState && snapshot.hasData) {
-                return receiptListWidget(snapshot: snapshot, scrollController: scrollController);
-              } else {
-                return noReceiptsWidget(scrollController: scrollController);
-              }
-            });
-      });
-}
-
-Widget noReceiptsWidget({scrollController}) {
-  return ListView(controller: scrollController, children: [
-    Container(
-        color: Colors.white,
-        child: Center(
-            child: Padding(
-          padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
-          child: Column(
-            children: <Widget>[
-              Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
-              Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
-            ],
-          ),
-        )))
-  ]);
-}
-
-Widget receiptListWidget({snapshot, scrollController}) {
-  return Container(
-    color: Colors.white,
-    child: SingleChildScrollView(
-      controller: scrollController,
-      child: Column(
-          children: snapshot.data.map<Widget>((Map data) {
-        return ReceiptLayout(data["companyName"], data["sum"]);
-      }).toList()),
-    ),
-  );
-}
-
-Widget loadingWidget({scrollController}) {
-  return Container(
-      color: Colors.white,
-      child: ListView(controller: scrollController, children: [Center(child: CircularProgressIndicator())]));
-}
-
-Widget receiptErrorWidget({snapshot, scrollController}) {
-  return Container(
-    color: Colors.white,
-    child: ListView(controller: scrollController, children: [
-      Center(
-          child: Padding(
-        padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
-        child: Column(
-          children: <Widget>[
-            Icon(
-              Icons.error_outline,
-              color: Colors.red,
-              size: ScreenUtil().setSp(100),
-            ),
-            Text(
-              snapshot.error.toString(),
-              style: TextStyle(fontSize: ScreenUtil().setSp(50)),
-            ),
-          ],
-        ),
-      ))
-    ]),
-  );
 }
