@@ -5,13 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
 import 'package:gdziemojhajsapp/pages/AccountLayouts/receipt_layouts.dart';
+import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
+import 'package:gdziemojhajsapp/pages/AccountSettings/change_password_page.dart';
+import 'package:gdziemojhajsapp/pages/AccountSettings/change_question_answer_page.dart';
 import 'package:pull_to_reveal/pull_to_reveal.dart';
 
+import '../../main.dart';
 import 'Widgets/default_gradient_decoration.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
-    _menuScaleAnimation = Tween<double>(begin: 0.4, end: 1).animate(_controller);
+    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
   }
 
@@ -78,39 +83,85 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           padding: EdgeInsets.only(left: ScreenUtil().setWidth(16)),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(9)),
-                    child: Text(
-                      "Setting 1",
-                      style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(9)),
-                    child: Text(
-                      "Setting 2",
-                      style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(9)),
-                    child: Text(
-                      "Setting 3",
-                      style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
-                    )),
-                Padding(
-                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(9)),
-                    child: Text(
-                      "Setting 4",
-                      style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
-                    )),
-              ],
+            child: Container(
+              width: 0.5 * screenWidth,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(100)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text("Hello"),
+                        Text(
+                          MyApp.activeUser["login"],
+                          style: TextStyle(fontSize: ScreenUtil().setSp(50)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  settingButtonWidget(
+                    icon: Icons.lock_outline,
+                    settingTitle: "Change password",
+                    onTap: (){
+                      Navigator.of(context).pushNamed(ChangePasswordPage.tag);
+                    }
+                  ),
+                  settingButtonWidget(
+                      icon: Icons.settings,
+                      settingTitle: "Edit security question",
+                      onTap: () {
+                        Navigator.of(context).pushNamed(ChangeQuestionAnswerPage.tag);
+                      }),
+                  settingButtonWidget(
+                      icon: Icons.lock_open,
+                      settingTitle: "Logout",
+                      onTap: () {
+                        actionLogout(context);
+                      }),
+                  Visibility(
+                      visible: MyApp.activeUser["role"] == 'admin',
+                      child: settingButtonWidget(
+                          icon: Icons.person_outline,
+                          settingTitle: "Administration tools",
+                          onTap: () {
+                            Navigator.of(context).pushNamed(AdminModifyUserPage.tag);
+                          })),
+                  Container(
+                    height: 300,
+                  ) //im a hacker
+                ],
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget settingButtonWidget({icon, settingTitle, onTap}) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(12)),
+      child: InkWell(
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
+              child: Icon(
+                icon,
+                size: 18,
+              ),
+            ),
+            Text(
+              settingTitle,
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+        onTap: onTap,
       ),
     );
   }
@@ -121,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       duration: duration,
       top: 0,
       bottom: 0,
-      left: isCollapsed ? 0 : 0.3 * screenWidth,
-      right: isCollapsed ? 0 : -0.2 * screenWidth,
+      left: isCollapsed ? 0 : 0.45 * screenWidth,
+      right: isCollapsed ? 0 : -0.55 * screenWidth,
       child: ScaleTransition(
         scale: _scaleAnimation,
         child: Material(
@@ -332,14 +383,14 @@ Widget noReceiptsWidget({scrollController}) {
         color: Colors.white,
         child: Center(
             child: Padding(
-              padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
-              child: Column(
-                children: <Widget>[
-                  Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
-                  Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
-                ],
-              ),
-            )))
+          padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
+          child: Column(
+            children: <Widget>[
+              Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
+              Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
+            ],
+          ),
+        )))
   ]);
 }
 
@@ -350,8 +401,8 @@ Widget receiptListWidget({snapshot, scrollController}) {
       controller: scrollController,
       child: Column(
           children: snapshot.data.map<Widget>((Map data) {
-            return ReceiptLayout(data["companyName"], data["sum"]);
-          }).toList()),
+        return ReceiptLayout(data["companyName"], data["sum"]);
+      }).toList()),
     ),
   );
 }
