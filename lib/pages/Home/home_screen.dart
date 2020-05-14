@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
@@ -7,7 +9,8 @@ import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/pages/UserLayouts/receipt_layouts.dart';
+import 'package:gdziemojhajsapp/pages/AccountLayouts/receipt_layouts.dart';
+import 'package:pull_to_reveal/pull_to_reveal.dart';
 
 import 'Widgets/default_gradient_decoration.dart';
 
@@ -174,27 +177,33 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                       flex: 2,
                       child: Stack(
                         children: [
-                          Container(),
-                          DraggableScrollableSheet(
-                            initialChildSize: 1,
-                            minChildSize: 0.7,
-                            builder: (BuildContext context, ScrollController scrollController) {
-                              return Container(
-                                color: Colors.white,
-                                child: ListView(
-                                  controller: scrollController,
-                                  children: List.generate(50, (index) {
-                                    return Card(
-                                        color: Colors.blue[index * 100],
-                                        child: Container(width: 50, height: 50, child: Text(index.toString())));
-                                  }),
-                                ),
-                              );
-                            },
-                          ),
                           Container(
-                            alignment: Alignment(0.9,0.9),
-                            child: FloatingActionButton(child: Icon(Icons.print),onPressed: () {  },),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: <Widget>[Text("Spód")],
+                                )
+                              ],
+                            ),
+                            color: Colors.white,
+                          ),
+                          receiptList(),
+                          Container(
+                            alignment: Alignment(0.9, 0.9),
+                            child: FloatingActionButton(
+                                child: Icon(Icons.print),
+                                onPressed: () {
+                                  _productController.sendReceipt(
+                                      receipt: ReceiptModel(
+                                          sum: 20.0,
+                                          companyName: "Biedronka",
+                                          categoryName: "Rozrywka",
+                                          products: [
+                                        ProductModel(quantity: 1, name: "Pywo", price: 3.30),
+                                        ProductModel(quantity: 1, name: "inne Pywo", price: 2.30)
+                                      ]));
+                                }),
                           )
                         ],
                       ),
@@ -293,4 +302,87 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 //  child: Icon(Icons.add),
 //  ),
   }
+}
+
+Widget receiptList() {
+  return FutureBuilder(
+      future: ReceiptController.getAllAccountsReceipts(),
+      builder: (context, snapshot) {
+        return DraggableScrollableSheet(
+            expand: true,
+            initialChildSize: 1,
+            minChildSize: 0.7,
+            builder: (context, scrollController) {
+              if (snapshot.hasError) {
+                return receiptErrorWidget(snapshot: snapshot, scrollController: scrollController);
+              } else if (ConnectionState.waiting == snapshot.connectionState) {
+                return loadingWidget(scrollController: scrollController);
+              } else if (ConnectionState.done == snapshot.connectionState && snapshot.hasData) {
+                return receiptListWidget(snapshot: snapshot, scrollController: scrollController);
+              } else {
+                return noReceiptsWidget(scrollController: scrollController);
+              }
+            });
+      });
+}
+
+Widget noReceiptsWidget({scrollController}) {
+  return ListView(controller: scrollController, children: [
+    Container(
+        color: Colors.white,
+        child: Center(
+            child: Padding(
+              padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
+              child: Column(
+                children: <Widget>[
+                  Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
+                  Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
+                ],
+              ),
+            )))
+  ]);
+}
+
+Widget receiptListWidget({snapshot, scrollController}) {
+  return Container(
+    color: Colors.white,
+    child: SingleChildScrollView(
+      controller: scrollController,
+      child: Column(
+          children: snapshot.data.map<Widget>((Map data) {
+            return ReceiptLayout(data["companyName"], data["sum"]);
+          }).toList()),
+    ),
+  );
+}
+
+Widget loadingWidget({scrollController}) {
+  return Container(
+      color: Colors.white,
+      child: ListView(controller: scrollController, children: [Center(child: CircularProgressIndicator())]));
+}
+
+Widget receiptErrorWidget({snapshot, scrollController}) {
+  return Container(
+    color: Colors.white,
+    child: ListView(controller: scrollController, children: [
+      Center(
+          child: Padding(
+        padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
+        child: Column(
+          children: <Widget>[
+            Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: ScreenUtil().setSp(100),
+            ),
+            Text(
+              snapshot.error.toString(),
+              style: TextStyle(fontSize: ScreenUtil().setSp(50)),
+            ),
+          ],
+        ),
+      ))
+    ]),
+  );
 }
