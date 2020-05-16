@@ -4,19 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
-import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
-import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
-import 'package:gdziemojhajsapp/pages/AccountSettings/change_password_page.dart';
-import 'package:gdziemojhajsapp/pages/AccountSettings/change_question_answer_page.dart';
 
-import '../../main.dart';
 import 'Widgets/dashboard_menu.dart';
 import 'Widgets/main_menu.dart';
-import 'Widgets/receipt_widgets.dart';
-import 'Widgets/setting_button.dart';
 
 class HomeScreen extends StatefulWidget {
   static var tag = "/home";
