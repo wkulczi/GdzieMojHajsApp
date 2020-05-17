@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
-import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
-import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
+import 'package:gdziemojhajsapp/pages/NewReceipt/add_receipt.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:unicorndial/unicorndial.dart';
 
+
+//todo -> translate, dodawanie odręczne
 Widget dashboard({context, scaleAnimation, isCollapsed, screenWidth, duration, notifyParent}) {
   ProductController _productController = ProductController();
   return AnimatedPositioned(
@@ -32,7 +34,7 @@ Widget dashboard({context, scaleAnimation, isCollapsed, screenWidth, duration, n
                       children: [
                         bottomPage(),
                         receiptList(),
-                        addWidget(_productController),
+                        addWidget(context, _productController),
                       ],
                     ),
                   ),
@@ -92,7 +94,10 @@ bottomPage() {
                 alignment: Alignment.topCenter,
                 child: Padding(
                   padding: EdgeInsets.only(top: 80),
-                  child: Text("Todo", style: TextStyle(fontSize: 30),),
+                  child: Text(
+                    "Todo",
+                    style: TextStyle(fontSize: 30),
+                  ),
                 ))),
       ],
     ),
@@ -100,18 +105,44 @@ bottomPage() {
   );
 }
 
-addWidget(_productController) {
+addWidget(context, _productController) {
   return Container(
-    alignment: Alignment(0.9, 0.9),
-    child: FloatingActionButton(
-        child: Icon(Icons.print),
-        onPressed: () {
-          _productController.sendReceipt(
-              receipt: ReceiptModel(sum: 20.0, companyName: "Biedronka", categoryName: "Rozrywka", products: [
-            ProductModel(quantity: 1, name: "Pywo", price: 3.30),
-            ProductModel(quantity: 1, name: "inne Pywo", price: 2.30)
-          ]));
-        }),
+    alignment: Alignment(0.9,1),
+    child: speedDialWidget(context),
+  );
+}
+
+Widget speedDialWidget(BuildContext context) {
+  return UnicornDialer(
+    hasNotch: true,
+    parentButtonBackground: Colors.blue,
+    orientation: UnicornOrientation.VERTICAL,
+    parentButton: Icon(Icons.add, size: 2, color: Colors.white,),
+    childButtons: [
+      UnicornButton(
+        hasLabel: true,
+        labelText: "Take a photo",
+        currentButton: FloatingActionButton(
+          heroTag: "Photo",
+          backgroundColor: Colors.blue,
+          mini: true,
+          focusColor: Colors.blueAccent,
+          child: Icon(Icons.camera),
+          onPressed: () {},
+        ),
+      ),UnicornButton(
+        hasLabel: true,
+        labelText: "Add manually",
+        currentButton: FloatingActionButton(
+          backgroundColor: Colors.blue,
+          heroTag: "Manual",
+          focusColor: Colors.blueAccent,
+          mini: true,
+          child: Icon(Icons.edit),
+          onPressed: () {Navigator.of(context).pushNamed(AddReceipt.tag);},
+        ),
+      ),
+    ],
   );
 }
 
