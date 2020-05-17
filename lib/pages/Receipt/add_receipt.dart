@@ -14,7 +14,6 @@ class AddReceipt extends StatefulWidget {
 }
 
 class _AddReceiptState extends State<AddReceipt> {
-  ReceiptController _receiptController = ReceiptController();
   final _formKey = GlobalKey<FormState>();
   ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
 
@@ -31,7 +30,6 @@ class _AddReceiptState extends State<AddReceipt> {
                 stretch: true,
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-//                titlePadding: EdgeInsets.only(bottom: 30),
                   title: Text("New receipt"),
                 ),
                 backgroundColor: Colors.transparent,
@@ -52,20 +50,20 @@ class _AddReceiptState extends State<AddReceipt> {
                               child: Column(
                                 children: <Widget>[
                                   formFieldWidget(
-                                      "Shop name", (input) => _receipt.companyName = input, TextInputType.text),
+                                      "Shop name", (input) => this._receipt.companyName = input, TextInputType.text),
                                   formFieldWidget(
-                                      "Category", (input) => _receipt.categoryName = input, TextInputType.text),
+                                      "Category", (input) => this._receipt.categoryName = input, TextInputType.text),
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
-                                    itemCount: _receipt.products.length,
+                                    itemCount: this._receipt.products.length,
                                     itemBuilder: (cntxt, index) {
                                       return productWidget(index);
                                     },
                                   ),
                                   FlatButton(
                                     onPressed: () => {
-                                      _receipt.products.add(ProductModel()),
+                                      this._receipt.products.add(ProductModel()),
                                       setState(() {}),
                                     },
                                     child: Row(
@@ -90,12 +88,12 @@ class _AddReceiptState extends State<AddReceipt> {
                                     onPressed: () async => {
                                       if (_formKey.currentState.validate())
                                         {
-                                          _receiptController.sendReceipt(receipt: _receipt).then(
+                                          ReceiptController.sendReceipt(receipt: this._receipt).then(
                                                 (value) async => {
                                                   if (value.statusCode == 200)
                                                     {
                                                       await Navigator.of(context).pop(),
-                                                      showSuccessFlushbar(context, _receipt.sum.toString()),
+                                                      showSuccessFlushbar(context, this._receipt.sum.toString()),
                                                     }
                                                   else{
                                                     showFailureFlushbar(context)
@@ -121,10 +119,10 @@ class _AddReceiptState extends State<AddReceipt> {
   }
 
   sumWidget() {
-    _receipt.sum = 0;
-    for (ProductModel product in _receipt.products) {
+    this._receipt.sum = 0;
+    for (ProductModel product in this._receipt.products) {
       if (product.price != null && product.quantity != null) {
-        _receipt.sum += product.price * product.quantity;
+        this._receipt.sum += product.price * product.quantity;
       }
     }
     return Padding(
@@ -142,7 +140,7 @@ class _AddReceiptState extends State<AddReceipt> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  _receipt.sum.toString() == 'null' ? "0.00 PLN" : _receipt.sum.toString() + " PLN",
+                  this._receipt.sum.toString() == 'null' ? "0.00 PLN" : this._receipt.sum.toString() + " PLN",
                   style: TextStyle(fontSize: 24),
                 ),
               ),
@@ -202,10 +200,10 @@ class _AddReceiptState extends State<AddReceipt> {
         child: Column(
           children: [
             formFieldWidget(
-                "Name", (input) => {print(input), _receipt.products[index].name = input}, TextInputType.text),
-            formFieldWidget("Price", (input) => {_receipt.products[index].price = double.parse(input), setState(() {})},
+                "Name", (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
+            formFieldWidget("Price", (input) => {this._receipt.products[index].price = double.parse(input), setState(() {})},
                 TextInputType.number),
-            formFieldWidget("Qty", (input) => {_receipt.products[index].quantity = int.parse(input), setState(() {})},
+            formFieldWidget("Qty", (input) => {this._receipt.products[index].quantity = int.parse(input), setState(() {})},
                 TextInputType.number),
           ],
         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/settings_page.dart';
+import 'package:gdziemojhajsapp/pages/Receipt/add_receipt.dart';
 import 'pages/Home/home_screen.dart';
-import 'pages/NewReceipt/add_receipt.dart';
 import 'pages/Account/login_page.dart';
 import 'pages/Account/register_page.dart';
 import 'pages/Account/forget_password_page.dart';
