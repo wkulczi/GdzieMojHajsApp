@@ -6,16 +6,29 @@ import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
 
-class AddReceipt extends StatefulWidget {
-  static var tag = "/newReceipt";
+class CreateReceipt extends StatefulWidget {
+  static String tag = "/edit-receipt";
+  final ReceiptModel receipt;
+
+  const CreateReceipt({Key key, this.receipt}) : super(key: key);
 
   @override
-  _AddReceiptState createState() => _AddReceiptState();
+  _CreateReceiptState createState() => _CreateReceiptState(this.receipt);
 }
 
-class _AddReceiptState extends State<AddReceipt> {
+class _CreateReceiptState extends State<CreateReceipt> {
   final _formKey = GlobalKey<FormState>();
-  ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
+  ReceiptModel _receipt;
+  bool isEmpty = true;
+
+  _CreateReceiptState(receipt) {
+    if (receipt != null) {
+      this._receipt = receipt;
+      this.isEmpty = false;
+    } else {
+      this._receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +41,21 @@ class _AddReceiptState extends State<AddReceipt> {
               SliverAppBar(
                 expandedHeight: 150,
                 stretch: true,
+                actions: <Widget>[
+                  Visibility(
+                    visible: !isEmpty,
+                    child: InkWell(
+                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Icon(Icons.delete_outline)),
+                      onTap: (){
+//                      TODO -> SEND REMOVE
+                      },
+                    ),
+                  ),
+                ],
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text("New receipt"),
+                  title: Text(isEmpty ? "New receipt" : "Edit receipt"),
                 ),
                 backgroundColor: Colors.transparent,
               ),
@@ -49,10 +74,10 @@ class _AddReceiptState extends State<AddReceipt> {
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Column(
                                 children: <Widget>[
-                                  formFieldWidget(
-                                      "Shop name", (input) => this._receipt.companyName = input, TextInputType.text),
-                                  formFieldWidget(
-                                      "Category", (input) => this._receipt.categoryName = input, TextInputType.text),
+                                  formFieldWidget(this._receipt.companyName, "Shop name",
+                                      (input) => this._receipt.companyName = input, TextInputType.text),
+                                  formFieldWidget(this._receipt.categoryName, "Category",
+                                      (input) => this._receipt.categoryName = input, TextInputType.text),
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -85,21 +110,21 @@ class _AddReceiptState extends State<AddReceipt> {
                                         Text("Save receipt"),
                                       ],
                                     ),
+                                    //todo isempty? this : update
                                     onPressed: () async => {
                                       if (_formKey.currentState.validate())
                                         {
                                           ReceiptController.sendReceipt(receipt: this._receipt).then(
-                                                (value) async => {
-                                                  if (value.statusCode == 200)
-                                                    {
-                                                      await Navigator.of(context).pop(),
-                                                      showSuccessFlushbar(context, this._receipt.sum.toString()),
-                                                    }
-                                                  else{
-                                                    showFailureFlushbar(context)
-                                                  }
-                                                },
-                                              )
+                                            (value) async => {
+                                              if (value.statusCode == 200)
+                                                {
+                                                  await Navigator.of(context).pop(),
+                                                  showSuccessFlushbar(context, this._receipt.sum.toString()),
+                                                }
+                                              else
+                                                {showFailureFlushbar(context)}
+                                            },
+                                          )
                                         }
                                     },
                                   )
@@ -151,7 +176,7 @@ class _AddReceiptState extends State<AddReceipt> {
     );
   }
 
-  formFieldWidget(String labelText, Function(dynamic) _onChanged, TextInputType _keyboardType) {
+  formFieldWidget(value, String labelText, Function(dynamic) _onChanged, TextInputType _keyboardType) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: SizedBox(
@@ -161,6 +186,7 @@ class _AddReceiptState extends State<AddReceipt> {
           child: TextFormField(
             //todo
             //insert optional init value of 1 for quantity
+            initialValue: value,
             keyboardType: _keyboardType,
             decoration: InputDecoration(
               errorMaxLines: 1,
@@ -199,11 +225,21 @@ class _AddReceiptState extends State<AddReceipt> {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
+            formFieldWidget(this._receipt.products[index].name, "Name",
+                (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
             formFieldWidget(
-                "Name", (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
-            formFieldWidget("Price", (input) => {this._receipt.products[index].price = double.parse(input), setState(() {})},
+                this._receipt.products[index].price == null
+                    ? this._receipt.products[index].price
+                    : this._receipt.products[index].price.toString(),
+                "Price",
+                (input) => {this._receipt.products[index].price = double.parse(input), setState(() {})},
                 TextInputType.number),
-            formFieldWidget("Qty", (input) => {this._receipt.products[index].quantity = int.parse(input), setState(() {})},
+            formFieldWidget(
+                this._receipt.products[index].quantity == null
+                    ? this._receipt.products[index].quantity
+                    : this._receipt.products[index].quantity.toString(),
+                "Qty",
+                (input) => {this._receipt.products[index].quantity = int.parse(input), setState(() {})},
                 TextInputType.number),
           ],
         ),
@@ -224,7 +260,7 @@ class _AddReceiptState extends State<AddReceipt> {
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
       titleText: Text(
-        "Error sending receipt",
+        isEmpty? "Error sending receipt" : "Error updating receipt",
         style: TextStyle(color: Colors.red),
       ),
       messageText: Text(
@@ -247,7 +283,7 @@ class _AddReceiptState extends State<AddReceipt> {
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
       titleText: Text(
-        "Receipt sent",
+        isEmpty ? "Receipt sent": "Receipt updated",
         style: TextStyle(color: Colors.green),
       ),
       messageText: Text(

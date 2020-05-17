@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/settings_page.dart';
-import 'package:gdziemojhajsapp/pages/Receipt/add_receipt.dart';
+import 'package:gdziemojhajsapp/pages/Receipt/createReceipt.dart';
 import 'pages/Home/home_screen.dart';
 import 'pages/Account/login_page.dart';
 import 'pages/Account/register_page.dart';
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
     ChangeQuestionAnswerPage.tag: (context) => ChangeQuestionAnswerPage(),
     AdminModifyUserPage.tag: (context) => AdminModifyUserPage(),
     HomeScreen.tag: (context) => HomeScreen(),
-    AddReceipt.tag: (context) => AddReceipt(),
+    CreateReceipt.tag: (context) => CreateReceipt(),
     CategoryPage.tag: (context) => CategoryPage(),
     Categories.tag: (context) => Categories()
   };

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
-import 'package:gdziemojhajsapp/pages/Receipt/edit_receipt.dart';
+import 'package:gdziemojhajsapp/pages/Receipt/createReceipt.dart';
 
 Widget receiptList() {
   return FutureBuilder(
@@ -92,7 +92,7 @@ Widget receiptCard({context, id, companyName, sum}) {
       onTap: () async {
         var payload = await ReceiptController.getReceiptById(id);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EditReceipt(receipt: payload)));
+            MaterialPageRoute(builder: (context) => CreateReceipt(receipt: payload)));
       },
       leading: FlutterLogo(), //category logo
       title: Text(companyName),
