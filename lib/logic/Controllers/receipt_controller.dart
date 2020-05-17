@@ -9,6 +9,17 @@ class ReceiptController {
 //  String IP = "46.41.149.135";
   String IP = "192.168.1.79";
 
+  Future<http.Response> sendReceipt({ReceiptModel receipt}) async {
+
+    final http.Response response = await http.post(MyApp.serverAddress +
+        "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}",
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(receipt.toJson()));
+    return response;
+  }
+
   Future<ReceiptModel> getReceipt(id) async {
     final response = await http.get('http://192.168.1.79:5000/receipt');
     if (response.statusCode == 200) {

@@ -2,10 +2,9 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/pages/Home/Widgets/default_gradient_decoration.dart';
 
 class AddReceipt extends StatefulWidget {
   static var tag = "/newReceipt";
@@ -15,7 +14,7 @@ class AddReceipt extends StatefulWidget {
 }
 
 class _AddReceiptState extends State<AddReceipt> {
-  ProductController _productController = ProductController();
+  ReceiptController _receiptController = ReceiptController();
   final _formKey = GlobalKey<FormState>();
   ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
 
@@ -91,7 +90,7 @@ class _AddReceiptState extends State<AddReceipt> {
                                     onPressed: () async => {
                                       if (_formKey.currentState.validate())
                                         {
-                                          _productController.sendReceipt(receipt: _receipt).then(
+                                          _receiptController.sendReceipt(receipt: _receipt).then(
                                                 (value) async => {
                                                   if (value.statusCode == 200)
                                                     {
