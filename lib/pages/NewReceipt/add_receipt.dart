@@ -15,117 +15,139 @@ class AddReceipt extends StatefulWidget {
 }
 
 class _AddReceiptState extends State<AddReceipt> {
+  ProductController _productController = ProductController();
   final _formKey = GlobalKey<FormState>();
   ReceiptModel _receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: Container(
-        decoration: defaultGradientDecoration(),
-        child: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 180,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                titlePadding: EdgeInsets.only(bottom: 30),
-                title: Text("New receipt."),
+        extendBodyBehindAppBar: true,
+        body: Container(
+          color: ColorStyles.hexToColor("#F8F8FF"),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                expandedHeight: 150,
+                stretch: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+//                titlePadding: EdgeInsets.only(bottom: 30),
+                  title: Text("New receipt"),
+                ),
+                backgroundColor: Colors.transparent,
               ),
-              backgroundColor: Colors.transparent,
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: ColorStyles.hexToColor("#FEFEFE"),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: SafeArea(
-                      child: Form(
-                        key: _formKey,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Column(
-                            children: <Widget>[
-                              formFieldWidget("Shop name", (input) => _receipt.companyName = input, TextInputType.text),
-                              formFieldWidget("Category", (input) => _receipt.categoryName = input, TextInputType.text),
-                              ListView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: _receipt.products.length,
-                                  itemBuilder: (cntxt, index) {
-                                    return productWidget(index);
-                                  }),
-                              FlatButton(
-                                onPressed: () => {
-                                  _receipt.products.add(ProductModel()),
-                                  setState(() {}),
-                                },
-                                child: Text("Add product"),
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
+                        child: SafeArea(
+                          child: Form(
+                            key: _formKey,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Column(
+                                children: <Widget>[
+                                  formFieldWidget(
+                                      "Shop name", (input) => _receipt.companyName = input, TextInputType.text),
+                                  formFieldWidget(
+                                      "Category", (input) => _receipt.categoryName = input, TextInputType.text),
+                                  ListView.builder(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    itemCount: _receipt.products.length,
+                                    itemBuilder: (cntxt, index) {
+                                      return productWidget(index);
+                                    },
+                                  ),
+                                  FlatButton(
+                                    onPressed: () => {
+                                      _receipt.products.add(ProductModel()),
+                                      setState(() {}),
+                                    },
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(Icons.add),
+                                        Text("Add product"),
+                                      ],
+                                    ),
+                                  ),
+                                  sumWidget(),
+                                  FlatButton(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: <Widget>[
+                                        Icon(Icons.save),
+                                        Text("Save receipt"),
+                                      ],
+                                    ),
+                                    onPressed: () async => {
+                                      if (_formKey.currentState.validate())
+                                        {
+                                          _productController.sendReceipt(receipt: _receipt).then(
+                                                (value) async => {
+                                                  if (value.statusCode == 200)
+                                                    {
+                                                      await Navigator.of(context).pop(),
+                                                      showSuccessFlushbar(context, _receipt.sum.toString()),
+                                                    }
+                                                  else{
+                                                    showFailureFlushbar(context)
+                                                  }
+                                                },
+                                              )
+                                        }
+                                    },
+                                  )
+                                ],
                               ),
-                              sumWidget(),
-                              FlatButton(
-                                onPressed: () => {
-//                                  if (_formKey.currentState.validate())
-//                                    {
-//                                      print("oi good job mate, sending now"),
-//                                      _productController.sendReceipt(receipt: _receipt).then((value) => {
-//                                            if (value.statusCode == 200)
-//                                              {
-//                                                showSuccessFlushbar(context),
-//                                                print("halo?"),
-//                                                Navigator.popUntil(context, ModalRoute.withName('/home')),
-//                                              }
-//                                            else
-//                                              {
-//                                                showFailureFlushbar(context),
-//                                              },
-//                                          }),
-//                                    },
-//                                  print(_receipt.showModel())
-                                },
-                                child: Text("Save receipt"),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
-              ]),
-            )
-          ],
-        ),
-      ),
-    );
+              )
+            ],
+          ),
+        ));
   }
 
-  Widget productWidget(int index) {
+  sumWidget() {
+    _receipt.sum = 0;
+    for (ProductModel product in _receipt.products) {
+      if (product.price != null && product.quantity != null) {
+        _receipt.sum += product.price * product.quantity;
+      }
+    }
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: ColorStyles.hexToColor("#f0eded"),
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        padding: EdgeInsets.all(20),
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            formFieldWidget(
-                "Name", (input) => {print(input), _receipt.products[index].name = input}, TextInputType.text),
-            formFieldWidget("Price", (input) => {_receipt.products[index].price = double.parse(input), setState(() {})},
-                TextInputType.number),
-            formFieldWidget("Qty", (input) => {_receipt.products[index].quantity = int.parse(input), setState(() {})},
-                TextInputType.number),
+            Expanded(
+              flex: 4,
+              child: Text("Price:"),
+            ),
+            Expanded(
+              flex: 2,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  _receipt.sum.toString() == 'null' ? "0.00 PLN" : _receipt.sum.toString() + " PLN",
+                  style: TextStyle(fontSize: 24),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -152,6 +174,8 @@ class _AddReceiptState extends State<AddReceipt> {
                 borderSide: BorderSide(color: Colors.blue),
               ),
             ),
+            textInputAction: TextInputAction.next,
+            onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
             validator: (value) {
               if (value.isEmpty) {
                 return 'Please enter a value here.';
@@ -165,57 +189,29 @@ class _AddReceiptState extends State<AddReceipt> {
     );
   }
 
-  sumWidget() {
-    _receipt.sum = 0;
-    for (ProductModel product in _receipt.products) {
-      if (product.price != null && product.quantity != null) {
-        _receipt.sum += product.price * product.quantity;
-      }
-    }
+  Widget productWidget(int index) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 1),
       child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: ColorStyles.hexToColor("#f0eded"),
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.all(20),
+        child: Column(
           children: [
-            Expanded(
-              flex: 4,
-              child: Text("Price:"),
-            ),
-            Expanded(
-              flex: 2,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(_receipt.sum.toString() == 'null' ? "0.00" : _receipt.sum.toString()),
-              ),
-            ),
+            formFieldWidget(
+                "Name", (input) => {print(input), _receipt.products[index].name = input}, TextInputType.text),
+            formFieldWidget("Price", (input) => {_receipt.products[index].price = double.parse(input), setState(() {})},
+                TextInputType.number),
+            formFieldWidget("Qty", (input) => {_receipt.products[index].quantity = int.parse(input), setState(() {})},
+                TextInputType.number),
           ],
         ),
       ),
     );
-  }
-
-  showSuccessFlushbar(BuildContext context) {
-    Flushbar(
-      padding: EdgeInsets.all(10),
-      borderRadius: 8,
-      //todo customise if ya want
-      backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
-      boxShadows: [
-        BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
-      ],
-      duration: Duration(seconds: 1, milliseconds: 40),
-      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-      titleText: Text(
-        "Receipt sent",
-        style: TextStyle(color: Colors.green),
-      ),
-      messageText: Text(
-        "Aye, good job",
-        style: TextStyle(color: Colors.black),
-      ),
-    )..show(context);
   }
 
   showFailureFlushbar(BuildContext context) {
@@ -227,7 +223,7 @@ class _AddReceiptState extends State<AddReceipt> {
       boxShadows: [
         BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
       ],
-      duration: Duration(seconds: 1, milliseconds: 40),
+      duration: Duration(seconds: 3),
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
       titleText: Text(
@@ -235,7 +231,30 @@ class _AddReceiptState extends State<AddReceipt> {
         style: TextStyle(color: Colors.red),
       ),
       messageText: Text(
-        "Aye, good job",
+        "Try again later",
+        style: TextStyle(color: Colors.black),
+      ),
+    )..show(context);
+  }
+
+  showSuccessFlushbar(BuildContext context, String sum) {
+    Flushbar(
+      padding: EdgeInsets.all(10),
+      borderRadius: 8,
+      //todo customise if ya want
+      backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
+      boxShadows: [
+        BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
+      ],
+      duration: Duration(seconds: 3),
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+      titleText: Text(
+        "Receipt sent",
+        style: TextStyle(color: Colors.green),
+      ),
+      messageText: Text(
+        "$sum PLN removed from limits",
         style: TextStyle(color: Colors.black),
       ),
     )..show(context);
