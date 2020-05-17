@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
-import 'package:gdziemojhajsapp/pages/NewReceipt/add_receipt.dart';
+import 'package:gdziemojhajsapp/pages/Receipt/edit_receipt.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:unicorndial/unicorndial.dart';
 
@@ -137,7 +137,8 @@ Widget speedDialWidget(BuildContext context) {
           focusColor: Colors.blueAccent,
           mini: true,
           child: Icon(Icons.edit),
-          onPressed: () {Navigator.of(context).pushNamed(AddReceipt.tag);},
+          onPressed: () {Navigator.push(context,
+              MaterialPageRoute(builder: (context) => EditReceipt()));},
         ),
       ),
     ],
