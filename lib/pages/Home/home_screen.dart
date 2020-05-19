@@ -1,13 +1,12 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/product_controller.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 
-import 'Widgets/default_app_bar.dart';
-import 'Widgets/default_gradient_decoration.dart';
+import 'Widgets/dashboard_menu.dart';
+import 'Widgets/main_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static var tag = "/home";
@@ -18,76 +17,67 @@ class HomeScreen extends StatefulWidget {
 
 //todo import new font, prolly roboto or ubuntu
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  ReceiptController receiptController = ReceiptController();
-  ProductController productController = ProductController();
+  double _screenWidth;
+  final Duration duration = const Duration(milliseconds: 300);
+  bool isCollapsed = true;
+  AnimationController _controller;
+  Animation<double> _scaleAnimation;
+  Animation<double> _menuScaleAnimation;
+  Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: duration);
+    _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
+    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery
+        .of(context)
+        .size;
+    _screenWidth = size.width;
     ScreenUtil.init(context, width: 960, height: 1600, allowFontScaling: true);
     FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
     return Scaffold(
       key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.white,
-      appBar: defaultAppBar(),
-      body: Container(
-        decoration: defaultGradientDecoration(),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(
-              ScreenUtil().setWidth(30), //left
-              0,
-              ScreenUtil().setWidth(30), //right
-              ScreenUtil().setWidth(20),
-            ),
-            child: Container(
-              width: double.infinity,
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                      flex: 2,
-                      child: Container(
-                          child: Center(
-                        child: Text(
-                          "Hello User",
-                          style: TextStyle(color: Colors.white, fontSize: 40),
-                        ),
-                      ))),
-                  Expanded(
-                    flex: 6,
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: ColorStyles.hexToColor("#FEFEFE"),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-//                        child: FutureBuilder(
-//                          future: ,
-//                          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {},),
-                        child: Text("Here stuff"),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('pressed');
-//          receiptController.getReceipt(1);
-          Navigator.pushNamed(context, "/newReceipt");
-//          Navigator.of(context).pushNamed('/addReceipt');
-        },
-        child: Icon(Icons.add),
+      body: Stack(
+        children: <Widget>[
+          //            dashboard(context),
+          menu(context: context,
+              menuScaleAnimation: _menuScaleAnimation,
+              screenWidth: _screenWidth,
+              slideAnimation: _slideAnimation),
+          dashboard(context: context,
+              screenWidth: _screenWidth,
+              duration: duration,
+              isCollapsed: isCollapsed,
+              scaleAnimation: _scaleAnimation,
+              notifyParent:refresh)
+        ],
       ),
     );
   }
+
+  void refresh() {
+    setState(() {
+      isCollapsed ? _controller.forward() : _controller.reverse();
+      isCollapsed = !isCollapsed;
+    });
+  }
+
+
 }

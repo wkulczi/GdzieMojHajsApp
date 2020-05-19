@@ -6,7 +6,6 @@ import 'pages/NewReceipt/add_receipt.dart';
 import 'pages/Account/login_page.dart';
 import 'pages/Account/register_page.dart';
 import 'pages/Account/forget_password_page.dart';
-import 'pages/home_page.dart';
 import 'pages/AccountSettings/change_password_page.dart';
 import 'pages/AccountSettings/change_question_answer_page.dart';
 import 'package:gdziemojhajsapp/pages/categoryPage.dart';
@@ -21,7 +20,6 @@ class MyApp extends StatelessWidget {
     ForgetPasswordPage.tag: (context) => ForgetPasswordPage(),
     ForgetPasswordQuestionPage.tag: (context) => ForgetPasswordQuestionPage(),
     ForgetPasswordSuccessPage.tag: (context) => ForgetPasswordSuccessPage(),
-    HomePage.tag: (context) => HomePage(),
     UserSettingsPage.tag: (context) => UserSettingsPage(),
     ChangePasswordPage.tag: (context) => ChangePasswordPage(),
     ChangeQuestionAnswerPage.tag: (context) => ChangeQuestionAnswerPage(),
