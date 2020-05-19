@@ -1,6 +1,7 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
@@ -19,12 +20,12 @@ class CreateReceipt extends StatefulWidget {
 class _CreateReceiptState extends State<CreateReceipt> {
   final _formKey = GlobalKey<FormState>();
   ReceiptModel _receipt;
-  bool isEmpty = true;
+  bool isNewReceipt = true;
 
   _CreateReceiptState(receipt) {
     if (receipt != null) {
       this._receipt = receipt;
-      this.isEmpty = false;
+      this.isNewReceipt = false;
     } else {
       this._receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
     }
@@ -43,11 +44,24 @@ class _CreateReceiptState extends State<CreateReceipt> {
                 stretch: true,
                 actions: <Widget>[
                   Visibility(
-                    visible: !isEmpty,
+                    visible: !isNewReceipt,
                     child: InkWell(
-                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Icon(Icons.delete_outline)),
-                      onTap: (){
+                      child: Padding(padding: EdgeInsets.symmetric(horizontal: 15), child: Icon(Icons.delete_outline)),
+                      onTap: () async {
+                        //tutaj jakaś wiksa będzie z dodawaniem kasy do limitu z kategorii, SZTOS
+                        await ReceiptController.deleteReceipt(_receipt.id).then((value) async => {
+                              if (value == 200)
+                                {
+                                  await Navigator.of(context).pop(),
+                                  //todo
+                                  showSuccessFlushbar(context, sum: "TODO"),
+                                }
+                              else
+                                {
+                                  showFailureFlushbar(context),
+                                }
+                            });
+
 //                      TODO -> SEND REMOVE
                       },
                     ),
@@ -55,7 +69,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                 ],
                 flexibleSpace: FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text(isEmpty ? "New receipt" : "Edit receipt"),
+                  title: Text(isNewReceipt ? "New receipt" : "Edit receipt"),
                 ),
                 backgroundColor: Colors.transparent,
               ),
@@ -106,25 +120,43 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.max,
                                       children: <Widget>[
-                                        Icon(Icons.save),
-                                        Text("Save receipt"),
+                                        isNewReceipt ? Icon(Icons.save) : Icon(Icons.arrow_upward),
+                                        Text((isNewReceipt ? "Save receipt" : "Update receipt")),
                                       ],
                                     ),
                                     //todo isempty? this : update
                                     onPressed: () async => {
-                                      if (_formKey.currentState.validate())
+                                      if (isNewReceipt)
                                         {
-                                          ReceiptController.sendReceipt(receipt: this._receipt).then(
-                                            (value) async => {
-                                              if (value.statusCode == 200)
-                                                {
-                                                  await Navigator.of(context).pop(),
-                                                  showSuccessFlushbar(context, this._receipt.sum.toString()),
-                                                }
-                                              else
-                                                {showFailureFlushbar(context)}
-                                            },
-                                          )
+                                          if (_formKey.currentState.validate())
+                                            {
+                                              ReceiptController.sendReceipt(receipt: this._receipt).then(
+                                                (value) async => {
+                                                  if (value.statusCode == 200)
+                                                    {
+                                                      await Navigator.of(context).pop(),
+                                                      showSuccessFlushbar(context, sum: this._receipt.sum.toString()),
+                                                    }
+                                                  else
+                                                    {showFailureFlushbar(context)}
+                                                },
+                                              )
+                                            }
+                                        }
+                                      else
+                                        {
+                                          if (this._receipt.products.length == 0)
+                                            {print(this._receipt.products.length), showFailureFlushbar(context)},
+                                          if (_formKey.currentState.validate() && this._receipt.products.length > 0)
+                                            {
+                                              //if receipt.products.length==0 -> flushbar
+                                              //todo jak zrobię moduł rafała to dopiero wtedy mogę robić to
+                                              await ReceiptController.updateReceipt(receipt: this._receipt).then(
+                                                  (value) async => {
+                                                        await Navigator.of(context).pop(),
+                                                        showSuccessFlushbar(context, sum: "JESTEM CZAJNIKIEM, DUT DUT")
+                                                      })
+                                            }
                                         }
                                     },
                                   )
@@ -225,6 +257,19 @@ class _CreateReceiptState extends State<CreateReceipt> {
         padding: EdgeInsets.all(20),
         child: Column(
           children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: InkWell(
+                child: Padding(
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(50)), //back at it again with clever hacks
+                  child: Icon(Icons.remove),
+                ),
+                onTap: () {
+                  this._receipt.products.removeAt(index);
+                  setState(() {});
+                },
+              ),
+            ),
             formFieldWidget(this._receipt.products[index].name, "Name",
                 (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
             formFieldWidget(
@@ -260,7 +305,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
       titleText: Text(
-        isEmpty? "Error sending receipt" : "Error updating receipt",
+        isNewReceipt ? "Error sending receipt" : "Error updating receipt",
         style: TextStyle(color: Colors.red),
       ),
       messageText: Text(
@@ -270,7 +315,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
     )..show(context);
   }
 
-  showSuccessFlushbar(BuildContext context, String sum) {
+  showSuccessFlushbar(BuildContext context, {String sum = '0'}) {
     Flushbar(
       padding: EdgeInsets.all(10),
       borderRadius: 8,
@@ -283,11 +328,11 @@ class _CreateReceiptState extends State<CreateReceipt> {
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
       titleText: Text(
-        isEmpty ? "Receipt sent": "Receipt updated",
+        isNewReceipt ? "Receipt sent" : "Receipt updated",
         style: TextStyle(color: Colors.green),
       ),
       messageText: Text(
-        "$sum PLN removed from limits",
+        "$sum PLN" + (isNewReceipt ? " removed from limits" : " returned to limits"),
         style: TextStyle(color: Colors.black),
       ),
     )..show(context);

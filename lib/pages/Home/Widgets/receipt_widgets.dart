@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
@@ -26,20 +27,23 @@ Widget receiptList() {
 }
 
 Widget noReceiptsWidget({scrollController}) {
-  return ListView(controller: scrollController, children: [
-    Container(
-        color: Colors.white,
-        child: Center(
-            child: Padding(
-          padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
-          child: Column(
-            children: <Widget>[
-              Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
-              Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
-            ],
-          ),
-        )))
-  ]);
+  return Container(color:Colors.white,
+    child: ListView(controller: scrollController, children: [
+      Container(
+          color: Colors.white,
+          child: Center(
+              child: Padding(
+            padding: EdgeInsets.only(top: ScreenUtil().setHeight(40)),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
+                Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
+              ],
+            ),
+          )))
+    ]),
+  );
 }
 
 Widget receiptListWidget({context, snapshot, scrollController}) {
@@ -91,6 +95,7 @@ Widget receiptCard({context, id, companyName, sum}) {
     child: ListTile(
       onTap: () async {
         var payload = await ReceiptController.getReceiptById(id);
+        print(payload.id);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => CreateReceipt(receipt: payload)));
       },

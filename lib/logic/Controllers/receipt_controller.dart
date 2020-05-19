@@ -20,6 +20,7 @@ class ReceiptController {
   static Future<ReceiptModel> getReceiptById(id) async {
     final http.Response response = await http.get(MyApp.serverAddress +
         "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=$id");
+      print(jsonDecode(response.body));
      return ReceiptModel.fromJson(jsonDecode(response.body));
   }
 
@@ -39,6 +40,21 @@ class ReceiptController {
     List<Map> mappedList = receiptsListMapping(receiptsMap);
 
     return mappedList;
+  }
+  static Future<http.Response>updateReceipt({ReceiptModel receipt}) async {
+    final http.Response response = await http.patch(MyApp.serverAddress +
+        "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=${receipt.id}",
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(receipt.toJson()));
+    return response;
+  }
+
+  static Future<int>deleteReceipt(id) async {
+    var response = await http.delete(MyApp.serverAddress +
+        "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=$id");
+    return response.statusCode;
   }
 
   static List<Map> receiptsListMapping(Map receiptsMap) {
@@ -65,4 +81,5 @@ class ReceiptController {
 
     return result;
   }
+
 }
