@@ -1,21 +1,25 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:gdziemojhajsapp/pages/Menu/ola_state.dart';
+import 'package:provider/provider.dart';
 
 void main() => runApp(MaterialApp(
-    home: MyApp()));
+    home: unlimitedPower()));
 
-class MyApp extends StatefulWidget {
+class unlimitedPower extends StatefulWidget {
+  static String tag = "/unlimited_power";
   @override
-  _MyAppState createState() => _MyAppState();
+  _unlimitedPowerState createState() => _unlimitedPowerState();
 }
 
-class _MyAppState extends State<MyApp> {
-  double monthly = 0.00;
-  double daily = 0.00;
-  double minus_daily = 0.00;
-  double subtract = 0.00;
+class _unlimitedPowerState extends State<unlimitedPower> {
+//  double monthly = 0.00;
+//  double daily = 0.00;
+//  double minus_daily = 0.00;
+//  double subtract = 0.00;
   @override
   Widget build(BuildContext context) {
+    final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     return Scaffold(
         appBar: AppBar(
           title: Text('Gdzie mój hajs?'),
@@ -25,7 +29,7 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: <Widget>[
             Text(
-              'Mój miesięczny hajs: $monthly zł.',
+              'Mój miesięczny hajs: ${limitsState.getMonthly()} zł.',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -33,7 +37,7 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
             Text(
-              'Mój pozostały dzienny hajs: $minus_daily zł.',
+              'Mój pozostały dzienny hajs: ${limitsState.getMinusDaily()} zł.',
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
@@ -62,6 +66,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   monthly_budget() {
+    final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     AlertDialog dialog = new AlertDialog(
       contentPadding: const EdgeInsets.all(10.0),
       content: new Row(
@@ -80,7 +85,7 @@ class _MyAppState extends State<MyApp> {
               onSubmitted: (text) {
                 print("Twój miesięczny hajs to: $text " + " zł.");
                 setState(() {
-                  monthly = double.parse(text);
+                  limitsState.changeMonthly(double.parse(text));
                 });
               },
             ),
@@ -100,6 +105,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   daily_budget(){
+    final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     AlertDialog dialog = new AlertDialog(
       contentPadding: const EdgeInsets.all(10.0),
       content: new Row(
@@ -118,8 +124,8 @@ class _MyAppState extends State<MyApp> {
               onSubmitted: (text) {
                 print("Twój dzienny hajs to: $text " + " zł.");
                 setState(() {
-                  daily = double.parse(text);
-                  minus_daily = double.parse(text);
+                  limitsState.changeDaily(double.parse(text));
+                  limitsState.changeMinusDaily(double.parse(text));
                 });
               },
             ),
@@ -139,6 +145,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   minus_daily_budget(){
+    final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     AlertDialog dialog = new AlertDialog(
       contentPadding: const EdgeInsets.all(10.0),
       content: new Row(
@@ -158,11 +165,11 @@ class _MyAppState extends State<MyApp> {
                 onSubmitted: (text) {
                   print("Twój odjęty hajs to: $text " + " zł.");
                   setState(() {
-                    subtract = double.parse(text);
+                    limitsState.changeSubtract(double.parse(text));
                   });
-                  minus_daily = minus_daily - subtract;
-                  monthly = monthly - subtract;
-                  if (minus_daily <= 0){
+                  limitsState.changeMinusDaily(limitsState.getMinusDaily() - limitsState.getSubtract());
+                  limitsState.changeMonthly(limitsState.getMonthly() - limitsState.getSubtract());
+                  if (limitsState.getMinusDaily() <= 0){
                     AlertDialog dial = new AlertDialog(
                       title: Text("Przekroczono dzienny limit wydatków!"),
                       actions: <Widget>[
