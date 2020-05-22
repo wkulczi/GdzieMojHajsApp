@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pzapp/Category.dart';
 import 'package:pzapp/categoryCard.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
+import 'package:pzapp/limit_state.dart';
+import 'package:provider/provider.dart';
+
+
 
 class Categories extends StatefulWidget {
   @override
@@ -9,19 +15,38 @@ class Categories extends StatefulWidget {
 
 class _CategoriesState extends State<Categories> {
 
-  List<Category> categories = [
-    Category(name: "Jedzenie", image: 'images/jedzenie.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na jedzenie."),
-    Category(name: "Relaks", image: 'images/relaks.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na relaks."),
-    Category(name: "Odzież", image: 'images/odziez.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na odziez."),
-    Category(name: "Sprzęt", image: 'images/sprzet.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na sprzęt."),
-    Category(name: "Mieszkanie", image: 'images/mieszkanie.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na mieszkanie."),
-    Category(name: "Transport", image: 'images/transport.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na transport."),
-    Category(name: "Higiena", image: 'images/higiena.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na środki higieniczne."),
-    Category(name: "Rachunki", image: 'images/rachunki.jpg', description: "W tej kategorii znajdują się dane dotyczace środków wydanych na rachunki."),
-  ];
+  List data = [];
+  List<Category> categories = [];
+
+
+  void getData() async {
+    Response response = await get('http://10.0.2.2:5000/categories');
+    data = jsonDecode(response.body);
+    print(data[0]['name']);
+    makeCategories();
+  }
+
+  void makeCategories(){
+    for (Map category in data){
+      categories.add(
+          Category(name: category['name'], description: category['description'],
+              image: 'images/' + category['image'])
+      );
+    }
+    print(categories[0]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
 
   @override
   Widget build(BuildContext context) {
+    final CategoriesState categoriesState = Provider.of<CategoriesState>(context);
+    categoriesState.addAll(categories);
     return  Scaffold(
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
@@ -31,6 +56,13 @@ class _CategoriesState extends State<Categories> {
       ),
       body: ListView(
         children: categories.map((category) =>  CategoryCard(category: category)).toList(),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/limit_transfer');
+        },
+        tooltip: 'Increment Counter',
+        child: const Icon(Icons.add),
       ),
     );
   }
