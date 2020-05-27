@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/settings_page.dart';
+import 'package:gdziemojhajsapp/pages/Categories/categories.dart';
+import 'package:gdziemojhajsapp/pages/Categories/categoryPage.dart';
+import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
+import 'package:gdziemojhajsapp/pages/Categories/limit_transfer.dart';
 import 'package:gdziemojhajsapp/pages/Menu/menu.dart';
 import 'package:gdziemojhajsapp/pages/Menu/ola_state.dart';
 import 'package:gdziemojhajsapp/pages/Receipt/createReceipt.dart';
@@ -11,8 +15,6 @@ import 'pages/Account/register_page.dart';
 import 'pages/Account/forget_password_page.dart';
 import 'pages/AccountSettings/change_password_page.dart';
 import 'pages/AccountSettings/change_question_answer_page.dart';
-import 'file:///C:/Users/Evenlaxxus/AndroidStudioProjects/GdzieMojHajsApp/lib/pages/Categories/categoryPage.dart';
-import 'file:///C:/Users/Evenlaxxus/AndroidStudioProjects/GdzieMojHajsApp/lib/pages/Categories/categories.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
     CreateReceipt.tag: (context) => CreateReceipt(),
     CategoryPage.tag: (context) => CategoryPage(),
     Categories.tag: (context) => Categories(),
+    LimitTransfer.tag: (context) => LimitTransfer(),
     SetLimits.tag: (context) => SetLimits()
   };
 
@@ -40,8 +43,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<LimitsState>.value(
-      value: LimitsState(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LimitsState>.value(
+          value: LimitsState(),
+        ),
+        ChangeNotifierProvider<CategoriesState>.value(
+          value: CategoriesState(),
+        )
+      ],
       child: MaterialApp(
         title: 'GdzieMojHajs',
         debugShowCheckedModeBanner: false,

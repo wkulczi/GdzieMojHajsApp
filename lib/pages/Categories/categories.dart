@@ -1,66 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/pages/Categories/Category.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/category_controller.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categoryCard.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
-import 'file:///C:/Users/Evenlaxxus/AndroidStudioProjects/GdzieMojHajsApp/lib/pages/Categories/limit_state.dart';
+import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
+import 'package:gdziemojhajsapp/pages/Categories/limit_transfer.dart';
+
 import 'package:provider/provider.dart';
 
-
-
-class Categories extends StatefulWidget {
+class Categories extends StatelessWidget {
   static String tag = "/categories";
-  @override
-  _CategoriesState createState() => _CategoriesState();
-}
-
-class _CategoriesState extends State<Categories> {
-
-  List data = [];
-  List<Category> categories = [];
-
-
-  void getData() async {
-    Response response = await get('http://10.0.2.2:5000/categories');
-    data = jsonDecode(response.body);
-    print(data[0]['name']);
-    makeCategories();
-  }
-
-  void makeCategories(){
-    for (Map category in data){
-      categories.add(
-          Category(name: category['name'], description: category['description'],
-              image: 'images/' + category['image'])
-      );
-    }
-    print(categories[0]);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    final CategoriesState categoriesState = Provider.of<CategoriesState>(context);
-    categoriesState.addAll(categories);
-    return  Scaffold(
+    final CategoriesState categoriesState =
+        Provider.of<CategoriesState>(context, listen: false);
+    return Scaffold(
       backgroundColor: Colors.grey[400],
       appBar: AppBar(
         title: Text("Kategorie"),
         centerTitle: true,
         backgroundColor: Colors.grey[850],
       ),
-      body: ListView(
-        children: categories.map((category) =>  CategoryCard(category: category)).toList(),
+      body: FutureBuilder(
+        future: CategoryController.getData(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            categoriesState.categories = snapshot.data;
+            return ListView(
+                children: categoriesState.categories
+                    .map((category) => CategoryCard(category: category))
+                    .toList());
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
+//      ListView(
+//        children: categoriesState.categories.map((category) =>  CategoryCard(category: category)).toList(),
+//      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/limit_transfer');
+          Navigator.pushNamed(context, LimitTransfer.tag);
         },
         tooltip: 'Increment Counter',
         child: const Icon(Icons.add),

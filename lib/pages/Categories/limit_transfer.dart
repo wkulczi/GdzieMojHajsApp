@@ -5,6 +5,8 @@ import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
 import 'package:provider/provider.dart';
 
 class LimitTransfer extends StatefulWidget {
+  static String tag = "/limit_transfer";
+
   @override
   _LimitTransferState createState() => _LimitTransferState();
 }
@@ -17,7 +19,6 @@ class _LimitTransferState extends State<LimitTransfer> {
   @override
   Widget build(BuildContext context) {
 
-//    final LimitState limitState = Provider.of<LimitState>(context);
     final CategoriesState categoriesState = Provider.of<CategoriesState>(context);
 
     return Scaffold(

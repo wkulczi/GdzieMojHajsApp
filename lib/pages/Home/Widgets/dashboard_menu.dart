@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:gdziemojhajsapp/pages/Categories/categories.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
 import 'package:gdziemojhajsapp/pages/Menu/menu.dart';
 import 'package:gdziemojhajsapp/pages/Menu/ola_state.dart';
@@ -66,27 +67,47 @@ bottomPage(context) {
     color: Colors.white,
     child: Column(
       children: <Widget>[
-        Align(
-          alignment: Alignment.centerRight,
-          child: InkWell(
-            child: Container(
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.black, width: 0.5),
+        Row(
+          children: <Widget>[
+            InkWell(
+              child: Container(
+                padding: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.black, width: 0.5),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Ustawienia limitów "),
+                    Icon(Icons.settings),
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text("Ustawienia limitów "),
-                  Icon(Icons.settings),
-                ],
-              ),
+              onTap: () {
+                Navigator.pushNamed(context, SetLimits.tag);
+              },
             ),
-            onTap: () {
-              Navigator.pushNamed(context, SetLimits.tag);
-            },
-          ),
+            InkWell(
+              child: Container(
+                padding: EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.black, width: 0.5),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text("Kategorie"),
+                    Icon(Icons.settings),
+                  ],
+                ),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, Categories.tag);
+              },
+            ),
+          ],
         ),
         daily == 0
             ? Container(
