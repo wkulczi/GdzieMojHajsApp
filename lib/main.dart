@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
     CreateReceipt.tag: (context) => CreateReceipt(),
     CategoryPage.tag: (context) => CategoryPage(),
     Categories.tag: (context) => Categories(),
-    unlimitedPower.tag: (context) => unlimitedPower()
+    SetLimits.tag: (context) => SetLimits()
   };
 
   static final String serverAddress = 'http://10.0.2.2:5000';

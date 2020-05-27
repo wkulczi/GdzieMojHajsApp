@@ -1,68 +1,163 @@
 import 'package:fab_circular_menu/fab_circular_menu.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/pages/Menu/ola_state.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MaterialApp(
-    home: unlimitedPower()));
+class SetLimits extends StatefulWidget {
+  static String tag = "/set_limits";
 
-class unlimitedPower extends StatefulWidget {
-  static String tag = "/unlimited_power";
   @override
-  _unlimitedPowerState createState() => _unlimitedPowerState();
+  _SetLimitsState createState() => _SetLimitsState();
 }
 
-class _unlimitedPowerState extends State<unlimitedPower> {
-//  double monthly = 0.00;
-//  double daily = 0.00;
-//  double minus_daily = 0.00;
-//  double subtract = 0.00;
+class _SetLimitsState extends State<SetLimits> {
   @override
   Widget build(BuildContext context) {
     final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Gdzie mój hajs?'),
-          centerTitle: true,
-          backgroundColor: Colors.indigoAccent[400],
-        ),
-        body: Column(
-          children: <Widget>[
-            Text(
-              'Mój miesięczny hajs: ${limitsState.getMonthly()} zł.',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
+        extendBodyBehindAppBar: true,
+        body: Container(
+          color: ColorStyles.hexToColor("#F8F8FF"),
+          child: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                expandedHeight: 150,
+                stretch: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Text("Ustawienia limitów"),
+                ),
+                backgroundColor: Colors.transparent,
               ),
-            ),
-            Text(
-              'Mój pozostały dzienny hajs: ${limitsState.getMinusDaily()} zł.',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey,
-              ),
-            )
-          ],
+              SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Container(
+                        decoration:
+                            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
+                        child: SafeArea(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 40),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'Mój pozostały miesięczny hajs: ',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blueGrey,
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(
+                                          "${limitsState.getMonthly()}",
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.blueGrey,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            "zł",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blueGrey,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  'Mój pozostały dzienny hajs: ',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blueGrey,
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        flex: 4,
+                                        child: Text(
+                                          "${limitsState.getDaily()}",
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.blueGrey,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            "zł",
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blueGrey,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
-        floatingActionButton: FabCircularMenu(
-            children: <Widget>[
-              IconButton(icon: Icon(Icons.all_inclusive), onPressed: () {
+        floatingActionButton: FabCircularMenu(children: <Widget>[
+          IconButton(
+              icon: Icon(Icons.all_inclusive),
+              onPressed: () {
                 monthly_budget();
               }),
-              IconButton(icon: Icon(Icons.calendar_today), onPressed: () {
+          IconButton(
+              icon: Icon(Icons.calendar_today),
+              onPressed: () {
                 daily_budget();
               }),
-              IconButton(icon: Icon(Icons.money_off), onPressed: (){
-                minus_daily_budget();
-              },
-
-              )
-            ]
-
-        )
-    );
+          IconButton(
+            icon: Icon(Icons.money_off),
+            onPressed: () {
+              minus_daily_budget();
+            },
+          )
+        ]));
   }
 
   monthly_budget() {
@@ -74,10 +169,7 @@ class _unlimitedPowerState extends State<unlimitedPower> {
           new Expanded(
             child: new TextField(
               autofocus: true,
-              decoration: InputDecoration(
-                  labelText: 'Nowy miesięczny budżet',
-                  contentPadding: EdgeInsets.all(5.0)
-              ),
+              decoration: InputDecoration(labelText: 'Nowy miesięczny budżet', contentPadding: EdgeInsets.all(5.0)),
               style: TextStyle(
                 fontSize: 17.5,
               ),
@@ -92,9 +184,9 @@ class _unlimitedPowerState extends State<unlimitedPower> {
           )
         ],
       ),
-      actions: <Widget> [
+      actions: <Widget>[
         FlatButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           child: Text('ZAMKNIJ'),
@@ -104,7 +196,7 @@ class _unlimitedPowerState extends State<unlimitedPower> {
     showDialog(context: context, child: dialog);
   }
 
-  daily_budget(){
+  daily_budget() {
     final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     AlertDialog dialog = new AlertDialog(
       contentPadding: const EdgeInsets.all(10.0),
@@ -113,10 +205,7 @@ class _unlimitedPowerState extends State<unlimitedPower> {
           new Expanded(
             child: new TextField(
               autofocus: true,
-              decoration: InputDecoration(
-                  labelText: 'Twój dzisiejszy budżet',
-                  contentPadding: EdgeInsets.all(5.0)
-              ),
+              decoration: InputDecoration(labelText: 'Twój dzisiejszy budżet', contentPadding: EdgeInsets.all(5.0)),
               style: TextStyle(
                 fontSize: 17.5,
               ),
@@ -132,9 +221,9 @@ class _unlimitedPowerState extends State<unlimitedPower> {
           )
         ],
       ),
-      actions: <Widget> [
+      actions: <Widget>[
         FlatButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           child: Text('ZAMKNIJ'),
@@ -144,7 +233,7 @@ class _unlimitedPowerState extends State<unlimitedPower> {
     showDialog(context: context, child: dialog);
   }
 
-  minus_daily_budget(){
+  minus_daily_budget() {
     final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
     AlertDialog dialog = new AlertDialog(
       contentPadding: const EdgeInsets.all(10.0),
@@ -153,10 +242,7 @@ class _unlimitedPowerState extends State<unlimitedPower> {
           new Expanded(
             child: new TextField(
                 autofocus: true,
-                decoration: InputDecoration(
-                    labelText: 'Podaj kwotę zakupów: ',
-                    contentPadding: EdgeInsets.all(5.0)
-                ),
+                decoration: InputDecoration(labelText: 'Podaj kwotę zakupów: ', contentPadding: EdgeInsets.all(5.0)),
                 style: TextStyle(
                   fontSize: 17.5,
                 ),
@@ -169,28 +255,28 @@ class _unlimitedPowerState extends State<unlimitedPower> {
                   });
                   limitsState.changeMinusDaily(limitsState.getMinusDaily() - limitsState.getSubtract());
                   limitsState.changeMonthly(limitsState.getMonthly() - limitsState.getSubtract());
-                  if (limitsState.getMinusDaily() <= 0){
+                  if (limitsState.getMinusDaily() < 0) {
                     AlertDialog dial = new AlertDialog(
                       title: Text("Przekroczono dzienny limit wydatków!"),
                       actions: <Widget>[
                         FlatButton(
-                          onPressed: (){Navigator.pop(context);},
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
                           child: Text('OK'),
                         ),
-
                       ],
                     );
                     showDialog(context: context, child: dial);
                   }
-                }
-            ),
+                }),
           )
         ],
       ),
-      actions: <Widget> [
+      actions: <Widget>[
         FlatButton(
           // ignore: missing_return
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
           child: Text('ZAMKNIJ'),
