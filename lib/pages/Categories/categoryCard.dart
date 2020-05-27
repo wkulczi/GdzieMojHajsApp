@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/pages/Category.dart';
+import 'package:gdziemojhajsapp/pages/Categories/Category.dart';
 
 
 class CategoryCard extends StatelessWidget {
@@ -49,7 +49,8 @@ class CategoryCard extends StatelessWidget {
                         Navigator.pushNamed(context, '/category', arguments: {
                           'name': category.name,
                           'description': category.description,
-                          'spent': category.spent
+                          'spent': category.spent,
+                          'limit': category.limit
                         });
                       },
                       icon: Stack(

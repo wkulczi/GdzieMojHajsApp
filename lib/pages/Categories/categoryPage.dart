@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:provider/provider.dart';
+import 'file:///C:/Users/Evenlaxxus/AndroidStudioProjects/GdzieMojHajsApp/lib/pages/Categories/limit_state.dart';
 
 class CategoryPage extends StatefulWidget {
-  static String tag = "category";
+  static String tag = "/category_page";
 
   @override
   _CategoryPageState createState() => _CategoryPageState();
@@ -12,11 +14,12 @@ class CategoryPage extends StatefulWidget {
 class _CategoryPageState extends State<CategoryPage> {
 
   Map data = {};
-  double limit = 0.0;
 
   @override
   Widget build(BuildContext context) {
 
+//    final LimitState limitState = Provider.of<LimitState>(context);
+    final CategoriesState categoriesState = Provider.of<CategoriesState>(context);
     data = ModalRoute.of(context).settings.arguments;
     Map<String, double> dataMap = new Map();
     dataMap.putIfAbsent(data['name'], () => data['spent']);
@@ -61,10 +64,18 @@ class _CategoryPageState extends State<CategoryPage> {
                       ),
                     ),
                     SizedBox(height: 5.0),
+                    data['spent'] > categoriesState.getLimit(data['name']) ?
                     Text(
                       data['spent'].toString() + " zł",
                       style: TextStyle(
-                          fontSize: 40
+                        fontSize: 40,
+                        color: Colors.red,
+                      ),
+                    ) :
+                    Text(
+                      data['spent'].toString() + " zł",
+                      style: TextStyle(
+                        fontSize: 40,
                       ),
                     ),
                   ],
@@ -82,7 +93,7 @@ class _CategoryPageState extends State<CategoryPage> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      limit.toString() + " zł",
+                      categoriesState.getLimit(data['name']).toString() + " zł",
                       style: TextStyle(
                           fontSize: 40
                       ),
@@ -113,15 +124,28 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             SizedBox(height: 5.0),
             Slider(
-              value: limit.toDouble(),
+              value: categoriesState.getLimit(data['name']).toDouble(),
               onChanged: (newLimit) {
-                setState(() => limit = newLimit);
+                setState(() => categoriesState.changeLimit(data['name'], newLimit));
               },
               min: 0,
               max: 500,
-              divisions: 250,
-              label: limit.toString()
-            )
+              divisions: 500,
+              label: categoriesState.getLimit(data['name']).toString()
+            ),
+            SizedBox(height: 5.0),
+            data['spent'] > categoriesState.getLimit(data['name']) ?
+            Text(
+              "PRZEKROCZONO LIMIT",
+              style: TextStyle(
+                letterSpacing: 2.0,
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ):
+            Text(
+              "",
+            ),
           ],
         ),
       )
