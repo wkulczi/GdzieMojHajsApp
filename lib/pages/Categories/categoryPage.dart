@@ -59,14 +59,14 @@ class CategoryPage extends StatelessWidget {
                       SizedBox(height: 5.0),
                       data['spent'] > categoriesState.getLimit(data['name']) ?
                       Text(
-                        data['spent'].toString() + " zł",
+                        data['spent'].toStringAsFixed(2) + " zł",
                         style: TextStyle(
                           fontSize: 40,
                           color: Colors.red,
                         ),
                       ) :
                       Text(
-                        data['spent'].toString() + " zł",
+                        data['spent'].toStringAsFixed(2) + " zł",
                         style: TextStyle(
                           fontSize: 40,
                         ),
@@ -86,7 +86,7 @@ class CategoryPage extends StatelessWidget {
                       ),
                       SizedBox(height: 5.0),
                       Text(
-                        categoriesState.getLimit(data['name']).toString() +
+                        categoriesState.getLimit(data['name']).toStringAsFixed(2) +
                             " zł",
                         style: TextStyle(
                             fontSize: 40

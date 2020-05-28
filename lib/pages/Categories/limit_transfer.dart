@@ -75,6 +75,34 @@ class _LimitTransferState extends State<LimitTransfer> {
                 ],
               ),
               SizedBox(height: 10.0),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      SizedBox(height: 5.0),
+                      Text(
+                        _item1 == null ? "0" : categoriesState.getLimit(_item1).toStringAsFixed(2) + " zł",
+                        style: TextStyle(
+                          fontSize: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        _item2 == null ? "0" : categoriesState.getLimit(_item2).toStringAsFixed(2) + " zł",
+                        style: TextStyle(
+                          fontSize: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
               Text(
                 _item1 == null ? "WYBIERZ KATEGORIĘ": _item1,
                 style: TextStyle(
@@ -92,9 +120,10 @@ class _LimitTransferState extends State<LimitTransfer> {
                     categoriesState.changeLimit(_item1, newLimit);
                   },
                   min: 0,
-                  max: _item1 == null? 0: 500,
-                  divisions: 500,
-                  label: categoriesState.getLimit(_item1).toString()
+                  max: _item1 == null? _item2 == null ? 0 : categoriesState.getLimit(_item2).toDouble() :
+                  _item2 == null ? categoriesState.getLimit(_item1).toDouble() :
+                  categoriesState.getLimit(_item1).toDouble() + categoriesState.getLimit(_item2).toDouble(),
+                  divisions: 500
               ),
               SizedBox(height: 10.0),
               Text(
@@ -114,9 +143,10 @@ class _LimitTransferState extends State<LimitTransfer> {
                     categoriesState.changeLimit(_item2, newLimit);
                   },
                   min: 0,
-                  max: _item2 == null ? 0: 500,
+                  max: _item1 == null? _item2 == null ? 0 : categoriesState.getLimit(_item2).toDouble() :
+                  _item2 == null ? categoriesState.getLimit(_item1).toDouble() :
+                  categoriesState.getLimit(_item1).toDouble() + categoriesState.getLimit(_item2).toDouble(),
                   divisions: 500,
-                  label: categoriesState.getLimit(_item2).toString()
               ),
             ],
           ),
