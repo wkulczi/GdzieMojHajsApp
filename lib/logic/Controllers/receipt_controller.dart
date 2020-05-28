@@ -1,18 +1,12 @@
-import 'dart:collection';
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';
-import 'package:gdziemojhajsapp/logic/Entities/product.dart';
 import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/pages/Home/Widgets/dashboard_menu.dart';
-import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
+import 'package:gdziemojhajsapp/pages/Home/Widgets/sort_receipts_bar.dart';
 import 'package:http/http.dart' as http;
 
 import '../../main.dart';
-import 'dart:math';
 
 class ReceiptController {
   static Future<http.Response> sendReceipt({ReceiptModel receipt}) async {
