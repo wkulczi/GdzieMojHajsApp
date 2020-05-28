@@ -1,6 +1,8 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categories.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
 import 'package:gdziemojhajsapp/pages/Menu/menu.dart';
@@ -57,7 +59,7 @@ Widget dashboard({context, scaleAnimation, isCollapsed, screenWidth, duration, n
 bottomPage(context) {
   final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
   //todo zmodyfikować backend, potrzebujemy tego w bd
-  var monthly = limitsState.getMonthly();
+  var monthly = limitsState.getMonthly() + limitsState.getSubtract();
   var daily = limitsState.getDaily();
   var minus_daily = limitsState.getMinusDaily();
   var subtract = limitsState.getSubtract();
@@ -68,6 +70,7 @@ bottomPage(context) {
     child: Column(
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             InkWell(
               child: Container(
@@ -88,24 +91,28 @@ bottomPage(context) {
                 Navigator.pushNamed(context, SetLimits.tag);
               },
             ),
-            InkWell(
-              child: Container(
-                padding: EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.black, width: 0.5),
+
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: InkWell(
+                child: Container(
+                  padding: EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.black, width: 0.5),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text("Kategorie"),
+                      Icon(Icons.settings),
+                    ],
+                  ),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("Kategorie"),
-                    Icon(Icons.settings),
-                  ],
-                ),
+                onTap: () {
+                  Navigator.pushNamed(context, Categories.tag);
+                },
               ),
-              onTap: () {
-                Navigator.pushNamed(context, Categories.tag);
-              },
             ),
           ],
         ),
@@ -191,7 +198,27 @@ Widget speedDialWidget(BuildContext context) {
           mini: true,
           focusColor: Colors.blueAccent,
           child: Icon(Icons.camera),
-          onPressed: () {},
+          onPressed: () {return Flushbar(
+            padding: EdgeInsets.all(10),
+            borderRadius: 8,
+            //todo customise if ya want
+            backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
+            boxShadows: [
+              BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
+            ],
+            duration: Duration(seconds: 3),
+            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+            forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+            titleText: Text(
+              "Not implemented yet 😿",
+              style: TextStyle(color: Colors.deepPurpleAccent),
+            ),
+            messageText: Text(
+              "Sorry! 🙇‍♂️",
+              style: TextStyle(color: Colors.black),
+            ),
+          )..show(context);
+          },
         ),
       ),
       UnicornButton(
