@@ -10,9 +10,12 @@ class CategoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CategoriesState categoriesState =
-        Provider.of<CategoriesState>(context);
-    Map data = ModalRoute.of(context).settings.arguments;
+    final CategoriesState categoriesState = Provider.of<CategoriesState>(
+        context);
+    Map data = ModalRoute
+        .of(context)
+        .settings
+        .arguments;
     Map<String, double> dataMap = new Map();
     dataMap.putIfAbsent(data['name'], () => data['spent']);
     dataMap.putIfAbsent("Pozostałe", () => 70);
