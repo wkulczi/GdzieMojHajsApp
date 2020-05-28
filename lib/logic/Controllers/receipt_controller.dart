@@ -4,6 +4,7 @@ import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';
 import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
+import 'package:gdziemojhajsapp/pages/Home/Widgets/sort_receipts_bar.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/dashboard_menu.dart';
 import 'package:http/http.dart' as http;
 
@@ -45,9 +46,10 @@ class ReceiptController {
         SortReceiptsBar.isIncreasing);
   }
 
-  static Future<http.Response>updateReceipt({ReceiptModel receipt}) async {
-    final http.Response response = await http.patch(MyApp.serverAddress +
-        "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=${receipt.id}",
+  static Future<http.Response> updateReceipt({ReceiptModel receipt}) async {
+    final http.Response response = await http.patch(
+        MyApp.serverAddress +
+            "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=${receipt.id}",
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -55,7 +57,7 @@ class ReceiptController {
     return response;
   }
 
-  static Future<int>deleteReceipt(id) async {
+  static Future<int> deleteReceipt(id) async {
     var response = await http.delete(MyApp.serverAddress +
         "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=$id");
     return response.statusCode;

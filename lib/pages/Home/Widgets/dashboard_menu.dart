@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'dart:math';
 
 import 'package:flushbar/flushbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';

@@ -10,7 +10,7 @@ import 'Widgets/main_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static var tag = "/home";
-  static Function refreshFunc;
+  static Function refreshLayouts;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -38,6 +38,9 @@ class _HomeScreenState extends State<HomeScreen>
         Tween<double>(begin: 0.5, end: 1).animate(_controller);
     _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
         .animate(_controller);
+    HomeScreen.refreshLayouts = () {
+      setState(() {});
+    };
 
     //loads categoryStates
     //todo-> load limits state
