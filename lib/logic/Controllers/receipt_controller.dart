@@ -1,46 +1,50 @@
 import 'dart:convert';
 
+import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';
+import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
+import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
+import 'package:gdziemojhajsapp/pages/Home/Widgets/dashboard_menu.dart';
 import 'package:http/http.dart' as http;
 
 import '../../main.dart';
 
 class ReceiptController {
-
   static Future<http.Response> sendReceipt({ReceiptModel receipt}) async {
-
-    final http.Response response = await http.post(MyApp.serverAddress +
-        "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}",
+    final http.Response response = await http.post(
+        MyApp.serverAddress +
+            "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}",
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(receipt.toJson()));
     return response;
   }
+
   static Future<ReceiptModel> getReceiptById(id) async {
     final http.Response response = await http.get(MyApp.serverAddress +
         "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=$id");
-      print(jsonDecode(response.body));
-     return ReceiptModel.fromJson(jsonDecode(response.body));
+    print(jsonDecode(response.body));
+    return ReceiptModel.fromJson(jsonDecode(response.body));
   }
 
-
-  static Future<List<Map>> getAllAccountsReceipts() async {
+  static Future<List<Receipt>> getAccountsReceipts() async {
     var response = await http.get(MyApp.serverAddress +
         "/receipts?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}");
 
-    Map receiptsMap;
-
-    if (response.statusCode == 200) {
-      receiptsMap = jsonDecode(response.body);
-    } else {
-      throw Exception("Get users receipts error!");
+    if (response.statusCode != 200) {
+      throw Exception("Get users receipts exc!");
     }
 
-    List<Map> mappedList = receiptsListMapping(receiptsMap);
+    List<Receipt> receiptsList = receiptsListMapping(response.body);
 
-    return mappedList;
+    print(SortReceiptsBar.isIncreasing);
+    print(SortReceiptsBar.selectedReceiptsSortType);
+
+    return sortReceipts(receiptsList, SortReceiptsBar.selectedReceiptsSortType,
+        SortReceiptsBar.isIncreasing);
   }
+
   static Future<http.Response>updateReceipt({ReceiptModel receipt}) async {
     final http.Response response = await http.patch(MyApp.serverAddress +
         "/receipt?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}&id=${receipt.id}",
@@ -57,27 +61,42 @@ class ReceiptController {
     return response.statusCode;
   }
 
-  static List<Map> receiptsListMapping(Map receiptsMap) {
-    List<Map> result = [];
+  static List<Receipt> receiptsListMapping(String responseBody) {
+    List<Receipt> receiptsList = [];
+    for (var receipt in jsonDecode(responseBody)["receipts"]) {
+      List<ProductModel> productsList = [];
+      for (var product in receipt["products"]) {
+        productsList.add(ProductModel.fromJson(product));
+      }
 
-    if (receiptsMap.isEmpty) {
-      return null;
+      receiptsList.add(Receipt(
+          id: receipt["id"].toString(),
+          companyName: receipt["company"]["company_name"],
+          categoryName: receipt["category"]["category_name"],
+          sum: receipt["sum"],
+          products: productsList));
     }
-
-    for (var receipt in receiptsMap["receipts"]) {
-      String companyName = receipt["company"]["company_name"];
-      double sum = receipt["sum"];
-      int id = receipt["id"];
-
-//      for (var receipt_product in receipt["receipt_product"]) {
-//        sum +=
-//            receipt_product["quantity"] * receipt_product["product"]["price"];
-//      }
-
-      result.add({"id":id,"companyName": companyName, "sum": sum.toStringAsFixed(2)});
-    }
-
-    return result;
+    return receiptsList;
   }
 
+  static List<Receipt> sortReceipts(List<Receipt> receiptsList,
+      ReceiptSortTypeEnum sortType, bool incremental) {
+    if (sortType == ReceiptSortTypeEnum.cost) {
+      receiptsList.sort((a, b) => a.sum.compareTo(b.sum));
+    } else if (sortType == ReceiptSortTypeEnum.company_name) {
+      receiptsList.sort((a, b) => a.companyName.compareTo(b.companyName));
+    } else if (sortType == ReceiptSortTypeEnum.category_name) {
+      receiptsList.sort((a, b) => a.categoryName.compareTo(b.categoryName));
+    }
+
+    if (!incremental) {
+      List<Receipt> reversedList = List(receiptsList.length);
+      for (int i = 0; i < receiptsList.length; i++) {
+        reversedList[i] = receiptsList[receiptsList.length - 1 - i];
+      }
+      receiptsList = reversedList;
+    }
+
+    return receiptsList;
+  }
 }
