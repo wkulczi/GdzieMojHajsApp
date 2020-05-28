@@ -10,6 +10,7 @@ import 'Widgets/main_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static var tag = "/home";
+  static Function refreshFunc;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -17,7 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 //todo import new font, prolly roboto or ubuntu
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   double _screenWidth;
   final Duration duration = const Duration(milliseconds: 300);
@@ -32,8 +34,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
-    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
+    _menuScaleAnimation =
+        Tween<double>(begin: 0.5, end: 1).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+        .animate(_controller);
+    HomeScreen.refreshFunc=refresh;
   }
 
   @override
@@ -44,9 +49,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    Size size = MediaQuery.of(context).size;
     _screenWidth = size.width;
     ScreenUtil.init(context, width: 960, height: 1600, allowFontScaling: true);
     FlutterStatusbarcolor.setStatusBarColor(Colors.transparent);
@@ -57,16 +60,18 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: Stack(
         children: <Widget>[
           //            dashboard(context),
-          menu(context: context,
+          menu(
+              context: context,
               menuScaleAnimation: _menuScaleAnimation,
               screenWidth: _screenWidth,
               slideAnimation: _slideAnimation),
-          dashboard(context: context,
+          dashboard(
+              context: context,
               screenWidth: _screenWidth,
               duration: duration,
               isCollapsed: isCollapsed,
               scaleAnimation: _scaleAnimation,
-              notifyParent:refresh)
+              notifyParent: refresh)
         ],
       ),
     );
@@ -78,6 +83,4 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       isCollapsed = !isCollapsed;
     });
   }
-
-
 }

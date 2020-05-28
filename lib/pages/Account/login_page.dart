@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';
 import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
+import 'package:gdziemojhajsapp/pages/Home/Widgets/dashboard_menu.dart';
 import '../AccountLayouts/account_layouts.dart';
 import 'package:gdziemojhajsapp/pages/Account/register_page.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
@@ -16,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordFormController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  ReceiptSortTypeEnum selectedType;
 
   @override
   Widget build(BuildContext context) {
