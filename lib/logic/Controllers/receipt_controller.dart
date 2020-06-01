@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:gdziemojhajsapp/logic/Constants/receipt_sort_type_enum.dart';
+
 import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';
 import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';

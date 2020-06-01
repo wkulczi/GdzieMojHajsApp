@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:gdziemojhajsapp/logic/Constants/receipts_icons_map.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/sort_receipts_bar.dart';
@@ -116,12 +117,12 @@ Widget receiptCard({isCollapsed, context, receipt}) {
             MaterialPageRoute(
                 builder: (context) => CreateReceipt(receipt: payload)));
         Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceipt(receipt: payload)));
-      },
-      leading: Image.asset(
-          "images/${receipt.categoryName.toString().replaceAll("ż", "z").toLowerCase()}.jpg",
-          height: 60,
-          width: 60,
-          fit: BoxFit.fill),
+      },leading: Icon(receipt_icons[receipt.categoryName.toString()], size:55, color: Colors.black,),
+//      leading: Image.asset(
+//          "images/${receipt.categoryName.toString().replaceAll("ż", "z").toLowerCase()}.jpg",
+//          height: 60,
+//          width: 60,
+//          fit: BoxFit.fill),
       subtitle: Text("Category: " + receipt.categoryName),
       title: Text(receipt.companyName),
       trailing: Text(receipt.sum.toStringAsFixed(2) + " PLN"),
