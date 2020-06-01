@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:combos/combos.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +8,6 @@ import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
-import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
-import 'package:provider/provider.dart';
 
 class CreateReceipt extends StatefulWidget {
   static String tag = "/edit-receipt";
@@ -88,8 +85,10 @@ class _CreateReceiptState extends State<CreateReceipt> {
                     Padding(
                       padding: EdgeInsets.all(8),
                       child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20))),
                         child: SafeArea(
                           child: Form(
                             key: _formKey,
@@ -97,8 +96,12 @@ class _CreateReceiptState extends State<CreateReceipt> {
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Column(
                                 children: <Widget>[
-                                  formFieldWidget(this._receipt.companyName, "Shop name",
-                                      (input) => this._receipt.companyName = input, TextInputType.text),
+                                  formFieldWidget(
+                                      this._receipt.companyName,
+                                      "Shop name",
+                                      (input) =>
+                                          this._receipt.companyName = input,
+                                      TextInputType.text),
                                   categoryCombobox(),
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
@@ -110,12 +113,16 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                   ),
                                   FlatButton(
                                     onPressed: () => {
-                                      this._receipt.products.add(ProductModel()),
+                                      this
+                                          ._receipt
+                                          .products
+                                          .add(ProductModel()),
                                       setState(() {}),
                                     },
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Icon(Icons.add),
                                         Text("Add product"),
@@ -125,11 +132,16 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                   sumWidget(),
                                   FlatButton(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.max,
                                       children: <Widget>[
-                                        isNewReceipt ? Icon(Icons.save) : Icon(Icons.arrow_upward),
-                                        Text((isNewReceipt ? "Save receipt" : "Update receipt")),
+                                        isNewReceipt
+                                            ? Icon(Icons.save)
+                                            : Icon(Icons.arrow_upward),
+                                        Text((isNewReceipt
+                                            ? "Save receipt"
+                                            : "Update receipt")),
                                       ],
                                     ),
                                     //todo isempty? this : update
@@ -140,7 +152,9 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                         {
                                           if (_formKey.currentState.validate())
                                             {
-                                              ReceiptController.sendReceipt(receipt: this._receipt).then(
+                                              ReceiptController.sendReceipt(
+                                                      receipt: this._receipt)
+                                                  .then(
                                                 (value) async => {
                                                   if (value.statusCode == 200)
                                                     {
@@ -160,11 +174,11 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                               if (this._receipt != this._oldreceipt)
                                                 {
                                                   await ReceiptController.updateReceipt(receipt: this._receipt).then(
-                                                      (value) async => {
-                                                            await Navigator.of(context).pop(),
-                                                            showSuccessFlushbar(context,
-                                                                sum: "JESTEM CZAJNIKIEM, DUT DUT")
-                                                          })
+                                                          (value) async => {
+                                                        await Navigator.of(context).pop(),
+                                                        showSuccessFlushbar(context,
+                                                            sum: "JESTEM CZAJNIKIEM, DUT DUT")
+                                                      })
                                                 }
                                               else
                                                 {Navigator.of(context).pop()}
@@ -209,7 +223,9 @@ class _CreateReceiptState extends State<CreateReceipt> {
               child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  this._receipt.sum.toString() == 'null' ? "0.00 PLN" : this._receipt.sum.toString() + " PLN",
+                  this._receipt.sum.toString() == 'null'
+                      ? "0.00 PLN"
+                      : this._receipt.sum.toString() + " PLN",
                   style: TextStyle(fontSize: 24),
                 ),
               ),
@@ -220,7 +236,8 @@ class _CreateReceiptState extends State<CreateReceipt> {
     );
   }
 
-  formFieldWidget(value, String labelText, Function(dynamic) _onChanged, TextInputType _keyboardType) {
+  formFieldWidget(value, String labelText, Function(dynamic) _onChanged,
+      TextInputType _keyboardType) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: SizedBox(
@@ -283,21 +300,31 @@ class _CreateReceiptState extends State<CreateReceipt> {
                 },
               ),
             ),
-            formFieldWidget(this._receipt.products[index].name, "Name",
-                (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
+            formFieldWidget(
+                this._receipt.products[index].name,
+                "Name",
+                (input) =>
+                    {print(input), this._receipt.products[index].name = input},
+                TextInputType.text),
             formFieldWidget(
                 this._receipt.products[index].price == null
                     ? this._receipt.products[index].price
                     : this._receipt.products[index].price.toString(),
                 "Price",
-                (input) => {this._receipt.products[index].price = double.parse(input), setState(() {})},
+                (input) => {
+                      this._receipt.products[index].price = double.parse(input),
+                      setState(() {})
+                    },
                 TextInputType.number),
             formFieldWidget(
                 this._receipt.products[index].quantity == null
                     ? this._receipt.products[index].quantity
                     : this._receipt.products[index].quantity.toString(),
                 "Qty",
-                (input) => {this._receipt.products[index].quantity = int.parse(input), setState(() {})},
+                (input) => {
+                      this._receipt.products[index].quantity = int.parse(input),
+                      setState(() {})
+                    },
                 TextInputType.number),
           ],
         ),
@@ -345,7 +372,8 @@ class _CreateReceiptState extends State<CreateReceipt> {
         style: TextStyle(color: Colors.green),
       ),
       messageText: Text(
-        "$sum PLN" + (isNewReceipt ? " removed from limits" : " returned to limits"),
+        "$sum PLN" +
+            (isNewReceipt ? " removed from limits" : " returned to limits"),
         style: TextStyle(color: Colors.black),
       ),
     )..show(context);
