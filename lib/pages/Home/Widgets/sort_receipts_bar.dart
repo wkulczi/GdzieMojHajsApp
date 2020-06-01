@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/logic/Constants/ReceiptSortTypeEnum.dart';
+import 'package:gdziemojhajsapp/logic/Constants/receipt_sort_type_enum.dart';
 
 import '../home_screen.dart';
 
