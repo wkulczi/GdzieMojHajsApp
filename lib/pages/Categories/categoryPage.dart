@@ -1,13 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/category_controller.dart';
 import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
   static String tag = "/categoryPage";
 
+  @override
+  _CategoryPageState createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+
+  double rest_of_the_money = 0;
+  void getRestOfTheMoney() async{
+    rest_of_the_money = await CategoryController.getSpentAll();
+  }
+//todo pozostały hajs przed odświeżeniem
+  @override
+  void initState() {
+    getRestOfTheMoney();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final CategoriesState categoriesState =
@@ -15,7 +32,7 @@ class CategoryPage extends StatelessWidget {
     Map data = ModalRoute.of(context).settings.arguments;
     Map<String, double> dataMap = new Map();
     dataMap.putIfAbsent(data['name'], () => data['spent']);
-    dataMap.putIfAbsent("Pozostałe", () => 70);
+    dataMap.putIfAbsent("Pozostałe", () => rest_of_the_money);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
@@ -60,6 +77,7 @@ class CategoryPage extends StatelessWidget {
                               Text(data['description']),
                               SizedBox(height: 15.0),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Column(
                                     children: <Widget>[
@@ -76,21 +94,20 @@ class CategoryPage extends StatelessWidget {
                                               categoriesState
                                                   .getLimit(data['name'])
                                           ? Text(
-                                              data['spent'].toString() + " zł",
+                                              data['spent'].toStringAsFixed(2)  + " zł",
                                               style: TextStyle(
                                                 fontSize: 40,
                                                 color: Colors.red,
                                               ),
                                             )
                                           : Text(
-                                              data['spent'].toString() + " zł",
+                                              data['spent'].toStringAsFixed(2)  + " zł",
                                               style: TextStyle(
                                                 fontSize: 40,
                                               ),
                                             ),
                                     ],
                                   ),
-                                  SizedBox(width: 40.0),
                                   Column(
                                     children: <Widget>[
                                       Text(
@@ -105,8 +122,7 @@ class CategoryPage extends StatelessWidget {
                                       Text(
                                         categoriesState
                                                 .getLimit(data['name'])
-                                                .toString() +
-                                            " zł",
+                                                .toStringAsFixed(2) + " zł",
                                         style: TextStyle(fontSize: 40),
                                       ),
                                     ],
@@ -136,8 +152,7 @@ class CategoryPage extends StatelessWidget {
                               SizedBox(height: 5.0),
                               Slider(
                                   value: categoriesState
-                                      .getLimit(data['name'])
-                                      .toDouble(),
+                                      .getLimit(data['name']),
                                   onChanged: (newLimit) {
                                     categoriesState.changeLimit(
                                         data['name'], newLimit);
@@ -147,7 +162,8 @@ class CategoryPage extends StatelessWidget {
                                   divisions: 500,
                                   label: categoriesState
                                       .getLimit(data['name'])
-                                      .toString()),
+                                      .toStringAsFixed(2)
+                              ),
                               SizedBox(height: 5.0),
                               data['spent'] >
                                       categoriesState.getLimit(data['name'])
