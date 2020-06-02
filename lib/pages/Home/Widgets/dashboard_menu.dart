@@ -8,6 +8,7 @@ import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limites.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limits_state.dart';
 import 'package:gdziemojhajsapp/pages/Receipt/createReceipt.dart';
+import 'package:gdziemojhajsapp/pages/Receipt/ocrReceipt.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -198,26 +199,8 @@ Widget speedDialWidget(BuildContext context) {
           mini: true,
           focusColor: Colors.blueAccent,
           child: Icon(Icons.camera),
-          onPressed: () {return Flushbar(
-            padding: EdgeInsets.all(10),
-            borderRadius: 8,
-            //todo customise if ya want
-            backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
-            boxShadows: [
-              BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
-            ],
-            duration: Duration(seconds: 3),
-            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-            forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-            titleText: Text(
-              "Not implemented yet 😿",
-              style: TextStyle(color: Colors.deepPurpleAccent),
-            ),
-            messageText: Text(
-              "Sorry! 🙇‍♂️",
-              style: TextStyle(color: Colors.black),
-            ),
-          )..show(context);
+          onPressed: () {
+            Navigator.of(context).push(PageRouteBuilder(opaque: false,pageBuilder: (_,__,___) => OcrPage()));
           },
         ),
       ),
