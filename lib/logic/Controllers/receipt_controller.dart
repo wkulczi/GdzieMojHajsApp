@@ -60,8 +60,6 @@ class ReceiptController {
   static List<Map> receiptsListMapping(Map receiptsMap) {
     List<Map> result = [];
 
-    print(receiptsMap);
-
     if (receiptsMap.isEmpty) {
       return null;
     }

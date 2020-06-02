@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:combos/combos.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +9,8 @@ import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
+import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
+import 'package:provider/provider.dart';
 
 class CreateReceipt extends StatefulWidget {
   static String tag = "/edit-receipt";
@@ -20,11 +25,15 @@ class CreateReceipt extends StatefulWidget {
 class _CreateReceiptState extends State<CreateReceipt> {
   final _formKey = GlobalKey<FormState>();
   ReceiptModel _receipt;
+  ReceiptModel _oldreceipt;
   bool isNewReceipt = true;
 
   _CreateReceiptState(receipt) {
     if (receipt != null) {
       this._receipt = receipt;
+//    works like deep copy, but i don't have to add another package :V
+      this._oldreceipt = ReceiptModel.fromJson(jsonDecode(jsonEncode(this._receipt.toJson())));
+//      this._oldreceipt=receipt;
       this.isNewReceipt = false;
     } else {
       this._receipt = ReceiptModel(sum: 0.0, categoryName: null, products: [], companyName: null);
@@ -62,7 +71,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                 }
                             });
 
-//                      TODO -> SEND REMOVE
+//                      TODO -> SEND MONEY FROM REMOVE BACK TO LIMITS
                       },
                     ),
                   ),
@@ -90,8 +99,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                 children: <Widget>[
                                   formFieldWidget(this._receipt.companyName, "Shop name",
                                       (input) => this._receipt.companyName = input, TextInputType.text),
-                                  formFieldWidget(this._receipt.categoryName, "Category",
-                                      (input) => this._receipt.categoryName = input, TextInputType.text),
+                                  categoryCombobox(),
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
@@ -126,6 +134,8 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                     ),
                                     //todo isempty? this : update
                                     onPressed: () async => {
+                                      if (this._receipt.products.length == 0)
+                                        {print(this._receipt.products.length), showFailureFlushbar(context)},
                                       if (isNewReceipt)
                                         {
                                           if (_formKey.currentState.validate())
@@ -145,17 +155,19 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                         }
                                       else
                                         {
-                                          if (this._receipt.products.length == 0)
-                                            {print(this._receipt.products.length), showFailureFlushbar(context)},
                                           if (_formKey.currentState.validate() && this._receipt.products.length > 0)
                                             {
-                                              //if receipt.products.length==0 -> flushbar
-                                              //todo jak zrobię moduł rafała to dopiero wtedy mogę robić to
-                                              await ReceiptController.updateReceipt(receipt: this._receipt).then(
-                                                  (value) async => {
-                                                        await Navigator.of(context).pop(),
-                                                        showSuccessFlushbar(context, sum: "JESTEM CZAJNIKIEM, DUT DUT")
-                                                      })
+                                              if (this._receipt != this._oldreceipt)
+                                                {
+                                                  await ReceiptController.updateReceipt(receipt: this._receipt).then(
+                                                      (value) async => {
+                                                            await Navigator.of(context).pop(),
+                                                            showSuccessFlushbar(context,
+                                                                sum: "JESTEM CZAJNIKIEM, DUT DUT")
+                                                          })
+                                                }
+                                              else
+                                                {Navigator.of(context).pop()}
                                             }
                                         }
                                     },
@@ -261,7 +273,8 @@ class _CreateReceiptState extends State<CreateReceipt> {
               alignment: Alignment.topRight,
               child: InkWell(
                 child: Padding(
-                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(50)), //back at it again with clever hacks
+                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(50)),
+                  //back at it again with clever hacks
                   child: Icon(Icons.remove),
                 ),
                 onTap: () {
@@ -336,5 +349,30 @@ class _CreateReceiptState extends State<CreateReceipt> {
         style: TextStyle(color: Colors.black),
       ),
     )..show(context);
+  }
+
+  //todo change style of it if you have time
+  Widget categoryCombobox() {
+    final CategoriesState categoriesState = Provider.of<CategoriesState>(context, listen: false);
+    String _item = this._receipt.categoryName;
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: SelectorCombo<String>(
+          getList: () {
+            return categoriesState.categories.map((e) => e.name).toList();
+          },
+          selected: _item,
+          itemBuilder: (context, parameters, item, selected) => ListTile(
+                selected: selected,
+                title: Text(item ?? ''),
+              ),
+          childBuilder: (context, parameters, item) => ListTile(
+                title: Text(item ?? 'Select category'),
+              ),
+          onSelectedChanged: (value) => {
+                this._receipt.categoryName = value,
+                setState(() {}),
+              }),
+    );
   }
 }

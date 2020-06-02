@@ -2,7 +2,7 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
-import 'package:gdziemojhajsapp/pages/Menu/ola_state.dart';
+import 'package:gdziemojhajsapp/pages/Menu/budget_limits_state.dart';
 import 'package:provider/provider.dart';
 
 class SetLimits extends StatefulWidget {

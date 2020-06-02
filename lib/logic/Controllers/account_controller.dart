@@ -61,7 +61,7 @@ class UserValidators {
 
 void userShowDialog(var context, String text,
     {bool barrierDismissible = true,
-    Duration duration = const Duration(seconds: 2),
+    Duration duration = const Duration(milliseconds: 10),
     Function func}) {
   showDialog(
       context: context,
