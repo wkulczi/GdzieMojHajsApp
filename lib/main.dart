@@ -16,6 +16,7 @@ import 'package:gdziemojhajsapp/pages/Home/home_screen.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limites.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limits_state.dart';
 import 'package:gdziemojhajsapp/pages/Receipt/createReceipt.dart';
+import 'package:gdziemojhajsapp/pages/Receipt/ocrReceipt.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(MyApp());
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
     CategoryPage.tag: (context) => CategoryPage(),
     Categories.tag: (context) => Categories(),
     LimitTransfer.tag: (context) => LimitTransfer(),
-    SetLimits.tag: (context) => SetLimits()
+    SetLimits.tag: (context) => SetLimits(),
+    OcrPage.tag:(context)=>OcrPage()
   };
 
   static final String serverAddress = 'http://192.168.1.65:5000';
