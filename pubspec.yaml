@@ -36,11 +36,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/jedzenie.jpg
-    - images/sprzet.jpg
-    - images/transport.jpg
-    - images/relaks.jpg
-    - images/mieszkanie.jpg
-    - images/higiena.jpg
-    - images/odziez.jpg
-    - images/rachunki.jpg
+    - images/

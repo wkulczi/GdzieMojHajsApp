@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     SetLimits.tag: (context) => SetLimits()
   };
 
-  static final String serverAddress = 'http://10.0.2.2:5000';
+  static final String serverAddress = 'http://10.0.2.2:2137';
   static Map activeUser;
   static Text activeUserNameTextWidget = Text("no_user");
 

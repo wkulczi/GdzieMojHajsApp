@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gdziemojhajsapp/pages/Categories/Category.dart';
+import 'package:gdziemojhajsapp/logic/Entities/Category.dart';
 
 class CategoriesState extends ChangeNotifier {
   List<Category> _categories = [];
