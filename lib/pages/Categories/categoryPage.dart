@@ -14,25 +14,28 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-
   double rest_of_the_money = 0;
-  void getRestOfTheMoney() async{
+
+  void getRestOfTheMoney() async {
     rest_of_the_money = await CategoryController.getSpentAll();
+    setState(() {});
   }
+
 //todo pozostały hajs przed odświeżeniem
   @override
   void initState() {
-    getRestOfTheMoney();
     super.initState();
+    getRestOfTheMoney();
   }
+
   @override
   Widget build(BuildContext context) {
-    final CategoriesState categoriesState =
-        Provider.of<CategoriesState>(context);
+    final CategoriesState categoriesState = Provider.of<CategoriesState>(context);
     Map data = ModalRoute.of(context).settings.arguments;
-    Map<String, double> dataMap = new Map();
+    Map<String, double> dataMap = new Map();      
     dataMap.putIfAbsent(data['name'], () => data['spent']);
-    dataMap.putIfAbsent("Pozostałe", () => rest_of_the_money);
+//    Rafał ty gapciu, nie odejmowałeś od pozostałych tego, co w data['spent']
+    dataMap.putIfAbsent("Pozostałe", () => rest_of_the_money-data['spent']);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
@@ -56,9 +59,8 @@ class _CategoryPageState extends State<CategoryPage> {
                   Padding(
                     padding: EdgeInsets.all(8),
                     child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      decoration:
+                          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
                       child: SafeArea(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
@@ -90,18 +92,16 @@ class _CategoryPageState extends State<CategoryPage> {
                                         ),
                                       ),
                                       SizedBox(height: 5.0),
-                                      data['spent'] >
-                                              categoriesState
-                                                  .getLimit(data['name'])
+                                      data['spent'] > categoriesState.getLimit(data['name'])
                                           ? Text(
-                                              data['spent'].toStringAsFixed(2)  + " zł",
+                                              data['spent'].toStringAsFixed(2) + " zł",
                                               style: TextStyle(
                                                 fontSize: 40,
                                                 color: Colors.red,
                                               ),
                                             )
                                           : Text(
-                                              data['spent'].toStringAsFixed(2)  + " zł",
+                                              data['spent'].toStringAsFixed(2) + " zł",
                                               style: TextStyle(
                                                 fontSize: 40,
                                               ),
@@ -120,9 +120,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                       ),
                                       SizedBox(height: 5.0),
                                       Text(
-                                        categoriesState
-                                                .getLimit(data['name'])
-                                                .toStringAsFixed(2) + " zł",
+                                        categoriesState.getLimit(data['name']).toStringAsFixed(2) + " zł",
                                         style: TextStyle(fontSize: 40),
                                       ),
                                     ],
@@ -151,22 +149,16 @@ class _CategoryPageState extends State<CategoryPage> {
                               ),
                               SizedBox(height: 5.0),
                               Slider(
-                                  value: categoriesState
-                                      .getLimit(data['name']),
+                                  value: categoriesState.getLimit(data['name']),
                                   onChanged: (newLimit) {
-                                    categoriesState.changeLimit(
-                                        data['name'], newLimit);
+                                    categoriesState.changeLimit(data['name'], newLimit);
                                   },
                                   min: 0,
                                   max: 500,
                                   divisions: 500,
-                                  label: categoriesState
-                                      .getLimit(data['name'])
-                                      .toStringAsFixed(2)
-                              ),
+                                  label: categoriesState.getLimit(data['name']).toStringAsFixed(2)),
                               SizedBox(height: 5.0),
-                              data['spent'] >
-                                      categoriesState.getLimit(data['name'])
+                              data['spent'] > categoriesState.getLimit(data['name'])
                                   ? Text(
                                       "PRZEKROCZONO LIMIT",
                                       style: TextStyle(
