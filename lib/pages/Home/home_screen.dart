@@ -4,10 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:gdziemojhajsapp/logic/Controllers/category_controller.dart';
-import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
-import 'package:provider/provider.dart';
-
+import '../../logic/utility.dart';
 import 'Widgets/dashboard_menu.dart';
 import 'Widgets/main_menu.dart';
 
@@ -43,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     //loads categoryStates
     //todo-> load limits state
-    loadStates();
+    Utility.reloadStates(context);
   }
 
   @override
@@ -82,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen>
             alignment: Alignment(-0.9, 0.9),
             child: FlatButton(
               child: Text("[Reload States]"),
-              onPressed: () => loadStates(),
+              onPressed: () => Utility.reloadStates(context),
             ),
           )
         ],
@@ -97,10 +94,4 @@ class _HomeScreenState extends State<HomeScreen>
     });
   }
 
-  void loadStates() async {
-    final CategoriesState categoriesState =
-        Provider.of<CategoriesState>(context, listen: false);
-    categoriesState.categories = await CategoryController.getData();
-    print("DEB: ready");
-  }
 }
