@@ -1,6 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:gdziemojhajsapp/logic/Translation/app_localisations.dart';
 import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/register_page.dart';
@@ -18,7 +19,10 @@ import 'package:gdziemojhajsapp/pages/Menu/budget_limits_state.dart';
 import 'package:gdziemojhajsapp/pages/Receipt/createReceipt.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+//  AppLanguage appLanguage = AppLanguage();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
@@ -55,6 +59,15 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('pl', ''),
+        ],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
         title: 'GdzieMojHajs',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

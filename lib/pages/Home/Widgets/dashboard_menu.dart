@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Constants/receipt_sort_type_enum.dart';
+import 'package:gdziemojhajsapp/logic/Translation/app_localisations.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categories.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limites.dart';
@@ -19,13 +20,7 @@ import '../home_screen.dart';
 
 //todo -> translate, dodawanie odręczne
 
-Widget dashboard(
-    {context,
-    scaleAnimation,
-    isCollapsed,
-    screenWidth,
-    duration,
-    notifyParent}) {
+Widget dashboard({context, scaleAnimation, isCollapsed, screenWidth, duration, notifyParent}) {
   return AnimatedPositioned(
     duration: duration,
     top: 0,
@@ -48,7 +43,7 @@ Widget dashboard(
                 padding: EdgeInsets.only(left: 16, right: 16, top: 10),
                 child: Column(
                   children: <Widget>[
-                    appBarWidget(notifyParent),
+                    appBarWidget(context, notifyParent),
                     Expanded(
                       flex: 2,
                       child: Stack(
@@ -69,8 +64,7 @@ Widget dashboard(
 }
 
 bottomPage(context) {
-  final LimitsState limitsState =
-      Provider.of<LimitsState>(context, listen: false);
+  final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
   //todo zmodyfikować backend, potrzebujemy tego w bd
   var monthly = limitsState.getMonthly() + limitsState.getSubtract();
   var daily = limitsState.getDaily();
@@ -83,7 +77,7 @@ bottomPage(context) {
     child: Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top:8,right: 2),
+          padding: EdgeInsets.only(top: 8, right: 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -142,13 +136,10 @@ bottomPage(context) {
             : Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
+                    padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
                     child: Text(
                       "Mój miesięczny hajs",
-                      style: TextStyle(
-                          fontSize: ScreenUtil().setSp(36),
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(36), fontWeight: FontWeight.w400),
                     ),
                   ),
                   LinearPercentIndicator(
@@ -164,19 +155,15 @@ bottomPage(context) {
 //        todo lepsze info i kolorowanie based on % of budżet left
             ? Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text("nie podano monthly limitu 🐕",
-                    style: TextStyle(fontSize: 20)),
+                child: Text("nie podano monthly limitu 🐕", style: TextStyle(fontSize: 20)),
               )
             : Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: ScreenUtil().setHeight(30)),
+                    padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
                     child: Text(
                       "Twój dzienny hajs",
-                      style: TextStyle(
-                          fontSize: ScreenUtil().setSp(36),
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(fontSize: ScreenUtil().setSp(36), fontWeight: FontWeight.w400),
                     ),
                   ),
                   LinearPercentIndicator(
@@ -227,8 +214,7 @@ Widget speedDialWidget(BuildContext context) {
               //todo customise if ya want
               backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
               boxShadows: [
-                BoxShadow(
-                    color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
+                BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
               ],
               duration: Duration(seconds: 3),
               dismissDirection: FlushbarDismissDirection.HORIZONTAL,
@@ -255,8 +241,7 @@ Widget speedDialWidget(BuildContext context) {
           mini: true,
           child: Icon(Icons.edit),
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreateReceipt()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceipt()));
           },
         ),
       ),
@@ -264,7 +249,7 @@ Widget speedDialWidget(BuildContext context) {
   );
 }
 
-appBarWidget(notifyParent) {
+appBarWidget(context, notifyParent) {
   return Container(
     child: Padding(
       padding: EdgeInsets.only(bottom: 10),
@@ -274,9 +259,7 @@ appBarWidget(notifyParent) {
         children: [
           InkWell(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: ScreenUtil().setHeight(20),
-                  horizontal: ScreenUtil().setWidth(5)),
+              padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(20), horizontal: ScreenUtil().setWidth(5)),
               child: Icon(
                 Icons.menu,
                 color: Colors.black,
@@ -289,9 +272,8 @@ appBarWidget(notifyParent) {
           ),
           //todo import font
           Text(
-            "Twoje Paragony",
-            style: TextStyle(
-                fontSize: ScreenUtil().setSp(45), fontWeight: FontWeight.w400),
+            AppLocalizations.of(context).translate('receipt-list'),
+            style: TextStyle(fontSize: ScreenUtil().setSp(45), fontWeight: FontWeight.w400),
           ),
           Container(
             color: Colors.transparent,
@@ -309,8 +291,7 @@ appBarWidget(notifyParent) {
 class SortReceiptsBar extends StatefulWidget {
   SortReceiptsBar({Key key}) : super(key: key);
 
-  static ReceiptSortTypeEnum selectedReceiptsSortType =
-      ReceiptSortTypeEnum.cost;
+  static ReceiptSortTypeEnum selectedReceiptsSortType = ReceiptSortTypeEnum.cost;
   static bool isIncreasing = false;
   static String selectedSortName;
 
@@ -318,29 +299,21 @@ class SortReceiptsBar extends StatefulWidget {
   _SortReceiptsBarState createState() => _SortReceiptsBarState();
 }
 
-class _SortReceiptsBarState extends State<SortReceiptsBar>
-    with TickerProviderStateMixin {
+class _SortReceiptsBarState extends State<SortReceiptsBar> with TickerProviderStateMixin {
   Animation _arrowAnimation;
   AnimationController _arrowAnimationController;
 
-  Map<String, ReceiptSortTypeEnum> nameValueMap = {
-    "Cost": ReceiptSortTypeEnum.cost,
-    "Company": ReceiptSortTypeEnum.company_name,
-    "Category": ReceiptSortTypeEnum.category_name
-  };
+  Map<String, ReceiptSortTypeEnum> nameValueMap = {"Cost": ReceiptSortTypeEnum.cost, "Company": ReceiptSortTypeEnum.company_name, "Category": ReceiptSortTypeEnum.category_name};
 
   @override
   void initState() {
     super.initState();
-    _arrowAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _arrowAnimationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
     if (!SortReceiptsBar.isIncreasing) {
-      _arrowAnimation =
-          Tween(begin: 0.0, end: pi).animate(_arrowAnimationController);
+      _arrowAnimation = Tween(begin: 0.0, end: pi).animate(_arrowAnimationController);
     } else {
-      _arrowAnimation =
-          Tween(begin: pi, end: 0.0).animate(_arrowAnimationController);
+      _arrowAnimation = Tween(begin: pi, end: 0.0).animate(_arrowAnimationController);
     }
   }
 
@@ -393,9 +366,7 @@ class _SortReceiptsBarState extends State<SortReceiptsBar>
                   SortReceiptsBar.isIncreasing = true;
                 }
 
-                _arrowAnimationController.isCompleted
-                    ? _arrowAnimationController.reverse()
-                    : _arrowAnimationController.forward();
+                _arrowAnimationController.isCompleted ? _arrowAnimationController.reverse() : _arrowAnimationController.forward();
 
                 Navigator.of(context).popAndPushNamed(HomeScreen.tag);
 //                HomeScreen.refreshFunc();
