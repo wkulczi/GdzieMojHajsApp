@@ -17,16 +17,11 @@ Widget receiptList() {
             minChildSize: 0.7,
             builder: (context, scrollController) {
               if (snapshot.hasError) {
-                return receiptErrorWidget(
-                    snapshot: snapshot, scrollController: scrollController);
+                return receiptErrorWidget(snapshot: snapshot, scrollController: scrollController);
               } else if (ConnectionState.waiting == snapshot.connectionState) {
                 return loadingWidget(scrollController: scrollController);
-              } else if (ConnectionState.done == snapshot.connectionState &&
-                  snapshot.hasData) {
-                return receiptListWidget(
-                    context: context,
-                    snapshot: snapshot,
-                    scrollController: scrollController);
+              } else if (ConnectionState.done == snapshot.connectionState && snapshot.hasData) {
+                return receiptListWidget(context: context, snapshot: snapshot, scrollController: scrollController);
               } else {
                 return noReceiptsWidget(scrollController: scrollController);
               }
@@ -46,10 +41,8 @@ Widget noReceiptsWidget({scrollController}) {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                Icon(Icons.info_outline,
-                    color: Colors.blue, size: ScreenUtil().setSp(100)),
-                Text("Brak paragonów 🤷‍♂️",
-                    style: TextStyle(fontSize: ScreenUtil().setSp(50)))
+                Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
+                Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
               ],
             ),
           )))
@@ -58,6 +51,7 @@ Widget noReceiptsWidget({scrollController}) {
 }
 
 Widget receiptListWidget({isCollapsed, context, snapshot, scrollController}) {
+  List<Receipt> sortedData = snapshot.data;
   return Container(
     color: Colors.white,
     child: Stack(
@@ -79,9 +73,7 @@ Widget receiptListWidget({isCollapsed, context, snapshot, scrollController}) {
 Widget loadingWidget({scrollController}) {
   return Container(
       color: Colors.white,
-      child: ListView(
-          controller: scrollController,
-          children: [Center(child: CircularProgressIndicator())]));
+      child: ListView(controller: scrollController, children: [Center(child: CircularProgressIndicator())]));
 }
 
 Widget receiptErrorWidget({snapshot, scrollController}) {
@@ -114,18 +106,17 @@ Widget receiptCard({context, receipt}) {
     child: ListTile(
       onTap: () async {
         var payload = await ReceiptController.getReceiptById(receipt.id);
-        print(payload.id);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CreateReceipt(receipt: payload)));
-      },leading: Icon(receipt_icons[receipt.categoryName.toString()], size:55, color: Colors.black,),
-//      leading: Image.asset(
-//          "images/${receipt.categoryName.toString().replaceAll("ż", "z").toLowerCase()}.jpg",
-//          height: 60,
-//          width: 60,
-//          fit: BoxFit.fill),
-      subtitle: Text("Category: " + receipt.categoryName),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceipt(receipt: payload)));
+      },
+      leading: CircleAvatar(
+        child: Icon(receipt_icons[receipt.categoryName.toString()], size: 32),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+      ),
+      subtitle: Text(
+        receipt.categoryName,
+        style: TextStyle(fontSize: 12),
+      ),
       title: Text(receipt.companyName),
       trailing: Text(receipt.sum.toStringAsFixed(2) + " PLN"),
     ),

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
     Categories.tag: (context) => Categories()
   };
 
-  static final String serverAddress = 'http://192.168.1.23:2137';
+  static final String serverAddress = 'http://192.168.1.65:5000';
   static Map activeUser;
   static Text activeUserNameTextWidget = Text("no_user");
 
