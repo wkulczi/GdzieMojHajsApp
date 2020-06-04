@@ -213,26 +213,8 @@ Widget speedDialWidget(BuildContext context) {
           mini: true,
           focusColor: Colors.blueAccent,
           child: Icon(Icons.camera),
-          onPressed: () {return Flushbar(
-            padding: EdgeInsets.all(10),
-            borderRadius: 8,
-            //todo customise if ya want
-            backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
-            boxShadows: [
-              BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
-            ],
-            duration: Duration(seconds: 3),
-            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-            forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-            titleText: Text(
-              "Not implemented yet 😿",
-              style: TextStyle(color: Colors.deepPurpleAccent),
-            ),
-            messageText: Text(
-              "Sorry! 🙇‍♂️",
-              style: TextStyle(color: Colors.black),
-            ),
-          )..show(context);
+          onPressed: () {
+            Navigator.of(context).push(PageRouteBuilder(opaque: false,pageBuilder: (_,__,___) => OcrPage()));
           },
         ),
       ),
