@@ -11,6 +11,8 @@ import 'Widgets/main_menu.dart';
 class HomeScreen extends StatefulWidget {
   static var tag = "/home";
   static Function refreshLayouts;
+  static Function refreshFunc;
+
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
