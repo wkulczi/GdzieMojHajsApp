@@ -9,6 +9,7 @@ import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
 import 'package:gdziemojhajsapp/logic/Models/receipt_model.dart';
+import 'package:gdziemojhajsapp/logic/utility.dart';
 import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
 import 'package:provider/provider.dart';
 
@@ -64,6 +65,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                   await Navigator.of(context).pop(),
                                   //todo
                                   showSuccessFlushbar(context, sum: "TODO"),
+                                  Utility.reloadStates(context),
                                 }
                               else
                                 {
@@ -146,6 +148,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                                     {
                                                       await Navigator.of(context).pop(),
                                                       showSuccessFlushbar(context, sum: this._receipt.sum.toString()),
+                                                      Utility.reloadStates(context),
                                                     }
                                                   else
                                                     {showFailureFlushbar(context)}
@@ -163,7 +166,8 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                                       (value) async => {
                                                             await Navigator.of(context).pop(),
                                                             showSuccessFlushbar(context,
-                                                                sum: "JESTEM CZAJNIKIEM, DUT DUT")
+                                                                sum: "JESTEM CZAJNIKIEM, DUT DUT"),
+                                                             Utility.reloadStates(context)
                                                           })
                                                 }
                                               else

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:gdziemojhajsapp/pages/Categories/Category.dart';
+import 'package:gdziemojhajsapp/logic/Entities/Category.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categoryCard.dart';
 import 'package:image_test_utils/image_test_utils.dart';
 
