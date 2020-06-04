@@ -34,7 +34,8 @@ Widget receiptList(isCollapsed) {
 }
 
 Widget noReceiptsWidget({scrollController}) {
-  return Container(color:Colors.white,
+  return Container(
+    color: Colors.white,
     child: ListView(controller: scrollController, children: [
       Container(
           color: Colors.white,

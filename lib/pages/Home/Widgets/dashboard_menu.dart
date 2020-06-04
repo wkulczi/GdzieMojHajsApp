@@ -170,8 +170,20 @@ bottomPage(context) {
                   ),
                 ],
               ),
+        Container(
+            color: Colors.green.withOpacity(0.9),
+            child: Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 80),
+                  child: Text(
+                    "Todo",
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ))),
       ],
     ),
+    color: Colors.white,
   );
 }
 
@@ -231,7 +243,8 @@ Widget speedDialWidget(BuildContext context) {
           mini: true,
           child: Icon(Icons.edit),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateReceipt()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateReceipt()));
           },
         ),
       ),
@@ -249,7 +262,9 @@ appBarWidget(notifyParent) {
         children: [
           InkWell(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(20), horizontal: ScreenUtil().setWidth(5)),
+              padding: EdgeInsets.symmetric(
+                  vertical: ScreenUtil().setHeight(20),
+                  horizontal: ScreenUtil().setWidth(5)),
               child: Icon(
                 Icons.menu,
                 color: Colors.black,
@@ -263,7 +278,8 @@ appBarWidget(notifyParent) {
           //todo import font
           Text(
             "Twoje Paragony",
-            style: TextStyle(fontSize: ScreenUtil().setSp(45), fontWeight: FontWeight.w400),
+            style: TextStyle(
+                fontSize: ScreenUtil().setSp(45), fontWeight: FontWeight.w400),
           ),
           Container(
             color: Colors.transparent,
