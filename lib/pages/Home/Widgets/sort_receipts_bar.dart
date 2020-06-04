@@ -9,8 +9,7 @@ import '../home_screen.dart';
 class SortReceiptsBar extends StatefulWidget {
   SortReceiptsBar({Key key}) : super(key: key);
 
-  static ReceiptSortTypeEnum selectedReceiptsSortType =
-      ReceiptSortTypeEnum.cost;
+  static ReceiptSortTypeEnum selectedReceiptsSortType = ReceiptSortTypeEnum.cost;
   static bool isIncreasing = false;
   static String selectedSortName = "Cost";
 
@@ -18,8 +17,7 @@ class SortReceiptsBar extends StatefulWidget {
   _SortReceiptsBarState createState() => _SortReceiptsBarState();
 }
 
-class _SortReceiptsBarState extends State<SortReceiptsBar>
-    with TickerProviderStateMixin {
+class _SortReceiptsBarState extends State<SortReceiptsBar> with TickerProviderStateMixin {
   Animation _arrowAnimation;
   AnimationController _arrowAnimationController;
 
@@ -32,24 +30,20 @@ class _SortReceiptsBarState extends State<SortReceiptsBar>
   @override
   void initState() {
     super.initState();
-    _arrowAnimationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _arrowAnimationController = AnimationController(vsync: this, duration: Duration(milliseconds: 300));
 
     if (!SortReceiptsBar.isIncreasing) {
-      _arrowAnimation =
-          Tween(begin: 0.0, end: pi).animate(_arrowAnimationController);
+      _arrowAnimation = Tween(begin: 0.0, end: pi).animate(_arrowAnimationController);
     } else {
-      _arrowAnimation =
-          Tween(begin: pi, end: 0.0).animate(_arrowAnimationController);
+      _arrowAnimation = Tween(begin: pi, end: 0.0).animate(_arrowAnimationController);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
+      decoration:
+          BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
 //          borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
 
       child: Row(children: [
@@ -57,11 +51,13 @@ class _SortReceiptsBarState extends State<SortReceiptsBar>
           hint: Text("Select item"),
           value: SortReceiptsBar.selectedSortName,
           onChanged: (String value) {
-            setState(() {
-              SortReceiptsBar.selectedSortName = value;
-              SortReceiptsBar.selectedReceiptsSortType = nameValueMap[value];
-              HomeScreen.refreshLayouts();
-            });
+            if (SortReceiptsBar.selectedSortName != value) {
+              setState(() {
+                SortReceiptsBar.selectedSortName = value;
+                SortReceiptsBar.selectedReceiptsSortType = nameValueMap[value];
+                HomeScreen.refreshLayouts();
+              });
+            }
           },
           items: nameValueMap.keys.map((String sortName) {
             return DropdownMenuItem<String>(
@@ -86,7 +82,10 @@ class _SortReceiptsBarState extends State<SortReceiptsBar>
             alignment: Alignment.center,
             transform: Matrix4.rotationX(_arrowAnimation.value),
             child: IconButton(
-              icon: Icon(Icons.sort, color: Colors.black,),
+              icon: Icon(
+                Icons.sort,
+                color: Colors.black,
+              ),
               onPressed: () {
                 setState(() {
                   if (SortReceiptsBar.isIncreasing) {

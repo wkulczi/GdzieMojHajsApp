@@ -15,6 +15,8 @@ import 'pages/Account/register_page.dart';
 import 'pages/Account/forget_password_page.dart';
 import 'pages/AccountSettings/change_password_page.dart';
 import 'pages/AccountSettings/change_question_answer_page.dart';
+import 'package:gdziemojhajsapp/pages/categoryPage.dart';
+import 'package:gdziemojhajsapp/pages/categories.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
     SetLimits.tag: (context) => SetLimits()
   };
 
-  static final String serverAddress = 'http://10.0.2.2:2137';
+  static final String serverAddress = 'http://192.168.1.23:2137';
   static Map activeUser;
   static Text activeUserNameTextWidget = Text("no_user");
 
