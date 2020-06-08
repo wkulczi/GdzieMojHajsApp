@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/logic/Constants/receipt_sort_type_enum.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_login_page.dart';
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                         controller: loginFormController,
                         validator: UserValidators.validateLogin),
                     UserDefaultInputFrom(
-                        hint: "Password",
+                        hint: translate("login-page-password"),
                         obscureText: true,
                         controller: passwordFormController,
                         validator: UserValidators.validatePassword),
