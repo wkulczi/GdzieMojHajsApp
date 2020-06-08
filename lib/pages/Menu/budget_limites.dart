@@ -65,7 +65,7 @@ class _SetLimitsState extends State<SetLimits> {
                                       Expanded(
                                         flex: 4,
                                         child: Text(
-                                          "${limitsState.getMonthly()}",
+                                          "${limitsState.getMonthlyLeft()}",
                                           style: TextStyle(
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _SetLimitsState extends State<SetLimits> {
                                       Expanded(
                                         flex: 4,
                                         child: Text(
-                                          "${limitsState.getDaily()}",
+                                          "${limitsState.getDailyLeft()}",
                                           style: TextStyle(
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.bold,
@@ -181,6 +181,7 @@ class _SetLimitsState extends State<SetLimits> {
                 print("Twój miesięczny hajs to: $text " + " zł.");
                 setState(() {
                   limitsState.changeMonthly(double.parse(text));
+                  limitsState.changeMonthlyLeft(double.parse(text));
                 });
                 Map data = {
                   "login": "${MyApp.activeUser["login"]}",
@@ -222,7 +223,7 @@ class _SetLimitsState extends State<SetLimits> {
                 print("Twój dzienny hajs to: $text " + " zł.");
                 setState(() {
                   limitsState.changeDaily(double.parse(text));
-                  limitsState.changeMinusDaily(double.parse(text));
+                  limitsState.changeDailyLeft(double.parse(text));
                 });
                 Map data = {
                   "login": "${MyApp.activeUser["login"]}",
@@ -264,11 +265,10 @@ class _SetLimitsState extends State<SetLimits> {
                 onSubmitted: (text) {
                   print("Twój odjęty hajs to: $text " + " zł.");
                   setState(() {
-                    limitsState.changeSubtract(double.parse(text));
+                    limitsState.changeMonthlyLeft(limitsState.getMonthlyLeft()-double.parse(text));
+                    limitsState.changeDailyLeft(limitsState.getDailyLeft()-double.parse(text));
                   });
-                  limitsState.changeMinusDaily(limitsState.getMinusDaily() - limitsState.getSubtract());
-                  limitsState.changeMonthly(limitsState.getMonthly() - limitsState.getSubtract());
-                  if (limitsState.getMinusDaily() < 0) {
+                  if (limitsState.getDailyLeft() < 0) {
                     AlertDialog dial = new AlertDialog(
                       title: Text("Przekroczono dzienny limit wydatków!"),
                       actions: <Widget>[

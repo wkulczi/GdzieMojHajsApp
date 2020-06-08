@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 class LimitsState extends ChangeNotifier {
   double _monthly = 0.0;
   double _daily = 0.0;
-  double _minus_daily = 0.0;
-  double _subtract = 0.0;
+  double _daily_left = 0.0;
+  double _monthly_left = 0.0;
 
   set monthly(double val){
     _monthly = val;
@@ -16,13 +16,13 @@ class LimitsState extends ChangeNotifier {
     notifyListeners();
   }
 
-  set minus_daily(double val){
-    _minus_daily = val;
+  set daily_left(double val){
+    _daily_left = val;
     notifyListeners();
   }
 
-  set subtract(double val){
-    _subtract = val;
+  set monthly_left(double val){
+    _monthly_left = val;
     notifyListeners();
   }
 
@@ -36,13 +36,13 @@ class LimitsState extends ChangeNotifier {
     notifyListeners();
   }
 
-  changeMinusDaily(double val){
-    _minus_daily = val;
+  changeDailyLeft(double val){
+    _daily_left = val;
     notifyListeners();
   }
 
-  changeSubtract(double val){
-    _subtract = val;
+  changeMonthlyLeft(double val){
+    _monthly_left = val;
     notifyListeners();
   }
 
@@ -54,11 +54,11 @@ class LimitsState extends ChangeNotifier {
     return _daily;
   }
 
-  getMinusDaily(){
-    return _minus_daily;
+  getDailyLeft(){
+    return _daily_left;
   }
 
-  getSubtract(){
-    return _subtract;
+  getMonthlyLeft(){
+    return _monthly_left;
   }
 }
