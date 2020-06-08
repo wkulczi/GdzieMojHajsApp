@@ -1,3 +1,11 @@
 {
-  "receipt-list": "Twoje paragony"
+  "receipt-list": "Twoje paragony",
+  "categories": "Kategorie",
+  "description": "OPIS",
+  "spent-money": "WYDANE ŚRODKI",
+  "spending-limit": "LIMIT ŚRODKÓW",
+  "comparison-with-rest-of-expenses": "PORÓWNANIE Z RESZTĄ WYDATKÓW",
+  "change-limit": "ZMIANA LIMITU",
+  "others": "Pozostałe"
+
 }

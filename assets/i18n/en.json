@@ -1,3 +1,10 @@
 {
-  "receipt-list": "Your receipts"
+  "receipt-list": "Your receipts",
+  "categories": "Categories",
+  "description": "DESCRIPTION",
+  "spent-money": "SPENT MONEY",
+  "spending-limit": "SPENDING LIMIT",
+  "comparison-with-rest-of-expenses": "COMPARISON WITH THE REST OF EXPENSES",
+  "change-limit": "CHANGE LIMIT",
+  "others": "Others"
 }

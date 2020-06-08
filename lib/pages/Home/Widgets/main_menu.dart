@@ -139,6 +139,7 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
                 if (localizationDelegate.currentLocale.countryCode != 'pl') {
                   changeLocale(context, 'pl');
                 }
+                setState(() {});
               },
             ),
           ),
@@ -155,3 +156,4 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
     });
   }
 }
+

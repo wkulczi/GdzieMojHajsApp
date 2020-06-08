@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/localization_delegate.dart';
+import 'package:flutter_translate/localized_app.dart';
 import 'package:gdziemojhajsapp/logic/Entities/Category.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categoryPage.dart';
 
-class CategoryCard extends StatelessWidget {
+class CategoryCard extends StatefulWidget {
 
   final Category category;
   CategoryCard({this.category});
 
   @override
+  _CategoryCardState createState() => _CategoryCardState();
+}
+
+class _CategoryCardState extends State<CategoryCard> {
+  String string="pl";
+
+  @override
   Widget build(BuildContext context) {
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+    getActualLocale(localizationDelegate);
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       borderOnForeground: false,
@@ -17,7 +28,7 @@ class CategoryCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
           image: DecorationImage(
-            image: AssetImage(category.image),
+            image: AssetImage(widget.category.image),
             fit: BoxFit.fitWidth,
             alignment: Alignment.center,
           ),
@@ -35,7 +46,7 @@ class CategoryCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        category.name,
+                        string=="pl"?widget.category.name:widget.category.name_eng,
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -53,10 +64,11 @@ class CategoryCard extends StatelessWidget {
                         onPressed: () {
                           Navigator.pushNamed(context, CategoryPage.tag,
                               arguments: {
-                                'name': category.name,
-                                'description': category.description,
-                                'spent': category.spent,
-                                'limit': category.limit
+                                'name': widget.category.name,
+                                'eng': widget.category.name_eng,
+                                'description': widget.category.description,
+                                'spent': widget.category.spent,
+                                'limit': widget.category.limit
                               });
                         },
                         icon: Stack(
@@ -87,5 +99,13 @@ class CategoryCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getActualLocale(LocalizationDelegate localizationDelegate) async {
+    var locale;
+    await localizationDelegate.preferences.getPreferredLocale().then((value) => locale = value.toString());
+    setState(() {
+      string = locale;
+    });
   }
 }
