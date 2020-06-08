@@ -111,7 +111,7 @@ Widget receiptCard({isCollapsed, context, receipt}) {
       leading: CircleAvatar(
         child: Icon(receipt_icons[receipt.categoryName.toString()], size: 32),
         backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.blueGrey,
       ),
       subtitle: Text(
         receipt.categoryName,

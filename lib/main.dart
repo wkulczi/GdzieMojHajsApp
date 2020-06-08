@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:gdziemojhajsapp/logic/Translation/app_localisations.dart';
-import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/remind_password_answer_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/remind_password_login_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/register_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/remind_password_succes_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/change_password_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/change_question_answer_page.dart';
@@ -28,9 +30,9 @@ class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
     LoginPage.tag: (context) => LoginPage(),
     RegisterPage.tag: (context) => RegisterPage(),
-    ForgetPasswordPage.tag: (context) => ForgetPasswordPage(),
-    ForgetPasswordQuestionPage.tag: (context) => ForgetPasswordQuestionPage(),
-    ForgetPasswordSuccessPage.tag: (context) => ForgetPasswordSuccessPage(),
+    RemindPasswordLoginPage.tag: (context) => RemindPasswordLoginPage(),
+    RemindPasswordAnswerPage.tag: (context) => RemindPasswordAnswerPage(),
+    RemindPasswordSuccessPage.tag: (context) => RemindPasswordSuccessPage(),
     UserSettingsPage.tag: (context) => UserSettingsPage(),
     ChangePasswordPage.tag: (context) => ChangePasswordPage(),
     ChangeQuestionAnswerPage.tag: (context) => ChangeQuestionAnswerPage(),
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
     SetLimits.tag: (context) => SetLimits()
   };
 
-  static final String serverAddress = 'http://192.168.1.65:5000';
+  static final String serverAddress = 'http://192.168.1.23:2137';
   static Map activeUser;
   static Text activeUserNameTextWidget = Text("no_user");
 

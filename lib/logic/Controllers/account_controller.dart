@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:gdziemojhajsapp/pages/Account/remind_password_answer_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/remind_password_succes_page.dart';
 import 'package:gdziemojhajsapp/pages/Home/home_screen.dart';
-import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
+import 'package:gdziemojhajsapp/pages/Account/remind_password_login_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
 
 import '../../main.dart';
@@ -151,7 +153,7 @@ Future<String> actionRemindPassword(var context, Map data) async {
       encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
-    Navigator.of(context).pushNamed(ForgetPasswordQuestionPage.tag);
+    Navigator.of(context).pushNamed(RemindPasswordAnswerPage.tag);
     return jsonDecode(response.body)["question"];
   } else {
     userShowDialog(context, "Incorrect login!", duration: Duration(seconds: 2),
@@ -171,7 +173,7 @@ Future<String> actionRemindPasswordSendAnswer(var context, Map data) async {
       encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
-    Navigator.of(context).pushNamed(ForgetPasswordSuccessPage.tag);
+    Navigator.of(context).pushNamed(RemindPasswordSuccessPage.tag);
     return jsonDecode(response.body)["actual_password"];
   } else {
     userShowDialog(context, "Incorrect answer!", duration: Duration(seconds: 2),
