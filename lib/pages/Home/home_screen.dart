@@ -13,15 +13,13 @@ class HomeScreen extends StatefulWidget {
   static Function refreshLayouts;
   static Function refreshFunc;
 
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 //todo import new font, prolly roboto or ubuntu
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   double _screenWidth;
   final Duration duration = const Duration(milliseconds: 300);
@@ -36,10 +34,8 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
     _controller = AnimationController(vsync: this, duration: duration);
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(_controller);
-    _menuScaleAnimation =
-        Tween<double>(begin: 0.5, end: 1).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
-        .animate(_controller);
+    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
     HomeScreen.refreshLayouts = () {
       setState(() {});
     };
@@ -47,11 +43,9 @@ class _HomeScreenState extends State<HomeScreen>
     //loads categoryStates
     //todo-> load limits state
     Utility.reloadStates(context);
-    _menuScaleAnimation =
-        Tween<double>(begin: 0.5, end: 1).animate(_controller);
-    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
-        .animate(_controller);
-    HomeScreen.refreshFunc=refresh;
+    _menuScaleAnimation = Tween<double>(begin: 0.5, end: 1).animate(_controller);
+    _slideAnimation = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(_controller);
+    HomeScreen.refreshFunc = refresh;
   }
 
   @override
@@ -73,24 +67,17 @@ class _HomeScreenState extends State<HomeScreen>
       body: Stack(
         children: <Widget>[
           //            dashboard(context),
-          menu(
-              context: context,
-              menuScaleAnimation: _menuScaleAnimation,
-              screenWidth: _screenWidth,
-              slideAnimation: _slideAnimation),
-          dashboard(
-              context: context,
-              screenWidth: _screenWidth,
-              duration: duration,
-              isCollapsed: isCollapsed,
-              scaleAnimation: _scaleAnimation,
-              notifyParent: refresh),
+          menu(context: context, menuScaleAnimation: _menuScaleAnimation, screenWidth: _screenWidth, slideAnimation: _slideAnimation),
+          dashboard(context: context, screenWidth: _screenWidth, duration: duration, isCollapsed: isCollapsed, scaleAnimation: _scaleAnimation, notifyParent: refresh),
           //DEV BUTTON FOR RELOADING STATE DATA
           Container(
             alignment: Alignment(-0.9, 0.9),
             child: FlatButton(
               child: Text("[Reload States]"),
-              onPressed: () => Utility.reloadStates(context),
+              onPressed: () {
+                Utility.reloadStates(context);
+                setState(() {});
+              },
             ),
           )
         ],
@@ -104,5 +91,4 @@ class _HomeScreenState extends State<HomeScreen>
       isCollapsed = !isCollapsed;
     });
   }
-
 }
