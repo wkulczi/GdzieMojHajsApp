@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/pages/Home/home_screen.dart';
 import 'package:gdziemojhajsapp/pages/Account/forget_password_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
+import 'package:http/http.dart';
 
 import '../../main.dart';
 import 'package:http/http.dart' as http;
@@ -251,4 +252,48 @@ actionLogout(var context) {
 
   Navigator.of(context)
       .pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
+}
+
+Future<double> getDaily() async {
+Response response = await get(MyApp.serverAddress + '/daily_limit?login=${MyApp.activeUser["login"]}');
+double data = jsonDecode(response.body);
+    print(data);
+return data;
+}
+
+Future<double> getMonthly() async {
+  Response response = await get(MyApp.serverAddress + '/monthly_limit?login=${MyApp.activeUser["login"]}');
+  double data = jsonDecode(response.body);
+    print(data);
+  return data;
+}
+
+changeDailyLimit(var context, Map data) async {
+  checkServerAvailability(context);
+
+  var response = await http.put(
+      MyApp.serverAddress + '/daily_limit',
+      body: json.encode(data),
+      encoding: Encoding.getByName('utf-8'));
+
+  if (response.statusCode == 200) {
+    print("Zmieniono limit dzienny");
+  } else {
+    print("Błąd zmiany limitu dziennego");
+  }
+}
+
+changeMonthlyLimit(var context, Map data) async {
+  checkServerAvailability(context);
+
+  var response = await http.put(
+      MyApp.serverAddress + '/monthly_limit',
+      body: json.encode(data),
+      encoding: Encoding.getByName('utf-8'));
+
+  if (response.statusCode == 200) {
+    print("Zmieniono limit dzienny");
+  } else {
+    print("Błąd zmiany limitu dziennego");
+  }
 }

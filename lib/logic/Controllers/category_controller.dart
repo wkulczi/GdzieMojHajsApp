@@ -14,7 +14,7 @@ class CategoryController{
   }
 
   static Future<double> getSpent(name) async {
-    Response response = await get(MyApp.serverAddress + '/category_spent?category_name=' + name);
+    Response response = await get(MyApp.serverAddress + '/category_spent?category_name=$name&login=${MyApp.activeUser["login"]}');
     double data = jsonDecode(response.body);
     if(data==null) data = 0;
     return data;
@@ -32,7 +32,7 @@ class CategoryController{
   }
 
   static Future<double> getSpentAll() async {
-    Response response = await get(MyApp.serverAddress + '/money_spent');
+    Response response = await get(MyApp.serverAddress + '/money_spent?login=${MyApp.activeUser["login"]}');
     double data = jsonDecode(response.body);
     if(data==null) data = 0;
     return data;

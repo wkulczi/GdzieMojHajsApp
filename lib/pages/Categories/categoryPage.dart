@@ -23,7 +23,6 @@ class _CategoryPageState extends State<CategoryPage> {
     setState(() {});
   }
 
-//todo pozostały hajs przed odświeżeniem
   @override
   void initState() {
     super.initState();
