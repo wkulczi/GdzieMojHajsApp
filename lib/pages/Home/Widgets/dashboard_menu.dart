@@ -4,9 +4,9 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Constants/receipt_sort_type_enum.dart';
-import 'package:gdziemojhajsapp/logic/Translation/app_localisations.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categories.dart';
 import 'package:gdziemojhajsapp/pages/Home/Widgets/receipt_widgets.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limites.dart';
@@ -272,7 +272,7 @@ appBarWidget(context, notifyParent) {
           ),
           //todo import font
           Text(
-            AppLocalizations.of(context).translate('receipt-list'),
+            translate('receipt-list'),
             style: TextStyle(fontSize: ScreenUtil().setSp(45), fontWeight: FontWeight.w400),
           ),
           Container(

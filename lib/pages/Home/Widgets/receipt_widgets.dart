@@ -40,9 +40,15 @@ class _ReceiptListState extends State<ReceiptList> {
                 } else if (ConnectionState.waiting == snapshot.connectionState) {
                   return loadingWidget(scrollController: scrollController);
                 } else if (ConnectionState.done == snapshot.connectionState && snapshot.hasData) {
-                  return NotEmptyReceiptList(isCollapsed: _isCollapsed, snapshot: snapshot, scrollController: scrollController);
-                } else {
+                  if (snapshot.data.isEmpty) {
+                    return noReceiptsWidget(scrollController: scrollController);
+                  } else {
+                    return NotEmptyReceiptList(isCollapsed: _isCollapsed, snapshot: snapshot, scrollController: scrollController);
+                  }
+                } else if (snapshot.data.isEmpty) {
                   return noReceiptsWidget(scrollController: scrollController);
+                } else {
+                  return receiptErrorWidget(snapshot: snapshot, scrollController: scrollController);
                 }
               });
         });
@@ -181,6 +187,7 @@ class _NotEmptyReceiptListState extends State<NotEmptyReceiptList> {
           SingleChildScrollView(
             controller: scrollController,
             child: Column(
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[SizedBox(height: 40)] +
                     filteredReceiptList.map<Widget>((Receipt receipt) {
                       return receiptCard(isCollapsed: isCollapsed, context: context, receipt: receipt);
