@@ -7,7 +7,7 @@ final Map<String, IconData> receipt_icons = {
   "Odzież": Icons.beach_access,
   "Rachunki": Icons.receipt,
   "Relaks": Icons.pool,
-  "Sprzet": Icons.computer,
+  "Sprzęt": Icons.computer,
   "Transport": Icons.local_shipping
 };
 

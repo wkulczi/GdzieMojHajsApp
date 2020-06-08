@@ -2,8 +2,11 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
+import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import 'package:gdziemojhajsapp/pages/Menu/budget_limits_state.dart';
 import 'package:provider/provider.dart';
+
+import '../../main.dart';
 
 class SetLimits extends StatefulWidget {
   static String tag = "/set_limits";
@@ -179,6 +182,11 @@ class _SetLimitsState extends State<SetLimits> {
                 setState(() {
                   limitsState.changeMonthly(double.parse(text));
                 });
+                Map data = {
+                  "login": "${MyApp.activeUser["login"]}",
+                  "monthly": text
+                };
+                changeMonthlyLimit(context, data);
               },
             ),
           )
@@ -216,6 +224,11 @@ class _SetLimitsState extends State<SetLimits> {
                   limitsState.changeDaily(double.parse(text));
                   limitsState.changeMinusDaily(double.parse(text));
                 });
+                Map data = {
+                  "login": "${MyApp.activeUser["login"]}",
+                  "daily": text
+                };
+                changeDailyLimit(context, data);
               },
             ),
           )
