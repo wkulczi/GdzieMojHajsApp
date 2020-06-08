@@ -25,7 +25,7 @@ class CategoryController{
     for (Map category in data){
       categories.add(
           Category(name: category['name'], name_eng: category['name_eng'], description: category['description'],
-              image: 'images/' + category['image'], spent: await getSpent(category['name_eng']))
+              image: 'assets/images/' + category['image'], spent: await getSpent(category['name_eng']))
       );
     }
     return categories;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/flutter_translate.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/pages/Categories/categoryCard.dart';
 import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
@@ -25,7 +26,7 @@ class Categories extends StatelessWidget {
             stretch: true,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text("Kategorie"),
+              title: Text(translate("categories")),
             ),
             backgroundColor: Colors.transparent,
             actions: <Widget>[

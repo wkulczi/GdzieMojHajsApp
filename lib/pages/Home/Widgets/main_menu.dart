@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/admin_modify_user_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/change_password_page.dart';
@@ -56,6 +58,7 @@ Widget menu({context, slideAnimation, menuScaleAnimation, screenWidth}) {
                     onTap: () {
                       actionLogout(context);
                     }),
+                SwitchLanguageWidget(),
                 Visibility(
                     visible: MyApp.activeUser["role"] == 'admin',
                     child: settingButtonWidget(
@@ -75,3 +78,82 @@ Widget menu({context, slideAnimation, menuScaleAnimation, screenWidth}) {
     ),
   );
 }
+
+//print(localizationDelegate.currentLocale.languageCode=='en');
+class SwitchLanguageWidget extends StatefulWidget {
+  @override
+  _SwitchLanguageWidgetState createState() => _SwitchLanguageWidgetState();
+}
+
+class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
+  var actual_locale = "en_US";
+
+  @override
+  Widget build(BuildContext context) {
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+    updateActualLocale(localizationDelegate);
+    return Padding(
+      padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: ScreenUtil().setWidth(10)),
+                child: Icon(
+                  Icons.language,
+                  size: 18,
+                ),
+              ),
+              Text(
+                "Change language",
+                style: TextStyle(fontSize: 18),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 5,left: 40),
+            child: InkWell(
+              child: Text(
+                "English", //🇺🇸
+                style: actual_locale == 'en_US' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
+              ),
+              onTap: () {
+                if (localizationDelegate.currentLocale.countryCode != 'en_US') {
+                  changeLocale(context, 'en_US');
+                }
+                setState(() {});
+              },
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 5,left: 40),
+            child: InkWell(
+              child: Text(
+                "Polish", //🇵🇱
+                style: actual_locale == 'pl' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
+              ),
+              onTap: () async {
+                if (localizationDelegate.currentLocale.countryCode != 'pl') {
+                  changeLocale(context, 'pl');
+                }
+                setState(() {});
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void updateActualLocale(LocalizationDelegate localizationDelegate) async {
+    var locale;
+    await localizationDelegate.preferences.getPreferredLocale().then((value) => locale = value.toString());
+    setState(() {
+      actual_locale = locale;
+    });
+  }
+}
+

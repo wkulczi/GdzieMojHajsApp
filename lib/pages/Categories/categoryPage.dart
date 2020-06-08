@@ -5,6 +5,8 @@ import 'package:gdziemojhajsapp/logic/Controllers/category_controller.dart';
 import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_translate/flutter_translate.dart';
+
 
 class CategoryPage extends StatefulWidget {
   static String tag = "/categoryPage";
@@ -15,7 +17,7 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   double rest_of_the_money = 0;
-
+  String string="pl";
   void getRestOfTheMoney() async {
     rest_of_the_money = await CategoryController.getSpentAll();
     setState(() {});
@@ -33,9 +35,10 @@ class _CategoryPageState extends State<CategoryPage> {
     final CategoriesState categoriesState = Provider.of<CategoriesState>(context);
     Map data = ModalRoute.of(context).settings.arguments;
     Map<String, double> dataMap = new Map();      
-    dataMap.putIfAbsent(data['name'], () => data['spent']);
-//    Rafał ty gapciu, nie odejmowałeś od pozostałych tego, co w data['spent']
-    dataMap.putIfAbsent("Pozostałe", () => rest_of_the_money-data['spent']);
+    dataMap.putIfAbsent(string=="pl"?data["name"]:data["eng"], () => data['spent']);
+    dataMap.putIfAbsent(translate("others"), () => rest_of_the_money-data['spent']);
+    var localizationDelegate = LocalizedApp.of(context).delegate;
+    getActualLocale(localizationDelegate);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
@@ -48,7 +51,7 @@ class _CategoryPageState extends State<CategoryPage> {
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
                 title: Text(
-                  data['name'],
+                  string=="pl"?data["name"]:data["eng"],
                 ),
               ),
               backgroundColor: Colors.transparent,
@@ -68,7 +71,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "OPIS",
+                                translate('description'),
                                 style: TextStyle(
                                   letterSpacing: 2.0,
                                   color: Colors.grey[500],
@@ -84,7 +87,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   Column(
                                     children: <Widget>[
                                       Text(
-                                        "WYDANE ŚRODKI",
+                                        translate('spent-money'),
                                         style: TextStyle(
                                           letterSpacing: 2.0,
                                           color: Colors.grey[500],
@@ -111,7 +114,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                   Column(
                                     children: <Widget>[
                                       Text(
-                                        "LIMIT ŚRODKÓW",
+                                        translate('spending-limit'),
                                         style: TextStyle(
                                           letterSpacing: 2.0,
                                           color: Colors.grey[500],
@@ -129,7 +132,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               ),
                               SizedBox(height: 15.0),
                               Text(
-                                "PORÓWNANIE Z RESZTĄ WYDATKÓW",
+                                translate('comparison-with-rest-of-expenses'),
                                 style: TextStyle(
                                   letterSpacing: 2.0,
                                   color: Colors.grey[500],
@@ -140,7 +143,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               PieChart(dataMap: dataMap),
                               SizedBox(height: 15.0),
                               Text(
-                                "ZMIANA LIMITU",
+                                translate('change-limit'),
                                 style: TextStyle(
                                   letterSpacing: 2.0,
                                   color: Colors.grey[500],
@@ -183,5 +186,12 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
       ),
     );
+  }
+  void getActualLocale(LocalizationDelegate localizationDelegate) async {
+    var locale;
+    await localizationDelegate.preferences.getPreferredLocale().then((value) => locale = value.toString());
+    setState(() {
+      string = locale;
+    });
   }
 }

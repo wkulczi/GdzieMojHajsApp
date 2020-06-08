@@ -103,6 +103,7 @@ class _HomeScreenState extends State<HomeScreen>
       isCollapsed ? _controller.forward() : _controller.reverse();
       isCollapsed = !isCollapsed;
     });
+    Utility.reloadStates(context);
   }
 
 }

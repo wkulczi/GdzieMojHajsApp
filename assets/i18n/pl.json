@@ -1,5 +1,12 @@
 {
   "receipt-list": "Twoje paragony",
+  "categories": "Kategorie",
+  "description": "OPIS",
+  "spent-money": "WYDANE ŚRODKI",
+  "spending-limit": "LIMIT ŚRODKÓW",
+  "comparison-with-rest-of-expenses": "PORÓWNANIE Z RESZTĄ WYDATKÓW",
+  "change-limit": "ZMIANA LIMITU",
+  "others": "Pozostałe",
   "receipt-sort-cost": "Koszt",
   "receipt-sort-company": "Firma",
   "receipt-sort-category": "Kategoria",
