@@ -32,7 +32,7 @@ Widget menu({context, slideAnimation, menuScaleAnimation, screenWidth}) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Hello"),
+                      Text(translate('welcome')),
                       Text(
                         MyApp.activeUser["login"],
                         style: TextStyle(fontSize: ScreenUtil().setSp(50)),
@@ -109,7 +109,7 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
                 ),
               ),
               Text(
-                "Change language",
+                translate('change-lang'),
                 style: TextStyle(fontSize: 18),
               ),
             ],
@@ -118,11 +118,11 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
             padding: EdgeInsets.only(top: 5,left: 40),
             child: InkWell(
               child: Text(
-                "English", //🇺🇸
+                translate("english-lan") + "🇺🇸",
                 style: actual_locale == 'en_US' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
               ),
               onTap: () {
-                if (localizationDelegate.currentLocale.countryCode != 'en_US') {
+                if (actual_locale != 'en_US') {
                   changeLocale(context, 'en_US');
                 }
                 setState(() {});
@@ -133,11 +133,11 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
             padding: EdgeInsets.only(top: 5,left: 40),
             child: InkWell(
               child: Text(
-                "Polish", //🇵🇱
+                translate('polish-lan')+ "🇵🇱",
                 style: actual_locale == 'pl' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
               ),
               onTap: () async {
-                if (localizationDelegate.currentLocale.countryCode != 'pl') {
+                if (actual_locale != 'pl') {
                   changeLocale(context, 'pl');
                 }
                 setState(() {});
