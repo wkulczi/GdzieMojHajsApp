@@ -42,31 +42,32 @@ Widget menu({context, slideAnimation, menuScaleAnimation, screenWidth}) {
                 ),
                 settingButtonWidget(
                     icon: Icons.lock_outline,
-                    settingTitle: "Change password",
+                    settingTitle: translate("setting-change-password"),
                     onTap: () {
                       Navigator.of(context).pushNamed(ChangePasswordPage.tag);
                     }),
                 settingButtonWidget(
                     icon: Icons.settings,
-                    settingTitle: "Edit security question",
+                    settingTitle: translate("setting-change-security-question"),
                     onTap: () {
                       Navigator.of(context).pushNamed(ChangeQuestionAnswerPage.tag);
                     }),
-                settingButtonWidget(
-                    icon: Icons.lock_open,
-                    settingTitle: "Logout",
-                    onTap: () {
-                      actionLogout(context);
-                    }),
+
                 SwitchLanguageWidget(),
                 Visibility(
                     visible: MyApp.activeUser["role"] == 'admin',
                     child: settingButtonWidget(
                         icon: Icons.person_outline,
-                        settingTitle: "Administration tools",
+                        settingTitle: translate("setting-administration-tools"),
                         onTap: () {
                           Navigator.of(context).pushNamed(AdminModifyUserPage.tag);
                         })),
+                settingButtonWidget(
+                    icon: Icons.lock_open,
+                    settingTitle: translate("setting-logout"),
+                    onTap: () {
+                      actionLogout(context);
+                    }),
                 Container(
                   height: 300,
                 ) //im a hacker

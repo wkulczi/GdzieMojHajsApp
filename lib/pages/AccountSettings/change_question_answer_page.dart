@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import '../AccountLayouts/account_layouts.dart';
 import 'package:gdziemojhajsapp/main.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
@@ -22,27 +23,29 @@ class _ChangeQuestionAnswerPageState extends State<ChangeQuestionAnswerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+      body: Padding(
+        padding: EdgeInsets.only(left: 24.0, right: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             LayoutTemplates.logo,
             Form(
               key: _formKey,
               child: Column(
-                children: <Widget>[ UserDefaultInputFrom(
-                    hint: 'Actual password',
-                    obscureText: true,
-                    controller: actualPasswordFormController,
-                    validator: UserValidators.validateAnswer),
+                children: <Widget>[
+                  UserDefaultInputFrom(
+                      hint: translate("change-question-actual-password"),
+                      obscureText: true,
+                      controller: actualPasswordFormController,
+                      validator: UserValidators.validateAnswer),
                   LayoutTemplates.insideColumnSeparator,
                   UserDefaultInputFrom(
-                      hint: 'Security Question',
+                      hint: translate("change-question-question"),
                       controller: questionFormController,
                       validator: UserValidators.validateQuestion),
                   UserDefaultInputFrom(
-                      hint: 'Answer',
+                      hint: translate("change-question-answer"),
                       controller: answerFormController,
                       validator: UserValidators.validateAnswer),
                 ],
@@ -51,7 +54,7 @@ class _ChangeQuestionAnswerPageState extends State<ChangeQuestionAnswerPage> {
             Padding(
                 padding: EdgeInsets.only(top: 8.0),
                 child: UserDefaultButton(
-                  text: "Change security question and answer",
+                  text: translate("change-question-button"),
                   onPressed: () async {
                     if (!_formKey.currentState.validate()) {
                       return null;
@@ -65,7 +68,6 @@ class _ChangeQuestionAnswerPageState extends State<ChangeQuestionAnswerPage> {
                     };
 
                     actionChangeQuestionAnswer(context, data);
-
                   },
                 )),
             UserDefaultBackLabel(),

@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: <Widget>[
                     UserDefaultInputFrom(
-                        hint: "Login",
+                        hint: translate("login-page-login"),
                         controller: loginFormController,
                         validator: UserValidators.validateLogin),
                     UserDefaultInputFrom(
@@ -51,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                   padding: EdgeInsets.only(top: 8.0),
                   child: UserDefaultButton(
-                    text: "Log In",
+                    text: translate("login-page-button-login"),
                     onPressed: () async {
                       if (!_formKey.currentState.validate()) {
                         return null;
@@ -71,12 +71,12 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       UserDefaultLabel(
-                          text: "Don't have an account?",
+                          text: translate("login-page-button-register"),
                           onPressed: () {
                             Navigator.of(context).pushNamed(RegisterPage.tag);
                           }),
                       UserDefaultLabel(
-                          text: 'Forgot your password?',
+                          text: translate("login-page-button-remind-password"),
                           onPressed: () {
                             Navigator.of(context)
                                 .pushNamed(RemindPasswordLoginPage.tag);

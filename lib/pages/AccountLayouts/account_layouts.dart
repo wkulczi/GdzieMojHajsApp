@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/main.dart';
 import 'package:gdziemojhajsapp/pages/AccountSettings/settings_page.dart';
 
@@ -191,7 +192,7 @@ class UserDefaultBackLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return FlatButton(
         child: Text(
-          'Back to the previous page',
+          translate("back-to-previous-button"),
           style: TextStyle(color: Colors.black54),
         ),
         onPressed: () {

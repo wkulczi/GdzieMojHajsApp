@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import '../AccountLayouts/account_layouts.dart';
 
@@ -23,10 +24,11 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: ListView(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+      body: Padding(
+        padding: EdgeInsets.only(left: 24.0, right: 24.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               LayoutTemplates.logo,
               Form(
@@ -36,12 +38,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     UserDefaultInputFrom(
-                        hint: 'Login',
+                        hint: translate("register-page-login"),
                         controller: loginFormController,
                         validator: UserValidators.validateLogin),
                     LayoutTemplates.insideColumnSeparator,
                     UserDefaultInputFrom(
-                        hint: 'Password',
+                        hint: translate("register-page-password"),
                         obscureText: true,
                         controller: passwordFormController,
                         validator: (value) {
@@ -49,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               value, repeatPasswordFormController.text);
                         }),
                     UserDefaultInputFrom(
-                      hint: 'Repeat password',
+                      hint: translate("register-page-password-repeat"),
                       obscureText: true,
                       controller: repeatPasswordFormController,
                       validator: (value) {
@@ -59,11 +61,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     LayoutTemplates.insideColumnSeparator,
                     UserDefaultInputFrom(
-                        hint: 'Security Question',
+                        hint: translate("register-page-question"),
                         controller: questionFormController,
                         validator: UserValidators.validateQuestion),
                     UserDefaultInputFrom(
-                        hint: 'Answer',
+                        hint: translate("register-page-answer"),
                         controller: answerFormController,
                         validator: UserValidators.validateAnswer),
                   ],
@@ -72,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                   padding: EdgeInsets.only(top: 8.0),
                   child: UserDefaultButton(
-                      text: 'Register',
+                      text: translate("register-page-button"),
                       onPressed: () async {
                         if (!_formKey.currentState.validate()) {
                           return null;
