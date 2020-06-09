@@ -103,4 +103,6 @@
   "info-fail-change-password": "Błąd zmiany hasła!",
   "info-success-admin-modify": "Pomyślnie zmodyfikowano użytkownika!",
   "info-fail-admin-modify": "Błąd modyfikacji użytkownika!"
+  "select-item": "Wybierz element",
+  "no-receipts": "Brak paragonów "
 }
