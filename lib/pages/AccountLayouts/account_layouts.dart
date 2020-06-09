@@ -122,14 +122,17 @@ class UserDefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
+    return SizedBox(
+      width: double.infinity,
+      child: RaisedButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        onPressed: this.onPressed,
+        padding: EdgeInsets.all(12),
+        color: Colors.lightBlueAccent,
+        child: Text(this.text, style: TextStyle(color: Colors.white)),
       ),
-      onPressed: this.onPressed,
-      padding: EdgeInsets.all(12),
-      color: Colors.lightBlueAccent,
-      child: Text(this.text, style: TextStyle(color: Colors.white)),
     );
   }
 }
