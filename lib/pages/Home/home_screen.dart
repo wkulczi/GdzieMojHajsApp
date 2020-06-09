@@ -70,16 +70,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           menu(context: context, menuScaleAnimation: _menuScaleAnimation, screenWidth: _screenWidth, slideAnimation: _slideAnimation),
           dashboard(context: context, screenWidth: _screenWidth, duration: duration, isCollapsed: isCollapsed, scaleAnimation: _scaleAnimation, notifyParent: refresh),
           //DEV BUTTON FOR RELOADING STATE DATA
-          Container(
-            alignment: Alignment(-0.9, 0.9),
-            child: FlatButton(
-              child: Text("[Reload States]"),
-              onPressed: () {
-                Utility.reloadStates(context);
-                setState(() {});
-              },
-            ),
-          )
         ],
       ),
     );
