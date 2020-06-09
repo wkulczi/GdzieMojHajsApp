@@ -114,10 +114,10 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(top: 5,left: 40),
+            padding: EdgeInsets.only(top: 5, left: 40),
             child: InkWell(
               child: Text(
-                translate("english-lan") + "🇺🇸",
+                "🇺🇸 " + translate("english-lan"),
                 style: actual_locale == 'en_US' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
               ),
               onTap: () {
@@ -129,10 +129,10 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 5,left: 40),
+            padding: EdgeInsets.only(top: 5, left: 40),
             child: InkWell(
               child: Text(
-                translate('polish-lan')+ "🇵🇱",
+                "🇵🇱 " + translate('polish-lan'),
                 style: actual_locale == 'pl' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
               ),
               onTap: () async {
@@ -156,4 +156,3 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
     });
   }
 }
-

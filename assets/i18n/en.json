@@ -56,6 +56,6 @@
   "no-daily-set": "Nie ustawiono limitu dziennego",
   "daily-cash": "My daily cash",
   "add-manually": "Add manually",
-  "select-item": "Select item"
-
+  "select-item": "Select item",
+  "no-receipts": "No receipts yet! "
 }

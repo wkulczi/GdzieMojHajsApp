@@ -56,5 +56,6 @@
   "no-daily-set": "Nie ustawiono limitu dziennego",
   "daily-cash": "Twój dzienny hajs",
   "add-manually": "Dodaj ręcznie",
-  "select-item": "Wybierz element"
+  "select-item": "Wybierz element",
+  "no-receipts": "Brak paragonów "
 }
