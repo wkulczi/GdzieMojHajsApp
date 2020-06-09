@@ -64,7 +64,6 @@
   "remind-password-success-page-success": "Pomyślnie przypomniano hasło!",
   "remind-password-success-page-password-text": "Twoje hasło to: ",
   "remind-password-success-page-button": "Powrót do logowania",
-
   "setting-change-password": "Zmień hasło",
   "setting-change-security-question": "Zmień pytanie zabezpieczajace",
   "setting-logout": "Wyloguj",
@@ -86,9 +85,9 @@
   "validator-password": "Hasło musi mieć długość conajmniej 6 znaków.",
   "validator-double-password": "Oba hasła muszą być takie same.",
   "validator-login": "Login musi mieć długość conajmniej 6 znaków.",
-  "validator-question" : "Login musi mieć długość conajmniej 2 znaków.",
+  "validator-question": "Login musi mieć długość conajmniej 2 znaków.",
   "validator-answer": "Login musi mieć długość conajmniej 2 znaków.",
-  "validator-role" : "Nieprawidłowa rola.",
+  "validator-role": "Nieprawidłowa rola.",
   "info-no-connection": "Nie można nawiązać połączenia z serwerem!",
   "info-success-login": "Pomyślnie zalogowano!",
   "info-fail-login": "Niepoprawny login lub hasło!",
@@ -101,5 +100,6 @@
   "info-success-change-password": "Pomyślnie zmieniono hasło!",
   "info-fail-change-password": "Błąd zmiany hasła!",
   "info-success-admin-modify": "Pomyślnie zmodyfikowano użytkownika!",
-  "info-fail-admin-modify": "Błąd modyfikacji użytkownika!"
+  "info-fail-admin-modify": "Błąd modyfikacji użytkownika!",
+  "choose-category": "Wybierz kategorię"
 }

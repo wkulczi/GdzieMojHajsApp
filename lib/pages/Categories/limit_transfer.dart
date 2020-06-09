@@ -1,6 +1,7 @@
 import 'package:combos/combos.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/pages/Categories/limit_state.dart';
 import 'package:provider/provider.dart';
@@ -122,7 +123,7 @@ class _LimitTransferState extends State<LimitTransfer> {
                               ),
 
                               Text(
-                                _item1 == null ? "WYBIERZ KATEGORIĘ": _item1,
+                                _item1 == null ? translate('choose-category').toUpperCase(): _item1,
                                 style: TextStyle(
                                   letterSpacing: 2.0,
                                   color: Colors.grey[500],

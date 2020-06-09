@@ -156,8 +156,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                     categoriesState.changeLimit(data['name'], newLimit);
                                   },
                                   min: 0,
-                                  max: 500,
-                                  divisions: 500,
+                                  max: 1000,
+                                  divisions: 1000,
                                   label: categoriesState.getLimit(data['name']).toStringAsFixed(2)),
                               SizedBox(height: 5.0),
                               data['spent'] > categoriesState.getLimit(data['name'])
