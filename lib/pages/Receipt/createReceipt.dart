@@ -5,6 +5,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/logic/Constants/colors.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Models/product_model.dart';
@@ -63,8 +64,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                               if (value == 200)
                                 {
                                   await Navigator.of(context).pop(),
-                                  //todo
-                                  showSuccessFlushbar(context, sum: "TODO"),
+                                  customFlushbar(context, title: translate("receipt-deleted"), message: translate('receipt-deleted-message')),
                                   Utility.reloadStates(context),
                                 }
                               else
@@ -90,8 +90,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                     Padding(
                       padding: EdgeInsets.all(8),
                       child: Container(
-                        decoration:
-                            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
+                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(20))),
                         child: SafeArea(
                           child: Form(
                             key: _formKey,
@@ -99,8 +98,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Column(
                                 children: <Widget>[
-                                  formFieldWidget(this._receipt.companyName, "Shop name",
-                                      (input) => this._receipt.companyName = input, TextInputType.text),
+                                  formFieldWidget(this._receipt.companyName, "Shop name", (input) => this._receipt.companyName = input, TextInputType.text),
                                   categoryCombobox(),
                                   ListView.builder(
                                     physics: NeverScrollableScrollPhysics(),
@@ -136,8 +134,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                     ),
                                     //todo isempty? this : update
                                     onPressed: () async => {
-                                      if (this._receipt.products.length == 0)
-                                        {print(this._receipt.products.length), showFailureFlushbar(context)},
+                                      if (this._receipt.products.length == 0) {print(this._receipt.products.length), showFailureFlushbar(context)},
                                       if (isNewReceipt)
                                         {
                                           if (_formKey.currentState.validate())
@@ -162,13 +159,11 @@ class _CreateReceiptState extends State<CreateReceipt> {
                                             {
                                               if (this._receipt != this._oldreceipt)
                                                 {
-                                                  await ReceiptController.updateReceipt(receipt: this._receipt).then(
-                                                      (value) async => {
-                                                            await Navigator.of(context).pop(),
-                                                            showSuccessFlushbar(context,
-                                                                sum: "JESTEM CZAJNIKIEM, DUT DUT"),
-                                                             Utility.reloadStates(context)
-                                                          })
+                                                  await ReceiptController.updateReceipt(receipt: this._receipt).then((value) async => {
+                                                        await Navigator.of(context).pop(),
+                                                        customFlushbar(context, title: translate("receipt-updated"), message: ""),
+                                                        Utility.reloadStates(context)
+                                                      })
                                                 }
                                               else
                                                 {Navigator.of(context).pop()}
@@ -287,22 +282,11 @@ class _CreateReceiptState extends State<CreateReceipt> {
                 },
               ),
             ),
-            formFieldWidget(this._receipt.products[index].name, "Name",
-                (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
-            formFieldWidget(
-                this._receipt.products[index].price == null
-                    ? this._receipt.products[index].price
-                    : this._receipt.products[index].price.toString(),
-                "Price",
-                (input) => {this._receipt.products[index].price = double.parse(input), setState(() {})},
-                TextInputType.number),
-            formFieldWidget(
-                this._receipt.products[index].quantity == null
-                    ? this._receipt.products[index].quantity
-                    : this._receipt.products[index].quantity.toString(),
-                "Qty",
-                (input) => {this._receipt.products[index].quantity = int.parse(input), setState(() {})},
-                TextInputType.number),
+            formFieldWidget(this._receipt.products[index].name, "Name", (input) => {print(input), this._receipt.products[index].name = input}, TextInputType.text),
+            formFieldWidget(this._receipt.products[index].price == null ? this._receipt.products[index].price : this._receipt.products[index].price.toString(), "Price",
+                (input) => {this._receipt.products[index].price = double.parse(input), setState(() {})}, TextInputType.number),
+            formFieldWidget(this._receipt.products[index].quantity == null ? this._receipt.products[index].quantity : this._receipt.products[index].quantity.toString(), "Qty",
+                (input) => {this._receipt.products[index].quantity = int.parse(input), setState(() {})}, TextInputType.number),
           ],
         ),
       ),
@@ -355,6 +339,29 @@ class _CreateReceiptState extends State<CreateReceipt> {
     )..show(context);
   }
 
+  customFlushbar(BuildContext context, {String title, String message}) {
+    Flushbar(
+      padding: EdgeInsets.all(10),
+      borderRadius: 8,
+      //todo customise if ya want
+      backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
+      boxShadows: [
+        BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
+      ],
+      duration: Duration(seconds: 3),
+      dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+      forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+      titleText: Text(
+        title,
+        style: TextStyle(color: Colors.green),
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(color: Colors.black),
+      ),
+    )..show(context);
+  }
+
   //todo change style of it if you have time
   Widget categoryCombobox() {
     final CategoriesState categoriesState = Provider.of<CategoriesState>(context, listen: false);
@@ -362,11 +369,7 @@ class _CreateReceiptState extends State<CreateReceipt> {
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
       child: ConstrainedBox(
-        
-        constraints: BoxConstraints(
-          minHeight: 10,
-          minWidth: 40
-        ),
+        constraints: BoxConstraints(minHeight: 10, minWidth: 40),
         child: SelectorCombo<String>(
             getList: () {
               return categoriesState.categories.map((e) => e.name).toList();

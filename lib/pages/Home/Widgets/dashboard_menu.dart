@@ -193,7 +193,7 @@ percentColor(double value) {
 
 //oszukane calculate, always >0
 calculatePercent(var1, var2) {
-  if(var1<0){
+  if(var1<=0){
     var1=0;
   }
   return var1/var2;

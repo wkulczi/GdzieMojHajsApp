@@ -122,7 +122,7 @@ Widget receiptCard({isCollapsed, context, receipt}) {
       ),
       subtitle: Text(
 //        todo whoops
-        receipt.categoryName,
+        translate(receipt.categoryName),
         style: TextStyle(fontSize: 12),
       ),
       title: Text(receipt.companyName),

@@ -146,7 +146,7 @@ class _LimitTransferState extends State<LimitTransfer> {
                               ),
                               SizedBox(height: 10.0),
                               Text(
-                                _item2 == null ? "WYBIERZ KATEGORIĘ": _item2,
+                                _item2 == null ? translate('choose-category').toUpperCase(): _item2,
                                 style: TextStyle(
                                   letterSpacing: 2.0,
                                   color: Colors.grey[500],

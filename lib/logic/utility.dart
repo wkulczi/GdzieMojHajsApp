@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'Controllers/category_controller.dart';
 
 class Utility {
+  //todo poprawić to, żeby nie robiło 14 zapytań do bazy danych!
   static void reloadStates(context) async {
     final CategoriesState categoriesState = Provider.of<CategoriesState>(context, listen: false);
     final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
