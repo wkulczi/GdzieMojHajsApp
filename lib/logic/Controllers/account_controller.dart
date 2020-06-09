@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_answer_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_succes_page.dart';
 import 'package:gdziemojhajsapp/pages/Home/home_screen.dart';
@@ -82,7 +83,7 @@ void checkServerAvailability(var context) async {
   try {
     await http.get(MyApp.serverAddress + '/status');
   } on SocketException catch (_) {
-    userShowDialog(context, "Unable to establish connection with server!", duration: Duration(seconds: 2), barrierDismissible: false, func: () {
+    userShowDialog(context, translate("server-conn-err"), duration: Duration(seconds: 2), barrierDismissible: false, func: () {
       Navigator.of(context).pop();
     });
   }
@@ -103,11 +104,11 @@ void actionLogin(var context, Map data) async {
       MyApp.activeUserNameTextWidget = Text(MyApp.activeUser["login"], textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18));
     }
 
-    userShowDialog(context, "Sucessfully logged in!", barrierDismissible: false, func: () {
+    userShowDialog(context, translate('logged-in-success'), barrierDismissible: false, func: () {
       Navigator.of(context).popAndPushNamed(HomeScreen.tag);
     });
   } else {
-    userShowDialog(context, "Invalid login or password!", duration: Duration(seconds: 1), func: () {
+    userShowDialog(context, translate('invalid-credentials'), duration: Duration(seconds: 1), func: () {
       Navigator.of(context).pop();
     });
   }
@@ -119,12 +120,12 @@ void actionRegister(var context, Map data) async {
   var response = await http.post(MyApp.serverAddress + '/register', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 201) {
-    userShowDialog(context, "Sucessfully registered!", barrierDismissible: false, func: () {
+    userShowDialog(context, translate('register-success'), barrierDismissible: false, func: () {
       Navigator.of(context).pop();
       Navigator.of(context).pop();
     });
   } else {
-    userShowDialog(context, "Failed to create new account!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('account-creation-fail'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
   }
@@ -139,7 +140,7 @@ Future<String> actionRemindPassword(var context, Map data) async {
     Navigator.of(context).pushNamed(RemindPasswordAnswerPage.tag);
     return jsonDecode(response.body)["question"];
   } else {
-    userShowDialog(context, "Incorrect login!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('login-incorrect'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
     return null;
@@ -155,7 +156,7 @@ Future<String> actionRemindPasswordSendAnswer(var context, Map data) async {
     Navigator.of(context).pushNamed(RemindPasswordSuccessPage.tag);
     return jsonDecode(response.body)["actual_password"];
   } else {
-    userShowDialog(context, "Incorrect answer!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('wrong-answer'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
     return null;
@@ -168,11 +169,11 @@ actionChangeQuestionAnswer(var context, Map data) async {
   var response = await http.put(MyApp.serverAddress + '/account/change_question_answer', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
-    userShowDialog(context, "Sucessfully changed security question and password!", barrierDismissible: false, func: () {
+    userShowDialog(context, translate('security-pwd-change-success'), barrierDismissible: false, func: () {
       actionLogout(context);
     });
   } else {
-    userShowDialog(context, "Failed to change question and answer!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('security-pwd-change-fail'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
   }
@@ -184,11 +185,11 @@ actionChangePassword(var context, Map data) async {
   var response = await http.put(MyApp.serverAddress + '/account/change_password', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
-    userShowDialog(context, "Sucessfully changed password!", barrierDismissible: false, func: () {
+    userShowDialog(context, translate('pwd-changed'), barrierDismissible: false, func: () {
       actionLogout(context);
     });
   } else {
-    userShowDialog(context, "Failed to change password!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('pwd-change-failed'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
   }
@@ -200,11 +201,11 @@ actionAdminModifyUser(var context, Map data) async {
   var response = await http.put(MyApp.serverAddress + '/account/admin/modify_user', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
-    userShowDialog(context, "Succesfully modified user!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('user-modified'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
   } else {
-    userShowDialog(context, "Failed to modify user!", duration: Duration(seconds: 2), func: () {
+    userShowDialog(context, translate('user-modify-failed'), duration: Duration(seconds: 2), func: () {
       Navigator.of(context).pop();
     });
   }

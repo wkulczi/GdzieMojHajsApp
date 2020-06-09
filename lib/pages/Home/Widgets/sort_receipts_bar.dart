@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:gdziemojhajsapp/logic/Constants/receipt_sort_type_enum.dart';
 
+//todo tłumaczenie coś sie tu sypie
 
 class SortReceiptsBar extends StatefulWidget {
   Function sortList;

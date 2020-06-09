@@ -91,7 +91,7 @@ bottomPage(context) {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text("Ustawienia limitów "),
+                      Text(translate('limits-settings')),
                       Icon(Icons.settings),
                     ],
                   ),
@@ -112,7 +112,7 @@ bottomPage(context) {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        Text("Kategorie "),
+                        Text(translate('categories-settings')),
                         Icon(Icons.settings),
                       ],
                     ),
@@ -129,7 +129,7 @@ bottomPage(context) {
             ? Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: Text(
-                  "nie podano monthly limitu 🐕",
+                  translate('no-monthly-set') + "🐕",
                   style: TextStyle(fontSize: 20),
                 ),
               )
@@ -138,7 +138,7 @@ bottomPage(context) {
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
                     child: Text(
-                      "Mój miesięczny hajs",
+                      translate('monthly-cash'),
                       style: TextStyle(fontSize: ScreenUtil().setSp(36), fontWeight: FontWeight.w400),
                     ),
                   ),
@@ -155,14 +155,14 @@ bottomPage(context) {
 //        todo lepsze info i kolorowanie based on % of budżet left
             ? Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text("nie podano daily limitu 🦆", style: TextStyle(fontSize: 20)),
+                child: Text(translate('no-daily-set')+"🦆", style: TextStyle(fontSize: 20)),
               )
             : Column(
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(30)),
                     child: Text(
-                      "Twój dzienny hajs",
+                      translate('daily-cash'),
                       style: TextStyle(fontSize: ScreenUtil().setSp(36), fontWeight: FontWeight.w400),
                     ),
                   ),
@@ -217,42 +217,42 @@ Widget speedDialWidget(BuildContext context) {
       color: Colors.white,
     ),
     childButtons: [
+//      UnicornButton(
+//        hasLabel: true,
+//        labelText: "Take a photo",
+//        currentButton: FloatingActionButton(
+//          heroTag: "Photo",
+//          backgroundColor: Colors.blue,
+//          mini: true,
+//          focusColor: Colors.blueAccent,
+//          child: Icon(Icons.camera),
+//          onPressed: () {
+//            return Flushbar(
+//              padding: EdgeInsets.all(10),
+//              borderRadius: 8,
+//              todo customise if ya want
+//              backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
+//              boxShadows: [
+//                BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
+//              ],
+//              duration: Duration(seconds: 3),
+//              dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+//              forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
+//              titleText: Text(
+//                "Not implemented yet 😿",
+//                style: TextStyle(color: Colors.deepPurpleAccent),
+//              ),
+//              messageText: Text(
+//                "Sorry! 🙇‍♂️",
+//                style: TextStyle(color: Colors.black),
+//              ),
+//            )..show(context);
+//          },
+//        ),
+//      )
       UnicornButton(
         hasLabel: true,
-        labelText: "Take a photo",
-        currentButton: FloatingActionButton(
-          heroTag: "Photo",
-          backgroundColor: Colors.blue,
-          mini: true,
-          focusColor: Colors.blueAccent,
-          child: Icon(Icons.camera),
-          onPressed: () {
-            return Flushbar(
-              padding: EdgeInsets.all(10),
-              borderRadius: 8,
-              //todo customise if ya want
-              backgroundColor: ColorStyles.hexToColor("#FEFEFE"),
-              boxShadows: [
-                BoxShadow(color: Colors.black45, offset: Offset(3, 3), blurRadius: 3),
-              ],
-              duration: Duration(seconds: 3),
-              dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-              forwardAnimationCurve: Curves.fastLinearToSlowEaseIn,
-              titleText: Text(
-                "Not implemented yet 😿",
-                style: TextStyle(color: Colors.deepPurpleAccent),
-              ),
-              messageText: Text(
-                "Sorry! 🙇‍♂️",
-                style: TextStyle(color: Colors.black),
-              ),
-            )..show(context);
-          },
-        ),
-      ),
-      UnicornButton(
-        hasLabel: true,
-        labelText: "Add manually",
+        labelText: translate('add-manually'),
         currentButton: FloatingActionButton(
           backgroundColor: Colors.blue,
           heroTag: "Manual",
@@ -342,7 +342,7 @@ class _SortReceiptsBarState extends State<SortReceiptsBar> with TickerProviderSt
       Container(
         color: Colors.white,
         child: DropdownButton<String>(
-          hint: Text("Select item"),
+          hint: Text(translate('select-item')),
           value: SortReceiptsBar.selectedSortName,
           onChanged: (String value) {
             setState(() {
