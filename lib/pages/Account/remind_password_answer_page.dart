@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/account_controller.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_login_page.dart';
 import 'package:gdziemojhajsapp/pages/AccountLayouts/account_layouts.dart';
@@ -24,10 +25,11 @@ class _RemindPasswordPageAnswerState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: ListView(
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+      body: Padding(
+        padding: EdgeInsets.only(left: 24.0, right: 24.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             //LayoutTemplates.logo,
             Center(
@@ -41,7 +43,7 @@ class _RemindPasswordPageAnswerState
             Form(
               key: _formKey,
               child: UserDefaultInputFrom(
-                hint: 'Answer',
+                hint: translate("remind-password-answer-page-answer"),
                 autofocus: true,
                 controller: answerFormController,
                 validator: UserValidators.validateAnswer,
@@ -50,7 +52,7 @@ class _RemindPasswordPageAnswerState
             Padding(
                 padding: EdgeInsets.only(top: 8.0),
                 child: UserDefaultButton(
-                    text: 'Send answer',
+                    text: translate("remind-password-answer-page-button"),
                     onPressed: () async {
                       if (!_formKey.currentState.validate()) {
                         return null;
