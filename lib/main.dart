@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:flutter_translate/localization_delegate.dart';
+import 'package:flutter_translate/localized_app.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_answer_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_login_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
     SetLimits.tag: (context) => SetLimits()
   };
 
-  static final String serverAddress = 'http://192.168.1.23:2137';
+  static final String serverAddress = 'http://192.168.1.65:5000';
   static Map activeUser;
   static Text activeUserNameTextWidget = Text("no_user");
 

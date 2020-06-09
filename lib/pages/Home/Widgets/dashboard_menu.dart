@@ -65,12 +65,12 @@ Widget dashboard({context, scaleAnimation, isCollapsed, screenWidth, duration, n
 
 bottomPage(context) {
   final LimitsState limitsState = Provider.of<LimitsState>(context, listen: false);
-  //todo zmodyfikować backend, potrzebujemy tego w bd
-  var monthly = limitsState.getMonthly() + limitsState.getSubtract();
   var daily = limitsState.getDaily();
-  var minus_daily = limitsState.getMinusDaily();
-  var subtract = limitsState.getSubtract();
-  var monthly_minus_subtract = monthly - subtract;
+  var daily_left = limitsState.getDailyLeft();
+  var monthly = limitsState.getMonthly();
+  var monthly_left = limitsState.getMonthlyLeft();
+  var monthly_percent = calculatePercent(monthly_left,monthly);
+  var daily_percent = calculatePercent(daily_left,daily);
   return Container(
     //todo daj tu ciemniejszy white
     color: Colors.white,
@@ -125,11 +125,11 @@ bottomPage(context) {
             ],
           ),
         ),
-        daily == 0
+        daily <= 0
             ? Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
                 child: Text(
-                  "nie podano daily limitu 🦆",
+                  "nie podano monthly limitu 🐕",
                   style: TextStyle(fontSize: 20),
                 ),
               )
@@ -144,18 +144,18 @@ bottomPage(context) {
                   ),
                   LinearPercentIndicator(
                     lineHeight: 18,
-                    percent: monthly_minus_subtract / monthly,
+                    percent: monthly_percent,
                     backgroundColor: Colors.grey,
-                    progressColor: Colors.blue,
-                    center: Text("$monthly_minus_subtract/$monthly"),
+                    progressColor: percentColor(monthly_percent),
+                    center: Text("$monthly_left/$monthly"),
                   )
                 ],
               ),
-        monthly == 0
+        monthly <= 0
 //        todo lepsze info i kolorowanie based on % of budżet left
             ? Container(
                 padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text("nie podano monthly limitu 🐕", style: TextStyle(fontSize: 20)),
+                child: Text("nie podano daily limitu 🦆", style: TextStyle(fontSize: 20)),
               )
             : Column(
                 children: <Widget>[
@@ -168,16 +168,35 @@ bottomPage(context) {
                   ),
                   LinearPercentIndicator(
                     lineHeight: 18,
-                    percent: minus_daily / daily,
+                    percent: daily_percent,
                     backgroundColor: Colors.grey,
-                    progressColor: Colors.blue,
-                    center: Text("$minus_daily/$daily"),
+                    progressColor: percentColor(daily_percent),
+                    center: Text("$daily_left/$daily"),
                   ),
                 ],
               ),
       ],
     ),
   );
+}
+
+percentColor(double value) {
+  if (value <= 0.3)
+    {return Colors.red;}
+  else if (value>0.3 && value <=0.5){
+    return Colors.orange;
+  }
+  else{
+    return Colors.blue;
+  }
+}
+
+//oszukane calculate, always >0
+calculatePercent(var1, var2) {
+  if(var1<0){
+    var1=0;
+  }
+  return var1/var2;
 }
 
 addWidget(context) {

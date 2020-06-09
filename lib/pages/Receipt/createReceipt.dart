@@ -361,22 +361,29 @@ class _CreateReceiptState extends State<CreateReceipt> {
     String _item = this._receipt.categoryName;
     return Padding(
       padding: EdgeInsets.only(bottom: 10),
-      child: SelectorCombo<String>(
-          getList: () {
-            return categoriesState.categories.map((e) => e.name).toList();
-          },
-          selected: _item,
-          itemBuilder: (context, parameters, item, selected) => ListTile(
-                selected: selected,
-                title: Text(item ?? ''),
-              ),
-          childBuilder: (context, parameters, item) => ListTile(
-                title: Text(item ?? 'Select category'),
-              ),
-          onSelectedChanged: (value) => {
-                this._receipt.categoryName = value,
-                setState(() {}),
-              }),
+      child: ConstrainedBox(
+        
+        constraints: BoxConstraints(
+          minHeight: 10,
+          minWidth: 40
+        ),
+        child: SelectorCombo<String>(
+            getList: () {
+              return categoriesState.categories.map((e) => e.name).toList();
+            },
+            selected: _item,
+            itemBuilder: (context, parameters, item, selected) => ListTile(
+                  selected: selected,
+                  title: Text(item ?? ''),
+                ),
+            childBuilder: (context, parameters, item) => ListTile(
+                  title: Text(item ?? 'Select category'),
+                ),
+            onSelectedChanged: (value) => {
+                  this._receipt.categoryName = value,
+                  setState(() {}),
+                }),
+      ),
     );
   }
 }

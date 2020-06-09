@@ -8,10 +8,10 @@ import 'package:gdziemojhajsapp/pages/Account/remind_password_answer_page.dart';
 import 'package:gdziemojhajsapp/pages/Account/remind_password_succes_page.dart';
 import 'package:gdziemojhajsapp/pages/Home/home_screen.dart';
 import 'package:gdziemojhajsapp/pages/Account/login_page.dart';
+import 'package:http/http.dart';
 
 import '../../main.dart';
 import 'package:http/http.dart' as http;
-
 
 class UserValidators {
   static String validatePassword(String value) {
@@ -61,10 +61,7 @@ class UserValidators {
   }
 }
 
-void userShowDialog(var context, String text,
-    {bool barrierDismissible = true,
-    Duration duration = const Duration(milliseconds: 10),
-    Function func}) {
+void userShowDialog(var context, String text, {bool barrierDismissible = true, Duration duration = const Duration(milliseconds: 10), Function func}) {
   showDialog(
       context: context,
       barrierDismissible: barrierDismissible,
@@ -95,21 +92,16 @@ void checkServerAvailability(var context) async {
 void actionLogin(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(MyApp.serverAddress + '/login',
-      body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+  var response = await http.post(MyApp.serverAddress + '/login', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     MyApp.activeUser = data;
     MyApp.activeUser.addAll(jsonDecode(response.body));
 
     if (MyApp.activeUser["role"] == "admin") {
-      MyApp.activeUserNameTextWidget = Text(MyApp.activeUser["login"],
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.yellow, fontSize: 18));
+      MyApp.activeUserNameTextWidget = Text(MyApp.activeUser["login"], textAlign: TextAlign.center, style: TextStyle(color: Colors.yellow, fontSize: 18));
     } else {
-      MyApp.activeUserNameTextWidget = Text(MyApp.activeUser["login"],
-          textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 18));
+      MyApp.activeUserNameTextWidget = Text(MyApp.activeUser["login"], textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontSize: 18));
     }
 
     userShowDialog(context, translate("info-success-login"), barrierDismissible: false,
@@ -127,8 +119,7 @@ void actionLogin(var context, Map data) async {
 void actionRegister(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(MyApp.serverAddress + '/register',
-      body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+  var response = await http.post(MyApp.serverAddress + '/register', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 201) {
     userShowDialog(context, "info-success-register",
@@ -147,10 +138,7 @@ void actionRegister(var context, Map data) async {
 Future<String> actionRemindPassword(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(
-      MyApp.serverAddress + '/account/remind_password',
-      body: json.encode(data),
-      encoding: Encoding.getByName('utf-8'));
+  var response = await http.post(MyApp.serverAddress + '/account/remind_password', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     Navigator.of(context).pushNamed(RemindPasswordAnswerPage.tag);
@@ -167,10 +155,7 @@ Future<String> actionRemindPassword(var context, Map data) async {
 Future<String> actionRemindPasswordSendAnswer(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.post(
-      MyApp.serverAddress + '/account/remind_password',
-      body: json.encode(data),
-      encoding: Encoding.getByName('utf-8'));
+  var response = await http.post(MyApp.serverAddress + '/account/remind_password', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     Navigator.of(context).pushNamed(RemindPasswordSuccessPage.tag);
@@ -187,10 +172,7 @@ Future<String> actionRemindPasswordSendAnswer(var context, Map data) async {
 actionChangeQuestionAnswer(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(
-      MyApp.serverAddress + '/account/change_question_answer',
-      body: json.encode(data),
-      encoding: Encoding.getByName('utf-8'));
+  var response = await http.put(MyApp.serverAddress + '/account/change_question_answer', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     userShowDialog(
@@ -209,10 +191,7 @@ actionChangeQuestionAnswer(var context, Map data) async {
 actionChangePassword(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(
-      MyApp.serverAddress + '/account/change_password',
-      body: json.encode(data),
-      encoding: Encoding.getByName('utf-8'));
+  var response = await http.put(MyApp.serverAddress + '/account/change_password', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     userShowDialog(context, translate("info-success-change-password"),
@@ -230,10 +209,7 @@ actionChangePassword(var context, Map data) async {
 actionAdminModifyUser(var context, Map data) async {
   checkServerAvailability(context);
 
-  var response = await http.put(
-      MyApp.serverAddress + '/account/admin/modify_user',
-      body: json.encode(data),
-      encoding: Encoding.getByName('utf-8'));
+  var response = await http.put(MyApp.serverAddress + '/account/admin/modify_user', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
 
   if (response.statusCode == 200) {
     userShowDialog(context, translate("info-success-admin-modify"),
@@ -251,6 +227,56 @@ actionAdminModifyUser(var context, Map data) async {
 actionLogout(var context) {
   MyApp.activeUser = new Map();
 
-  Navigator.of(context)
-      .pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
+  Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.tag, (Route<dynamic> route) => false);
+}
+
+Future<double> getDaily() async {
+  Response response = await get(MyApp.serverAddress + '/daily_limit?login=${MyApp.activeUser["login"]}');
+  double data = jsonDecode(response.body);
+  print(data);
+  return data;
+}
+
+Future<double> getMonthlyLeft() async {
+  Response response = await get(MyApp.serverAddress + '/monthly_left?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}');
+  double data = jsonDecode(response.body);
+  print("monthly left $data");
+  return data;
+}
+Future<double> getDailyLeft() async {
+  Response response = await get(MyApp.serverAddress + '/daily_left?login=${MyApp.activeUser["login"]}&password=${MyApp.activeUser["password"]}');
+  double data = jsonDecode(response.body);
+  print("daily left $data");
+  return data;
+}
+
+Future<double> getMonthly() async {
+  Response response = await get(MyApp.serverAddress + '/monthly_limit?login=${MyApp.activeUser["login"]}');
+  double data = jsonDecode(response.body);
+  print(data);
+  return data;
+}
+
+changeDailyLimit(var context, Map data) async {
+  checkServerAvailability(context);
+
+  var response = await http.put(MyApp.serverAddress + '/daily_limit', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+
+  if (response.statusCode == 200) {
+    print("Zmieniono limit dzienny");
+  } else {
+    print("Błąd zmiany limitu dziennego");
+  }
+}
+
+changeMonthlyLimit(var context, Map data) async {
+  checkServerAvailability(context);
+
+  var response = await http.put(MyApp.serverAddress + '/monthly_limit', body: json.encode(data), encoding: Encoding.getByName('utf-8'));
+
+  if (response.statusCode == 200) {
+    print("Zmieniono limit dzienny");
+  } else {
+    print("Błąd zmiany limitu dziennego");
+  }
 }
