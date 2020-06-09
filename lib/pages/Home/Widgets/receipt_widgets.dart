@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
+import 'package:flutter_translate/global.dart';
 import 'package:gdziemojhajsapp/logic/Constants/receipts_icons_map.dart';
 import 'package:gdziemojhajsapp/logic/Controllers/receipt_controller.dart';
 import 'package:gdziemojhajsapp/logic/Entities/receipt.dart';
@@ -68,7 +69,7 @@ Widget noReceiptsWidget({scrollController}) {
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Icon(Icons.info_outline, color: Colors.blue, size: ScreenUtil().setSp(100)),
-                Text("Brak paragonów 🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
+                Text(translate('no-receipts')+"🤷‍♂️", style: TextStyle(fontSize: ScreenUtil().setSp(50)))
               ],
             ),
           )))
@@ -120,6 +121,7 @@ Widget receiptCard({isCollapsed, context, receipt}) {
         foregroundColor: Colors.blueGrey,
       ),
       subtitle: Text(
+//        todo whoops
         receipt.categoryName,
         style: TextStyle(fontSize: 12),
       ),
