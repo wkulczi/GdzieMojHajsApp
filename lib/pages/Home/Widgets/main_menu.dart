@@ -137,7 +137,7 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
                 style: actual_locale == 'pl' ? TextStyle(fontSize: 16, fontWeight: FontWeight.w600) : TextStyle(color: ColorStyles.hexToColor("#303030"), fontSize: 16),
               ),
               onTap: () async {
-                if (actual_locale != 'pl') {
+                if (localizationDelegate.currentLocale.countryCode != 'pl') {
                   changeLocale(context, 'pl');
                 }
                 setState(() {});
@@ -157,3 +157,4 @@ class _SwitchLanguageWidgetState extends State<SwitchLanguageWidget> {
     });
   }
 }
+
