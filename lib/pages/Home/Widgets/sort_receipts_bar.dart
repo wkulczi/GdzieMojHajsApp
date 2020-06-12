@@ -22,8 +22,8 @@ class SortReceiptsBar extends StatefulWidget {
 
   static ReceiptSortTypeEnum selectedReceiptsSortType =
       ReceiptSortTypeEnum.cost;
-  static bool isIncreasing = false;
   static String selectedSortName = translate("receipt-sort-cost");
+  static bool isIncreasing = false;
 
   @override
   _SortReceiptsBarState createState() => _SortReceiptsBarState(
